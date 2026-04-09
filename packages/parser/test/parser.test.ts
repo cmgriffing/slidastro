@@ -28,4 +28,11 @@ describe('parser', () => {
     const data = parse(md, 'test.md')
     expect(data.slides[0].note?.trim()).toBe('This is a note')
   })
+
+  it('should handle single slide deck', () => {
+    const md = '# Only one slide'
+    const data = parse(md, 'test.md')
+    expect(data.slides).toHaveLength(1)
+    expect(data.slides[0].content.trim()).toBe('# Only one slide')
+  })
 })
