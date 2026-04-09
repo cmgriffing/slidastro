@@ -27,7 +27,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   - **Pitfall #5**: Subtle `---` separator edge cases in the parser. (Port Slidev parser directly).
   - **Pitfall #9**: Astro programmatic API instability. (Pin Astro version).
 **Plans**:
-- [ ] 01-01-PLAN.md — Monorepo & Types
+- [x] 01-01-PLAN.md — Monorepo & Types
 - [ ] 01-02-PLAN.md — TDD Parser
 - [ ] 01-03-PLAN.md — CLI & Astro Integration
 - [ ] 01-04-PLAN.md — Rendering & HMR
