@@ -1,0 +1,35 @@
+{
+  "name": "@slidastro/cli",
+  "version": "0.0.1",
+  "private": true,
+  "description": "The command line interface for Slidastro",
+  "bin": {
+    "slidastro": "./bin/slidastro.mjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts",
+    "dev": "tsdown src/index.ts --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@slidastro/core": "workspace:*",
+    "@slidastro/parser": "workspace:*",
+    "astro": "^4.6.1",
+    "cac": "^6.7.14"
+  },
+  "devDependencies": {
+    "tsdown": "^0.3.0",
+    "typescript": "^5.4.4",
+    "vitest": "^1.5.0"
+  }
+}
