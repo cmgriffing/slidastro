@@ -1,5 +1,9 @@
 import type { AstroIntegration } from 'astro';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { slidastroVitePlugin } from './virtual';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export interface SlidastroOptions {
   entry: string;
@@ -18,7 +22,7 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
 
         injectRoute({
           pattern: '/[...no]',
-          entrypoint: '@slidastro/core/templates/SlideView.astro',
+          entrypoint: path.resolve(__dirname, 'templates/SlideView.astro'),
         });
       },
     },
