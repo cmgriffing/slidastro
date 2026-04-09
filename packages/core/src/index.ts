@@ -1,4 +1,5 @@
 import type { AstroIntegration } from 'astro';
+import { slidastroVitePlugin } from './virtual';
 
 export interface SlidastroOptions {
   entry: string;
@@ -8,10 +9,16 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
   return {
     name: '@slidastro/core',
     hooks: {
-      'astro:config:setup': ({ injectRoute }) => {
+      'astro:config:setup': ({ injectRoute, updateConfig }) => {
+        updateConfig({
+          vite: {
+            plugins: [slidastroVitePlugin(options.entry)],
+          },
+        });
+
         injectRoute({
           pattern: '/[...no]',
-          entrypoint: '@slidastro/core/placeholder.astro',
+          entrypoint: '@slidastro/core/templates/SlideView.astro',
         });
       },
     },
