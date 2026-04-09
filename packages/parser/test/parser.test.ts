@@ -35,4 +35,15 @@ describe('parser', () => {
     expect(data.slides).toHaveLength(1)
     expect(data.slides[0].content.trim()).toBe('# Only one slide')
   })
+
+  it('should calculate correct indices', () => {
+    const md = '---\ntitle: Hello\n---\n# Slide 1\n---\n# Slide 2'
+    const data = parse(md, 'test.md')
+    expect(data.slides[0].start).toBe(0)
+    expect(data.slides[0].contentStart).toBe(3)
+    expect(data.slides[0].end).toBe(4)
+    expect(data.slides[1].start).toBe(5)
+    expect(data.slides[1].contentStart).toBe(5)
+    expect(data.slides[1].end).toBe(6)
+  })
 })

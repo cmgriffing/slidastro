@@ -12,6 +12,7 @@ export function parse(markdown: string, filepath: string): SlidastroMarkdown {
     const raw = lines.slice(start, end).join('\n')
     const slide = parseSlide(raw, filepath, slides.length)
     slide.start = start
+    slide.contentStart += start
     slide.end = end
     slides.push(slide)
     start = end + 1
@@ -68,6 +69,7 @@ function parseSlide(raw: string, filepath: string, index: number): SourceSlideIn
   let frontmatterRaw = ''
 
   // Extract frontmatter
+  let contentStart = 0
   if (raw.trimStart().startsWith('---')) {
     const lines = raw.split(/\r?\n/)
     const startIdx = lines.findIndex(l => l.trimEnd() === '---')
@@ -80,7 +82,8 @@ function parseSlide(raw: string, filepath: string, index: number): SourceSlideIn
       } catch (e) {
         console.error('Failed to parse frontmatter', e)
       }
-      content = lines.slice(startIdx + 1 + endIdx + 1).join('\n')
+      contentStart = startIdx + 1 + endIdx + 1
+      content = lines.slice(contentStart).join('\n')
     }
   }
 
@@ -103,7 +106,7 @@ function parseSlide(raw: string, filepath: string, index: number): SourceSlideIn
     filepath,
     index,
     start: 0,
-    contentStart: 0,
+    contentStart,
     end: 0,
     raw,
     contentRaw: content,
