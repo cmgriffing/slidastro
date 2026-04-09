@@ -4,7 +4,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 
 ## Phases
 
-- [ ] **Phase 1: Foundation** - Parser, CLI, and minimal Astro integration
+- [x] **Phase 1: Foundation** - Parser, CLI, and minimal Astro integration
 - [ ] **Phase 2: Visual Foundation** - Layouts, themes, and rendering pipeline
 - [ ] **Phase 3: Client SPA & Interactivity** - Navigation, clicks, and transitions
 - [ ] **Phase 4: Presenter Mode & State Sync** - Synchronized presenter view and speaker notes
@@ -28,9 +28,9 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   - **Pitfall #9**: Astro programmatic API instability. (Pin Astro version).
 **Plans**:
 - [x] 01-01-PLAN.md — Monorepo & Types
-- [ ] 01-02-PLAN.md — TDD Parser
-- [ ] 01-03-PLAN.md — CLI & Astro Integration
-- [ ] 01-04-PLAN.md — Rendering & HMR
+- [x] 01-02-PLAN.md — TDD Parser
+- [x] 01-03-PLAN.md — CLI & Astro Integration
+- [x] 01-04-PLAN.md — Rendering & HMR
 
 ### Phase 2: Visual Foundation
 **Goal**: Implement the visual system including layouts, themes, and CSS scaling.
@@ -111,9 +111,9 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/4 | Not started | - |
-| 2. Visual Foundation | 0/1 | Not started | - |
-| 3. Client SPA & Interactivity | 0/1 | Not started | - |
-| 4. Presenter Mode & State Sync | 0/1 | Not started | - |
-| 5. Export & Build | 0/1 | Not started | - |
-| 6. Ecosystem & Advanced Features | 0/1 | Not started | - |
+| 1. Foundation | 4/4 | Complete | 2026-04-10 |
+| 2. Visual Foundation | 0/TBD | Not started | - |
+| 3. Client SPA & Interactivity | 0/TBD | Not started | - |
+| 4. Presenter Mode & State Sync | 0/TBD | Not started | - |
+| 5. Export & Build | 0/TBD | Not started | - |
+| 6. Ecosystem & Advanced Features | 0/TBD | Not started | - |

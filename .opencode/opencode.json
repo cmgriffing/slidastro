@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "/Volumes/T7/repos/slidastro/.opencode/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/Volumes/T7/repos/slidastro/.opencode/get-shit-done/*": "allow"
+    }
+  }
+}

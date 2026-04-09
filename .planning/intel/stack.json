@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "updated_at": "2026-04-09T23:18:37.129Z",
+    "version": 2
+  },
+  "languages": [
+    "TypeScript",
+    "JavaScript"
+  ],
+  "frameworks": [
+    "Astro",
+    "cac",
+    "Vite"
+  ],
+  "tools": [
+    "pnpm",
+    "tsdown",
+    "Vitest",
+    "ESLint"
+  ],
+  "build_system": "pnpm scripts with tsdown",
+  "test_framework": "Vitest",
+  "package_manager": "pnpm",
+  "content_formats": [
+    "Markdown (slides)",
+    "YAML (frontmatter)",
+    "Astro (templates)",
+    "TypeScript (logic)"
+  ]
+}

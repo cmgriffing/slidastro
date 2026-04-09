@@ -12,15 +12,14 @@ Developers can author presentations with multi-framework component support, usin
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] CLI tool (`slidastro dev`, `slidastro build`, `slidastro export`) published to npm [Phase 1]
+- [x] Markdown slide authoring with `---` separator and frontmatter (Slidev-compatible format) [Phase 1]
+- [x] Dev server with hot module reload [Phase 1]
 
 ### Active
 
-- [ ] CLI tool (`slidastro dev`, `slidastro build`, `slidastro export`) published to npm
-- [ ] Markdown slide authoring with `---` separator and frontmatter (Slidev-compatible format)
 - [ ] Astro-native format support (`.mdx` and `.astro` slide files)
 - [ ] Multi-framework component support in slides (React, Vue, Svelte, Solid via Astro integrations)
-- [ ] Dev server with hot module reload
 - [ ] Presenter mode (dual window: audience view + speaker notes + timer)
 - [ ] Speaker notes in slides
 - [ ] Slide transitions and animations
@@ -64,10 +63,15 @@ Developers can author presentations with multi-framework component support, usin
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Astro as core (not Vite+Vue) | Enables multi-framework component support via island architecture | — Pending |
-| Support both Slidev .md AND Astro-native formats | Lowers adoption barrier for existing Slidev users while enabling Astro-native authoring | — Pending |
-| CLI distribution (not integration) | Matches Slidev's UX — one command to start, no existing project required | — Pending |
-| Reference `_slidev` source, don't fork it | Keeps Slidastro's codebase clean; use Slidev as spec not dependency | — Pending |
+| Astro as core (not Vite+Vue) | Enables multi-framework component support via island architecture | — Validated |
+| Support Slidev .md early, defer native formats | Focuses on core compatibility first (FOUND-03 moved to Phase 6) | [2026-04-09] |
+| Use `cac` for CLI | Lightweight and sufficient for Slidastro's command structure | [2026-04-09] |
+| Use `@antfu/eslint-config` | Industry standard for modern ESM projects, consistent with Slidev | [2026-04-09] |
+| CLI distribution (not integration) | Matches Slidev's UX — one command to start, no existing project required | [2026-04-10] |
+| Reference `_slidev` source, don't fork it | Keeps Slidastro's codebase clean; use Slidev as spec not dependency | [2026-04-07] |
+| Port Slidev's parsing logic directly | Ensures 100% compatibility with existing .md files and edge cases. | [2026-04-10] |
+| Adopt Astro's programmatic dev API | Gives Slidastro full control over the presentation environment. | [2026-04-10] |
+| Use Vite virtual modules for data bridge | Bridging file-system markdown to browser JS environment efficiently. | [2026-04-10] |
 
 ## Evolution
 
@@ -87,4 +91,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after initialization*
+*Last updated: 2026-04-10 after Phase 1 completion*
