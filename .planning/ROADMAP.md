@@ -20,7 +20,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Success Criteria** (what must be TRUE):
   1. User can run `slidastro dev slides.md` and see the content of the first slide in a browser.
   2. The parser correctly splits a Slidev-compatible `.md` file into individual slides, respecting `---` separators even inside code blocks.
-  3. Edits to the `.md` file trigger a hot module reload (HMR) update in the browser.
+  3. Edits to the `.md" file trigger a hot module reload (HMR) update in the browser.
 **Complexity**: High (establishing the Astro-Vite-Virtual Module bridge)
 **Critical Risks**:
   - **Pitfall #1**: Choosing MPA routing instead of SPA shell. (Must use SPA shell early).
@@ -45,7 +45,11 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Critical Risks**:
   - **Pitfall #13**: Slide scaling and aspect ratio math. (Ensure correct CSS transform logic).
   - **Pitfall #10**: Full-page HMR instead of per-slide. (Implement surgical virtual module invalidation).
-**Plans**: TBD
+**Plans**:
+- [ ] 02-01-PLAN.md — Markdown Rendering (Shiki & KaTeX)
+- [ ] 02-02-PLAN.md — Slide Scaling & Aspect Ratio
+- [ ] 02-03-PLAN.md — Layout System & Built-in Layouts
+- [ ] 02-04-PLAN.md — Basic Theme & CSS
 **UI hint**: yes
 
 ### Phase 3: Client SPA & Interactivity
@@ -112,7 +116,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete | 2026-04-09 |
-| 2. Visual Foundation | 0/TBD | Not started | - |
+| 2. Visual Foundation | 0/4 | In progress | - |
 | 3. Client SPA & Interactivity | 0/TBD | Not started | - |
 | 4. Presenter Mode & State Sync | 0/TBD | Not started | - |
 | 5. Export & Build | 0/TBD | Not started | - |
