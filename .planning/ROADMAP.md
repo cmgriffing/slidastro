@@ -38,18 +38,19 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Requirements**: VIS-01, VIS-02, VIS-03, VIS-04
 **Success Criteria** (what must be TRUE):
   1. User can specify built-in layouts (e.g., `cover`, `two-cols`) in frontmatter, and they render correctly.
-  2. Slides maintain a consistent 16:9 (or configured) aspect ratio regardless of window size via CSS transforms.
-  3. Code blocks render with Shiki syntax highlighting.
-  4. LaTeX/KaTeX math blocks render correctly.
+  2. Slides maintain a consistent aspect ratio (configurable, default 16:9) via CSS transforms.
+  3. User can provide local custom layouts in a `layouts/` directory.
+  4. Themes can be loaded from external npm packages with Slidev-compatible structure.
+  5. Code blocks render with Shiki syntax highlighting and math with KaTeX.
 **Complexity**: Medium
 **Critical Risks**:
-  - **Pitfall #13**: Slide scaling and aspect ratio math. (Ensure correct CSS transform logic).
+  - **Pitfall #13**: Slide scaling and aspect ratio math. (Use top-left transform-origin and explicit centering).
   - **Pitfall #10**: Full-page HMR instead of per-slide. (Implement surgical virtual module invalidation).
 **Plans**:
-- [ ] 02-01-PLAN.md — Markdown Rendering (Shiki & KaTeX)
-- [ ] 02-02-PLAN.md — Slide Scaling & Aspect Ratio
-- [ ] 02-03-PLAN.md — Layout System & Built-in Layouts
-- [ ] 02-04-PLAN.md — Basic Theme & CSS
+- [ ] 02-01-PLAN.md — Markdown Rendering & Surgical HMR
+- [ ] 02-02-PLAN.md — Precise Slide Scaling & Dynamic Aspect Ratio
+- [ ] 02-03-PLAN.md — Layout System & Type Updates
+- [ ] 02-04-PLAN.md — Theme Framework & Robust Resolution
 **UI hint**: yes
 
 ### Phase 3: Client SPA & Interactivity
