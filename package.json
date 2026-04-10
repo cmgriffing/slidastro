@@ -12,11 +12,17 @@
     "build": "pnpm --filter '@slidastro/*' run build",
     "dev": "pnpm --filter '@slidastro/*' run dev",
     "lint": "eslint .",
+    "slidastro": "node packages/cli/bin/slidastro.mjs",
     "test": "vitest"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.11.8",
+    "@types/jsdom": "^28.0.1",
+    "@unocss/reset": "^66.6.8",
+    "astro": "^4.6.1",
     "eslint": "^9.0.0",
+    "jsdom": "^29.0.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.4.4",
     "vitest": "^1.4.0"
   }

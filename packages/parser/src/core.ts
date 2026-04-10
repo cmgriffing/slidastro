@@ -5,60 +5,64 @@ export function parse(markdown: string, filepath: string): SlidastroMarkdown {
   const lines = markdown.split(/\r?\n/)
   const slides: SourceSlideInfo[] = []
 
-  let start = 0
-
-  function pushSlide(end: number) {
-    if (start >= end && slides.length > 0) return
-    const raw = lines.slice(start, end).join('\n')
-    const slide = parseSlide(raw, filepath, slides.length)
-    slide.start = start
-    slide.contentStart += start
-    slide.end = end
-    slides.push(slide)
-    start = end + 1
-  }
+  let currentLines: string[] = []
+  let startLine = 0
+  let inCodeBlock = false
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trimEnd()
-    
-    // Frontmatter check
-    if (line === '---' && (i === 0 || start === i)) {
-      // Find end of frontmatter
-      let j = i + 1
-      for (; j < lines.length; j++) {
-        if (lines[j].trimEnd() === '---') {
-          break
-        }
-      }
-      // If we found the end, we skip to it and continue searching for the next slide separator
-      if (j < lines.length) {
-        i = j
-      }
-      continue
+    const line = lines[i]
+    const trimmed = line.trimEnd()
+
+    if (trimmed.startsWith('```')) {
+      inCodeBlock = !inCodeBlock
     }
 
-    // Slide separator check
-    if (line === '---') {
-      pushSlide(i)
-    }
-    // Skip code blocks
-    else if (line.trimStart().startsWith('```')) {
-      const fence = line.match(/^\s*`+/)![0]
-      i++
-      for (; i < lines.length; i++) {
-        if (lines[i].trimStart().startsWith(fence)) {
-          break
+    if (!inCodeBlock && trimmed === '---') {
+      // Is this a separator or frontmatter?
+      // A separator is --- that is NOT part of a frontmatter block.
+      // A frontmatter block starts at the beginning of a slide.
+      
+      const isStartOfSlide = currentLines.length === 0 || (currentLines.length === 1 && currentLines[0].trimEnd() === '')
+      
+      if (i === 0 || isStartOfSlide) {
+        // This is the START of frontmatter for the current slide
+        currentLines.push(line)
+        // Find the end of this frontmatter to avoid treating it as a separator
+        let j = i + 1
+        for (; j < lines.length; j++) {
+          currentLines.push(lines[j])
+          if (lines[j].trimEnd() === '---') {
+            break
+          }
         }
+        i = j
+      } else {
+        // This is a separator
+        pushSlide(currentLines, startLine, i)
+        currentLines = []
+        startLine = i + 1
       }
+    } else {
+      currentLines.push(line)
     }
   }
 
-  pushSlide(lines.length)
+  pushSlide(currentLines, startLine, lines.length)
 
   return {
     filepath,
     raw: markdown,
     slides
+  }
+
+  function pushSlide(slideLines: string[], start: number, end: number) {
+    const raw = slideLines.join('\n')
+    if (!raw.trim() && slides.length > 0) return
+    
+    const slide = parseSlide(raw, filepath, slides.length)
+    slide.start = start
+    slide.end = end
+    slides.push(slide)
   }
 }
 
@@ -67,34 +71,37 @@ function parseSlide(raw: string, filepath: string, index: number): SourceSlideIn
   let content = raw
   let note: string | undefined
   let frontmatterRaw = ''
-
-  // Extract frontmatter
   let contentStart = 0
-  if (raw.trimStart().startsWith('---')) {
-    const lines = raw.split(/\r?\n/)
-    const startIdx = lines.findIndex(l => l.trimEnd() === '---')
-    const endIdx = lines.slice(startIdx + 1).findIndex(l => l.trimEnd() === '---')
-    
+
+  const lines = raw.split(/\r?\n/)
+  
+  if (lines[0]?.trimEnd() === '---') {
+    let endIdx = -1
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].trimEnd() === '---') {
+        endIdx = i
+        break
+      }
+    }
+
     if (endIdx !== -1) {
-      frontmatterRaw = lines.slice(startIdx + 1, startIdx + 1 + endIdx).join('\n')
+      frontmatterRaw = lines.slice(1, endIdx).join('\n')
       try {
         frontmatter = parseYaml(frontmatterRaw) || {}
       } catch (e) {
-        console.error('Failed to parse frontmatter', e)
+        // ignore
       }
-      contentStart = startIdx + 1 + endIdx + 1
+      contentStart = endIdx + 1
       content = lines.slice(contentStart).join('\n')
     }
   }
 
-  // Extract notes (HTML comments)
-  // Simplified: look for <!-- note --> ... <!-- end note -->
+  // Extract notes
   const noteMatch = content.match(/<!--\s*note\s*-->([\s\S]*)<!--\s*end\s*note\s*-->/)
   if (noteMatch) {
     note = noteMatch[1].trim()
     content = content.replace(noteMatch[0], '').trim()
   } else {
-    // Also support <!-- ... --> at the end of slide as notes
     const endNoteMatch = content.match(/<!--([\s\S]*?)-->\s*$/)
     if (endNoteMatch) {
       note = endNoteMatch[1].trim()

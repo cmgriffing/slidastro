@@ -46,4 +46,12 @@ describe('parser', () => {
     expect(data.slides[1].contentStart).toBe(5)
     expect(data.slides[1].end).toBe(6)
   })
+
+  it('should extract frontmatter from middle slides', () => {
+    const md = '# Slide 1\n---\n---\nlayout: two-cols\n---\n# Slide 2'
+    const data = parse(md, 'test.md')
+    expect(data.slides).toHaveLength(2)
+    expect(data.slides[1].frontmatter.layout).toBe('two-cols')
+    expect(data.slides[1].content.trim()).toBe('# Slide 2')
+  })
 })

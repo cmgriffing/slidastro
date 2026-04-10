@@ -1,5 +1,16 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 import slidesData from 'virtual:slidastro/slides';
+import SlideContainer from '../components/SlideContainer.astro';
+import DefaultLayout from '../layouts/default.astro';
+import CoverLayout from '../layouts/cover.astro';
+import TwoColsLayout from '../layouts/two-cols.astro';
+
+export async function getStaticPaths() {
+  return Array.from({ length: slidesData.slides.length }, (_, i) => ({
+    params: { no: (i + 1).toString() },
+  }));
+}
 
 const { no } = Astro.params;
 const slideNo = parseInt(no || '1', 10);
@@ -8,37 +19,44 @@ const slide = slidesData.slides[slideNo - 1];
 if (!slide) {
   return Astro.redirect('/1');
 }
+
+const { canvasWidth, canvasHeight } = slidesData.config;
+
+const builtinLayouts: Record<string, any> = {
+  default: DefaultLayout,
+  cover: CoverLayout,
+  'two-cols': TwoColsLayout,
+};
+
+const layoutName = slide.frontmatter.layout || 'default';
+let Layout = builtinLayouts[layoutName] || builtinLayouts.default;
+
+if (slidesData.layoutsMap[layoutName]) {
+  const module = await import(/* @vite-ignore */ slidesData.layoutsMap[layoutName]);
+  Layout = module.default;
+}
+
+const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !== 'default');
 ---
 
 <html>
 <head>
   <title>{slidesData.config.title} - Slide {slideNo}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: #f0f0f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .slide {
-      width: 980px;
-      height: 551px;
-      background: white;
-      padding: 40px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      position: relative;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
-    .content {
-      flex: 1;
+    .content-wrapper {
+      padding: 40px;
       font-size: 1.5rem;
       line-height: 1.6;
+      height: 100%;
+      box-sizing: border-box;
     }
     .page-number {
       position: absolute;
@@ -47,25 +65,62 @@ if (!slide) {
       font-size: 0.8rem;
       color: #888;
     }
-    pre {
-      background: #f6f8fa;
-      padding: 16px;
-      border-radius: 6px;
-      overflow: auto;
+    .slidev-vclick {
+      transition: opacity 0.3s ease;
+    }
+    .slidev-vclick-hidden {
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
+  <ViewTransitions />
 </head>
 <body>
-  <div class="slide">
-    <div class="content">
-      {/* For Phase 1, we just render the content as-is. 
-          If it's markdown, it will show as raw text. 
-          If we had a renderer, we'd use set:html={renderMarkdown(slide.contentRaw)} */}
-      <pre>{slide.contentRaw}</pre>
+  <SlideContainer width={canvasWidth} height={canvasHeight}>
+    <div class="content-wrapper" id="slide-content" data-index={slideNo - 1} transition:name="slide-content" transition:animate="fade">
+      <Layout frontmatter={slide.frontmatter}>
+        <div set:html={slide.contentHTML} />
+        {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
+        {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
+        {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
+        {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
+      </Layout>
     </div>
     <div class="page-number">
       {slideNo} / {slidesData.slides.length}
     </div>
-  </div>
+  </SlideContainer>
+
+  <script>
+    import { initSlideScale } from '../components/SlideScale.client';
+    import { initNavigation } from '../components/Navigation.client';
+    // @ts-ignore
+    import slidesData from 'virtual:slidastro/slides';
+    
+    const { canvasWidth, canvasHeight } = slidesData.config;
+    initSlideScale(canvasWidth, canvasHeight);
+    initNavigation(slidesData.slides.length);
+
+    document.addEventListener('astro:after-swap', () => {
+      initSlideScale(canvasWidth, canvasHeight);
+      initNavigation(slidesData.slides.length);
+    });
+
+    if (import.meta.hot) {
+      import.meta.hot.on('slidastro:update-content', ({ updates }) => {
+        const contentEl = document.getElementById('slide-content');
+        if (!contentEl) return;
+        
+        const currentIndex = parseInt(contentEl.getAttribute('data-index') || '-1', 10);
+        // @ts-ignore
+        const update = updates.find(u => u.index === currentIndex);
+        
+        if (update) {
+          window.location.reload();
+        }
+      });
+    }
+  </script>
 </body>
 </html>
+

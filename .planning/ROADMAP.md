@@ -5,7 +5,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 ## Phases
 
 - [x] **Phase 1: Foundation** - Parser, CLI, and minimal Astro integration
-- [ ] **Phase 2: Visual Foundation** - Layouts, themes, and rendering pipeline
+- [x] **Phase 2: Visual Foundation** - Layouts, themes, and rendering pipeline
 - [ ] **Phase 3: Client SPA & Interactivity** - Navigation, clicks, and transitions
 - [ ] **Phase 4: Presenter Mode & State Sync** - Synchronized presenter view and speaker notes
 - [ ] **Phase 5: Export & Build** - Static build and PDF/PNG/PPTX export
@@ -20,7 +20,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Success Criteria** (what must be TRUE):
   1. User can run `slidastro dev slides.md` and see the content of the first slide in a browser.
   2. The parser correctly splits a Slidev-compatible `.md` file into individual slides, respecting `---` separators even inside code blocks.
-  3. Edits to the `.md" file trigger a hot module reload (HMR) update in the browser.
+  3. Edits to the `.md` file trigger a hot module reload (HMR) update in the browser.
 **Complexity**: High (establishing the Astro-Vite-Virtual Module bridge)
 **Critical Risks**:
   - **Pitfall #1**: Choosing MPA routing instead of SPA shell. (Must use SPA shell early).
@@ -47,10 +47,10 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   - **Pitfall #13**: Slide scaling and aspect ratio math. (Use top-left transform-origin and explicit centering).
   - **Pitfall #10**: Full-page HMR instead of per-slide. (Implement surgical virtual module invalidation).
 **Plans**:
-- [ ] 02-01-PLAN.md — Markdown Rendering & Surgical HMR
-- [ ] 02-02-PLAN.md — Precise Slide Scaling & Dynamic Aspect Ratio
-- [ ] 02-03-PLAN.md — Layout System & Type Updates
-- [ ] 02-04-PLAN.md — Theme Framework & Robust Resolution
+- [x] 02-01-PLAN.md — Markdown Rendering & Surgical HMR
+- [x] 02-02-PLAN.md — Precise Slide Scaling & Dynamic Aspect Ratio
+- [x] 02-03-PLAN.md — Layout System & Type Updates
+- [x] 02-04-PLAN.md — Theme Framework & Robust Resolution
 **UI hint**: yes
 
 ### Phase 3: Client SPA & Interactivity
@@ -117,8 +117,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete | 2026-04-09 |
-| 2. Visual Foundation | 0/4 | In progress | - |
-| 3. Client SPA & Interactivity | 0/TBD | Not started | - |
+| 2. Visual Foundation | 4/4 | Complete | 2026-04-10 |
+| 3. Client SPA & Interactivity | 1/1 | Complete | 2026-04-10 |
 | 4. Presenter Mode & State Sync | 0/TBD | Not started | - |
 | 5. Export & Build | 0/TBD | Not started | - |
 | 6. Ecosystem & Advanced Features | 0/TBD | Not started | - |

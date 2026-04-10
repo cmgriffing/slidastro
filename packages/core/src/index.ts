@@ -1,6 +1,7 @@
 import type { AstroIntegration } from 'astro';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import UnoCSS from '@unocss/astro';
 import { slidastroVitePlugin } from './virtual';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -15,9 +16,17 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
     hooks: {
       'astro:config:setup': ({ injectRoute, updateConfig }) => {
         updateConfig({
+          integrations: [UnoCSS({
+            injectReset: true,
+          })],
           vite: {
             plugins: [slidastroVitePlugin(options.entry)],
           },
+        });
+
+        injectRoute({
+          pattern: '/overview',
+          entrypoint: path.resolve(__dirname, 'templates/OverviewView.astro'),
         });
 
         injectRoute({

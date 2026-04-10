@@ -1,0 +1,27 @@
+{
+  "name": "@slidastro/client",
+  "version": "0.0.1",
+  "private": true,
+  "description": "The client-side SPA shell for Slidastro",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts",
+    "dev": "tsdown src/index.ts --watch"
+  },
+  "dependencies": {
+    "preact": "^10.20.1"
+  },
+  "devDependencies": {
+    "tsdown": "^0.3.0",
+    "typescript": "^5.4.4"
+  }
+}

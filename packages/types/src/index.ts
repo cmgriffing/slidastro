@@ -59,6 +59,8 @@ export interface SlideInfo extends SlideInfoBase {
    */
   source: SourceSlideInfo
   noteHTML?: string
+  contentHTML?: string
+  slots?: Record<string, string>
 }
 
 export interface SlidastroThemeMeta {
@@ -91,8 +93,10 @@ export interface SlidastroConfig {
   title: string
   aspectRatio: number
   canvasWidth: number
+  canvasHeight: number
   colorSchema: 'auto' | 'dark' | 'light'
   highlighter: 'shiki'
+  themeCSS?: string
   drawings: {
     enabled: boolean
     persist: boolean | string
@@ -117,4 +121,5 @@ export interface SlidastroData {
    * From watched files to indexes of slides that must be reloaded
    */
   watchFiles: Record<string, Set<number>>
+  layoutsMap: Record<string, string>
 }

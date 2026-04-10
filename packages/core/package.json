@@ -14,16 +14,24 @@
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts",
+    "build": "tsdown src/index.ts && cp -r src/components src/layouts src/templates dist/",
     "dev": "tsdown src/index.ts --watch",
     "test": "vitest run"
   },
   "dependencies": {
+    "@mdit/plugin-katex": "^0.25.2",
+    "@shikijs/markdown-it": "^4.0.2",
     "@slidastro/parser": "workspace:*",
     "@slidastro/types": "workspace:*",
-    "astro": "^4.6.1"
+    "@unocss/astro": "^66.6.8",
+    "@unocss/reset": "^66.6.8",
+    "astro": "^4.6.1",
+    "katex": "^0.16.45",
+    "markdown-it": "^14.1.1"
   },
   "devDependencies": {
+    "@types/katex": "^0.16.8",
+    "@types/markdown-it": "^14.1.2",
     "tsdown": "^0.3.0",
     "typescript": "^5.4.4",
     "vitest": "^1.5.0"

@@ -7,12 +7,16 @@ export async function main() {
 
   cli
     .command('dev <entry>', 'Start dev server')
-    .action(async (entry: string) => {
-      console.log(`Starting dev server for ${entry}...`);
+    .option('--port <port>', 'Port to run dev server on', { default: 4321 })
+    .action(async (entry: string, options: { port: number }) => {
+      console.log(`Starting dev server for ${entry} on port ${options.port}...`);
       
       try {
         await dev({
           root: process.cwd(),
+          server: {
+            port: options.port,
+          },
           integrations: [
             slidastroIntegration({ entry }),
           ],
