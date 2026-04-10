@@ -111,7 +111,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 4/4 | Complete | 2026-04-10 |
+| 1. Foundation | 4/4 | Complete | 2026-04-09 |
 | 2. Visual Foundation | 0/TBD | Not started | - |
 | 3. Client SPA & Interactivity | 0/TBD | Not started | - |
 | 4. Presenter Mode & State Sync | 0/TBD | Not started | - |
