@@ -39,6 +39,13 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
           entrypoint: path.resolve(__dirname, 'templates/SlideView.astro'),
         });
       },
+      'astro:server:setup': ({ server }) => {
+        // Relay messages between clients for synchronization
+        server.ws.on('slidastro:sync', (data, client) => {
+          // Broadcast to all clients except the sender
+          server.ws.send('slidastro:sync', data);
+        });
+      },
     },
   };
 }
