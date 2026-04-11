@@ -99,7 +99,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Complexity**: Medium
 **Critical Risks**:
   - **Pitfall #6**: PDF Export complexity with async content. (Port Slidev's wait-for patterns).
-**Plans**: TBD
+**Plans**:
+- [ ] 05-01-PLAN.md — Export & Build Implementation
 
 ### Phase 6: Ecosystem & Advanced Features
 **Goal**: Expand features with diagrams, live drawing, and native Astro file support.
@@ -124,5 +125,5 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 2. Visual Foundation | 4/4 | Complete | 2026-04-10 |
 | 3. Client SPA & Interactivity | 1/1 | Complete | 2026-04-10 |
 | 4. Presenter Mode & State Sync | 3/3 | Complete | 2026-04-11 |
-| 5. Export & Build | 0/TBD | Not started | - |
+| 5. Export & Build | 0/1 | In Progress | - |
 | 6. Ecosystem & Advanced Features | 0/TBD | Not started | - |
