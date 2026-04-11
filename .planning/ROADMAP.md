@@ -84,7 +84,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   - **Pitfall #4**: Presenter mode state synchronization. (Implement custom WebSocket server integration).
 **Plans**:
 - [x] 04-01-PLAN.md — Shared State & BroadcastChannel
-- [ ] 04-02-PLAN.md — Presenter Mode Route & Layout
+- [x] 04-02-PLAN.md — Presenter Mode Route & Layout
 - [ ] 04-03-PLAN.md — Presentation Timer & WebSocket Sync
 **UI hint**: yes
 
