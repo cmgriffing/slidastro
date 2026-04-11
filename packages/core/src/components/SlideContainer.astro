@@ -2,13 +2,14 @@
 interface Props {
   width: number;
   height: number;
+  id?: string;
 }
 
-const { width, height } = Astro.props;
+const { width, height, id = 'slide-content-wrapper' } = Astro.props;
 ---
 
 <div class="slide-container" style={`width: ${width}px; height: ${height}px;`}>
-  <div class="slide-content" id="slide-content-wrapper">
+  <div class="slide-content" id={id}>
     <slot />
   </div>
 </div>

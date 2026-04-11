@@ -1,0 +1,75 @@
+---
+import slidesData from 'virtual:slidastro/slides';
+import SlideContainer from './SlideContainer.astro';
+import DefaultLayout from '../layouts/default.astro';
+import CoverLayout from '../layouts/cover.astro';
+import TwoColsLayout from '../layouts/two-cols.astro';
+
+interface Props {
+  index: number;
+  scale?: number;
+}
+
+const { index, scale = 1 } = Astro.props;
+const slide = slidesData.slides[index];
+
+if (!slide) {
+  return;
+}
+
+const { canvasWidth, canvasHeight } = slidesData.config;
+
+const builtinLayouts: Record<string, any> = {
+  default: DefaultLayout,
+  cover: CoverLayout,
+  'two-cols': TwoColsLayout,
+};
+
+const layoutName = slide.frontmatter.layout || 'default';
+let Layout = builtinLayouts[layoutName] || builtinLayouts.default;
+
+if (slidesData.layoutsMap[layoutName]) {
+  const module = await import(/* @vite-ignore */ slidesData.layoutsMap[layoutName]);
+  Layout = module.default;
+}
+---
+
+<div class="slide-preview-wrapper" style={`width: ${canvasWidth * scale}px; height: ${canvasHeight * scale}px;`}>
+  <div class="slide-preview-content" style={`transform: scale(${scale}); transform-origin: top left; pointer-events: none;`}>
+    <SlideContainer width={canvasWidth} height={canvasHeight} id="preview-content">
+      <div class="content-wrapper">
+        <Layout frontmatter={slide.frontmatter}>
+          <div set:html={slide.contentHTML} />
+          {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
+          {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
+          {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
+          {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
+        </Layout>
+      </div>
+    </SlideContainer>
+  </div>
+</div>
+
+<style>
+  .slide-preview-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .content-wrapper {
+    padding: 40px;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  /* Same as SlideView.astro to ensure visual parity */
+  .slidev-vclick {
+    transition: opacity 0.3s ease;
+  }
+  .slidev-vclick-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
