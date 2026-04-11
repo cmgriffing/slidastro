@@ -1,0 +1,105 @@
+---
+import slidesData from 'virtual:slidastro/slides';
+import SlideContainer from '../components/SlideContainer.astro';
+import DefaultLayout from '../layouts/default.astro';
+import CoverLayout from '../layouts/cover.astro';
+import TwoColsLayout from '../layouts/two-cols.astro';
+
+const { canvasWidth, canvasHeight } = slidesData.config;
+
+const builtinLayouts: Record<string, any> = {
+  default: DefaultLayout,
+  cover: CoverLayout,
+  'two-cols': TwoColsLayout,
+};
+
+// Function to resolve layouts for each slide
+const resolveLayout = async (slide: any) => {
+  const layoutName = slide.frontmatter.layout || 'default';
+  let Layout = builtinLayouts[layoutName] || builtinLayouts.default;
+
+  if (slidesData.layoutsMap[layoutName]) {
+    const module = await import(/* @vite-ignore */ slidesData.layoutsMap[layoutName]);
+    Layout = module.default;
+  }
+  return Layout;
+};
+
+// Pre-resolve all layouts for the slides
+const slidesWithLayouts = await Promise.all(
+  slidesData.slides.map(async (slide) => ({
+    ...slide,
+    Layout: await resolveLayout(slide),
+  }))
+);
+---
+
+<html>
+<head>
+  <title>{slidesData.config.title} - Print</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+    .print-slide {
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+      /* Force the size of the slide to match canvas */
+      width: var(--canvas-width);
+      height: var(--canvas-height);
+    }
+    .content-wrapper {
+      padding: 40px;
+      font-size: 1.5rem;
+      line-height: 1.6;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    @media print {
+      body {
+        background-color: white;
+      }
+      .print-slide {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body style={`--canvas-width: ${canvasWidth}px; --canvas-height: ${canvasHeight}px;`}>
+  {slidesWithLayouts.map((slide, index) => (
+    <div class="print-slide">
+      <SlideContainer width={canvasWidth} height={canvasHeight}>
+        <div class="content-wrapper">
+          <slide.Layout frontmatter={slide.frontmatter}>
+            <div set:html={slide.contentHTML} />
+            {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
+            {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
+            {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
+            {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
+          </slide.Layout>
+        </div>
+      </SlideContainer>
+    </div>
+  ))}
+
+  <script>
+    import { initSlideScale } from '../components/SlideScale.client';
+    // @ts-ignore
+    import slidesData from 'virtual:slidastro/slides';
+    
+    const { canvasWidth, canvasHeight } = slidesData.config;
+    
+    // In print view, we might not want auto-scaling, but if we do, 
+    // it should probably be handled differently than the main view.
+    // For now, let's at least initialize it for each slide container.
+    // Actually, SlideContainer already handles some of this if used correctly.
+    // But since we want 1:1 for PDF export, maybe we don't scale?
+    // Playwright's page.pdf() with preferCSSPageSize: true will use the element size.
+  </script>
+</body>
+</html>

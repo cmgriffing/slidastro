@@ -30,6 +30,11 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
         });
 
         injectRoute({
+          pattern: '/print',
+          entrypoint: path.resolve(__dirname, 'templates/PrintView.astro'),
+        });
+
+        injectRoute({
           pattern: '/presenter/[...no]',
           entrypoint: path.resolve(__dirname, 'templates/PresenterView.astro'),
         });
