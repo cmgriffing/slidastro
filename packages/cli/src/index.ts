@@ -1,6 +1,7 @@
 import { cac } from 'cac';
 import { dev } from 'astro';
 import { slidastroIntegration } from '@slidastro/core';
+import { build } from './build';
 
 export async function main() {
   const cli = cac('slidastro');
@@ -29,8 +30,9 @@ export async function main() {
 
   cli
     .command('build <entry>', 'Build presentation')
-    .action(async (entry: string) => {
-      console.log('Build command is not implemented yet.');
+    .option('--outDir <dir>', 'Output directory', { default: 'dist' })
+    .action(async (entry: string, options: { outDir: string }) => {
+      await build(entry, options);
     });
 
   cli
