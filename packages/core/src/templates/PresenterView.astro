@@ -1,0 +1,174 @@
+---
+import slidesData from 'virtual:slidastro/slides';
+import PresenterLayout from '../components/PresenterLayout.astro';
+import SlidePreview from '../components/SlidePreview.astro';
+
+export async function getStaticPaths() {
+  return Array.from({ length: slidesData.slides.length }, (_, i) => ({
+    params: { no: (i + 1).toString() },
+  }));
+}
+
+const { no } = Astro.params;
+const slideNo = parseInt(no || '1', 10);
+const slide = slidesData.slides[slideNo - 1];
+
+if (!slide) {
+  return Astro.redirect('/presenter/1');
+}
+
+const nextSlideIndex = slideNo < slidesData.slides.length ? slideNo : null;
+
+// Fixed scales for previews
+const mainScale = 0.5;
+const nextScale = 0.3;
+---
+
+<PresenterLayout>
+  <div class="presenter-grid">
+    <div class="main-preview">
+      <h3>Current Slide</h3>
+      <div class="preview-container">
+         <SlidePreview index={slideNo - 1} scale={mainScale} />
+      </div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="next-preview">
+        <h3>Next Slide</h3>
+        <div class="preview-container">
+          {nextSlideIndex !== null ? (
+            <SlidePreview index={nextSlideIndex} scale={nextScale} />
+          ) : (
+            <div class="no-next">End of presentation</div>
+          )}
+        </div>
+      </div>
+      
+      <div class="notes-container">
+        <h3>Notes</h3>
+        <div class="notes-content" set:html={slide.noteHTML || '<p>No notes for this slide.</p>'} />
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="slide-info">
+        Slide {slideNo} / {slidesData.slides.length}
+      </div>
+      <div class="nav-buttons">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .presenter-grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      grid-template-rows: 1fr 60px;
+      height: 100vh;
+      gap: 1rem;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .main-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow: hidden;
+    }
+
+    .next-preview {
+      background: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .notes-container {
+      flex: 1;
+      background: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-y: auto;
+    }
+
+    .notes-content {
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .preview-container {
+      background: #000;
+      border: 1px solid #444;
+    }
+
+    .no-next {
+      width: 250px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-style: italic;
+    }
+
+    .controls {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2a2a2a;
+      padding: 0 1rem;
+      border-radius: 8px;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #888;
+      letter-spacing: 0.05em;
+    }
+
+    button {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #555;
+    }
+  </style>
+
+  <script>
+    import { initPresenterNavigation } from '../components/PresenterNavigation.client';
+    // @ts-ignore
+    import slidesData from 'virtual:slidastro/slides';
+    
+    initPresenterNavigation(slidesData.slides.length);
+
+    document.addEventListener('astro:after-swap', () => {
+      initPresenterNavigation(slidesData.slides.length);
+    });
+  </script>
+</PresenterLayout>

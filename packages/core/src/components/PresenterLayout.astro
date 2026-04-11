@@ -1,0 +1,36 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import slidesData from 'virtual:slidastro/slides';
+
+interface Props {
+  title?: string;
+}
+
+const { title = slidesData.config.title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} - Presenter View</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
+  <style is:global>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #eee;
+      font-family: system-ui, -apple-system, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+  <ViewTransitions />
+</head>
+<body>
+  <slot />
+</body>
+</html>
