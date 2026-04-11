@@ -21,6 +21,7 @@
   "dependencies": {
     "@mdit/plugin-katex": "^0.25.2",
     "@shikijs/markdown-it": "^4.0.2",
+    "@slidastro/client": "workspace:*",
     "@slidastro/parser": "workspace:*",
     "@slidastro/types": "workspace:*",
     "@unocss/astro": "^66.6.8",
