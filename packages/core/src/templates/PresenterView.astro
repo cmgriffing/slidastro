@@ -55,6 +55,13 @@ const nextScale = 0.3;
       <div class="slide-info">
         Slide {slideNo} / {slidesData.slides.length}
       </div>
+      <div class="timer-controls">
+        <span id="timer-display">00:00:00</span>
+        <div class="timer-buttons">
+          <button id="timer-toggle">Start</button>
+          <button id="timer-reset">Reset</button>
+        </div>
+      </div>
       <div class="nav-buttons">
         <button id="prev-btn">Previous</button>
         <button id="next-btn">Next</button>
@@ -66,7 +73,7 @@ const nextScale = 0.3;
     .presenter-grid {
       display: grid;
       grid-template-columns: 1fr 350px;
-      grid-template-rows: 1fr 60px;
+      grid-template-rows: 1fr 80px;
       height: 100vh;
       gap: 1rem;
       padding: 1rem;
@@ -132,8 +139,32 @@ const nextScale = 0.3;
       justify-content: space-between;
       align-items: center;
       background: #2a2a2a;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
       border-radius: 8px;
+    }
+
+    .timer-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    #timer-display {
+      font-family: monospace;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4ade80;
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .timer-buttons button {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
     }
 
     h3 {
@@ -164,8 +195,51 @@ const nextScale = 0.3;
     import { initPresenterNavigation } from '../components/PresenterNavigation.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
+    import { $timer, startTimer, pauseTimer, resetTimer } from '@slidastro/client/state';
     
     initPresenterNavigation(slidesData.slides.length);
+
+    function formatTime(ms: number) {
+      const s = Math.floor(ms / 1000) % 60;
+      const m = Math.floor(ms / 60000) % 60;
+      const h = Math.floor(ms / 3600000);
+      return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerUI() {
+      const display = document.getElementById('timer-display');
+      const toggle = document.getElementById('timer-toggle');
+      if (!display || !toggle) return;
+
+      const state = $timer.get();
+      
+      if (state.status === 'running') {
+        toggle.textContent = 'Pause';
+        const elapsed = state.elapsed + (Date.now() - state.lastStarted);
+        display.textContent = formatTime(elapsed);
+      } else {
+        toggle.textContent = state.status === 'paused' ? 'Resume' : 'Start';
+        display.textContent = formatTime(state.elapsed);
+      }
+    }
+
+    // Update UI every 100ms for smooth ticking
+    setInterval(updateTimerUI, 100);
+
+    const toggleBtn = document.getElementById('timer-toggle');
+    toggleBtn?.addEventListener('click', () => {
+      const state = $timer.get();
+      if (state.status === 'running') {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    });
+
+    const resetBtn = document.getElementById('timer-reset');
+    resetBtn?.addEventListener('click', () => {
+      resetTimer();
+    });
 
     document.addEventListener('astro:after-swap', () => {
       initPresenterNavigation(slidesData.slides.length);
