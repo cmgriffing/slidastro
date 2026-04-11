@@ -66,7 +66,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Critical Risks**:
   - **Pitfall #3**: Click animation system complexity. (Build framework-agnostic core).
   - **Pitfall #7**: Island hydration timing breaks transitions. (Custom hydration strategy).
-**Plans**: TBD
+**Plans**:
+- [x] 03-01-PLAN.md — Client-Side SPA Navigation & v-click Engine
 **UI hint**: yes
 
 ### Phase 4: Presenter Mode & State Sync
@@ -81,7 +82,10 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Complexity**: Medium-High
 **Critical Risks**:
   - **Pitfall #4**: Presenter mode state synchronization. (Implement custom WebSocket server integration).
-**Plans**: TBD
+**Plans**:
+- [x] 04-01-PLAN.md — Shared State & BroadcastChannel
+- [ ] 04-02-PLAN.md — Presenter Mode Route & Layout
+- [ ] 04-03-PLAN.md — Presentation Timer & WebSocket Sync
 **UI hint**: yes
 
 ### Phase 5: Export & Build
