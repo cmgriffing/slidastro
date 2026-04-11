@@ -18,14 +18,15 @@ metrics:
 # Phase 4 Plan 3: Timer and WebSocket Sync Summary
 
 ## Objective
-Implement a presentation timer and a WebSocket-based synchronization bridge for cross-tab/cross-device state relay during development.
+Implement a presentation timer (total and per-slide) and a WebSocket-based synchronization bridge for cross-tab/cross-device state relay during development.
 
 ## Key Changes
 
 ### 1. Timer State Management (`packages/client/src/state.ts`)
-- Added `$timer` Nano Store with `status`, `elapsed`, and `lastStarted` fields.
-- Implemented `startTimer`, `pauseTimer`, and `resetTimer` actions.
-- Integrated `localStorage` persistence for the `elapsed` time.
+- Added `$timer` Nano Store with `status`, `elapsed`, `slideElapsed`, and `lastStarted` fields.
+- Implemented `startTimer`, `pauseTimer`, `resetTimer`, and `resetSlideTimer` actions.
+- Integrated `localStorage` persistence for the total `elapsed` time.
+- Integrated `resetSlideTimer` into `setPage` to automatically reset the per-slide timer on navigation.
 
 ### 2. WebSocket Server Relay (`packages/core/src/index.ts`)
 - Added `astro:server:setup` hook to the Slidastro integration.
@@ -35,7 +36,8 @@ Implement a presentation timer and a WebSocket-based synchronization bridge for 
 ### 3. Synchronization Bridge & Timer UI (`packages/client/src/sync.ts`, `PresenterView.astro`)
 - Updated `sync.ts` to include the `$timer` store in the sync loop.
 - Added a WebSocket bridge using `import.meta.hot.send` and `import.meta.hot.on` for dev-mode relay.
-- Added a Timer UI to the `PresenterView.astro` with real-time ticking (100ms interval) and control buttons.
+- Added a dual-timer UI to `PresenterView.astro` showing both total presentation duration and current slide duration.
+- Real-time ticking (100ms interval) and control buttons updated for both timers.
 
 ## Deviations from Plan
 - None - plan executed as written.

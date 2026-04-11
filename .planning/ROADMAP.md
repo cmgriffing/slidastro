@@ -6,8 +6,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 
 - [x] **Phase 1: Foundation** - Parser, CLI, and minimal Astro integration
 - [x] **Phase 2: Visual Foundation** - Layouts, themes, and rendering pipeline
-- [ ] **Phase 3: Client SPA & Interactivity** - Navigation, clicks, and transitions
-- [ ] **Phase 4: Presenter Mode & State Sync** - Synchronized presenter view and speaker notes
+- [x] **Phase 3: Client SPA & Interactivity** - Navigation, clicks, and transitions
+- [x] **Phase 4: Presenter Mode & State Sync** - Synchronized presenter view and speaker notes
 - [ ] **Phase 5: Export & Build** - Static build and PDF/PNG/PPTX export
 - [ ] **Phase 6: Ecosystem & Advanced Features** - Diagrams, drawings, and native formats
 
@@ -123,6 +123,6 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 1. Foundation | 4/4 | Complete | 2026-04-09 |
 | 2. Visual Foundation | 4/4 | Complete | 2026-04-10 |
 | 3. Client SPA & Interactivity | 1/1 | Complete | 2026-04-10 |
-| 4. Presenter Mode & State Sync | 0/TBD | Not started | - |
+| 4. Presenter Mode & State Sync | 3/3 | Complete | 2026-04-11 |
 | 5. Export & Build | 0/TBD | Not started | - |
 | 6. Ecosystem & Advanced Features | 0/TBD | Not started | - |

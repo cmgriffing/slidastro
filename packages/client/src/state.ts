@@ -3,6 +3,7 @@ import { atom } from 'nanostores'
 export interface TimerState {
   status: 'stopped' | 'running' | 'paused'
   elapsed: number
+  slideElapsed: number
   lastStarted: number
 }
 
@@ -13,6 +14,7 @@ export const $clicksTotal = atom<number>(0)
 const defaultTimer: TimerState = {
   status: 'stopped',
   elapsed: 0,
+  slideElapsed: 0,
   lastStarted: 0,
 }
 
@@ -26,10 +28,35 @@ export const $timer = atom<TimerState>({
   elapsed: savedElapsed,
 })
 
+// Timer actions
+export function resetSlideTimer() {
+  const current = $timer.get()
+  if (current.status === 'running') {
+    const now = Date.now()
+    const delta = now - current.lastStarted
+    $timer.set({
+      ...current,
+      elapsed: current.elapsed + delta,
+      slideElapsed: 0,
+      lastStarted: now,
+    })
+  } else {
+    $timer.set({
+      ...current,
+      slideElapsed: 0,
+    })
+  }
+}
+
 // Validation helpers
 export function setPage(page: number) {
   if (page < 1) return
-  $page.set(Math.floor(page))
+  const oldPage = $page.get()
+  const newPage = Math.floor(page)
+  if (oldPage !== newPage) {
+    $page.set(newPage)
+    resetSlideTimer()
+  }
 }
 
 export function setClicks(clicks: number) {
@@ -56,10 +83,15 @@ export function startTimer() {
 export function pauseTimer() {
   const current = $timer.get()
   if (current.status !== 'running') return
-  const newElapsed = current.elapsed + (Date.now() - current.lastStarted)
+  const now = Date.now()
+  const delta = now - current.lastStarted
+  const newElapsed = current.elapsed + delta
+  const newSlideElapsed = current.slideElapsed + delta
   $timer.set({
+    ...current,
     status: 'paused',
     elapsed: newElapsed,
+    slideElapsed: newSlideElapsed,
     lastStarted: 0,
   })
   if (typeof localStorage !== 'undefined') {
