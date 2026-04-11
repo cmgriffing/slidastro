@@ -59,9 +59,9 @@
 | INTER-04 | Phase 3 | Pending |
 | PRES-01 | Phase 4 | Complete |
 | PRES-02 | Phase 4 | Complete |
-| PRES-03 | Phase 4 | Pending |
+| PRES-03 | Phase 4 | Complete |
 | PRES-04 | Phase 4 | Complete |
-| PRES-05 | Phase 4 | Pending |
+| PRES-05 | Phase 4 | Complete |
 | EXP-01 | Phase 5 | Pending |
 | EXP-02 | Phase 5 | Pending |
 | EXP-03 | Phase 5 | Pending |
