@@ -30,6 +30,11 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
         });
 
         injectRoute({
+          pattern: '/presenter/[...no]',
+          entrypoint: path.resolve(__dirname, 'templates/PresenterView.astro'),
+        });
+
+        injectRoute({
           pattern: '/[...no]',
           entrypoint: path.resolve(__dirname, 'templates/SlideView.astro'),
         });
