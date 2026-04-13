@@ -25,17 +25,28 @@ const resolveLayout = async (slide: any) => {
   return Layout;
 };
 
-// Pre-resolve all layouts for the slides
-const slidesWithLayouts = await Promise.all(
+// Function to resolve slide content components for each slide
+const resolveSlideContent = async (slide: any) => {
+  if (slide.virtualId) {
+    const module = await import(/* @vite-ignore */ slide.virtualId);
+    return module.default;
+  }
+  return null;
+};
+
+// Pre-resolve all layouts and content for the slides
+const slidesWithContent = await Promise.all(
   slidesData.slides.map(async (slide) => ({
     ...slide,
     Layout: await resolveLayout(slide),
+    SlideContent: await resolveSlideContent(slide),
   }))
 );
 ---
 
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>{slidesData.config.title} - Print</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
@@ -71,12 +82,12 @@ const slidesWithLayouts = await Promise.all(
   </style>
 </head>
 <body style={`--canvas-width: ${canvasWidth}px; --canvas-height: ${canvasHeight}px;`}>
-  {slidesWithLayouts.map((slide, index) => (
+  {slidesWithContent.map((slide, index) => (
     <div class="print-slide">
       <SlideContainer width={canvasWidth} height={canvasHeight}>
         <div class="content-wrapper">
           <slide.Layout frontmatter={slide.frontmatter}>
-            <div set:html={slide.contentHTML} />
+            {slide.SlideContent ? <slide.SlideContent /> : <div set:html={slide.contentHTML} />}
             {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
             {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
             {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}

@@ -19,22 +19,29 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@astrojs/mdx": "^5.0.3",
     "@mdit/plugin-katex": "^0.25.2",
     "@shikijs/markdown-it": "^4.0.2",
+    "@shikijs/monaco": "^4.0.2",
     "@slidastro/client": "workspace:*",
     "@slidastro/parser": "workspace:*",
     "@slidastro/types": "workspace:*",
+    "@typescript/ata": "^0.9.8",
     "@unocss/astro": "^66.6.8",
     "@unocss/reset": "^66.6.8",
-    "astro": "^4.6.1",
+    "astro": "^5.18.1",
+    "drauu": "^1.0.0",
     "katex": "^0.16.45",
-    "markdown-it": "^14.1.1"
+    "markdown-it": "^14.1.1",
+    "mermaid": "^11.14.0",
+    "monaco-editor": "^0.55.1",
+    "shiki": "^4.0.2"
   },
   "devDependencies": {
     "@types/katex": "^0.16.8",
     "@types/markdown-it": "^14.1.2",
     "tsdown": "^0.3.0",
-    "typescript": "^5.4.4",
+    "typescript": "^5.9.3",
     "vitest": "^1.5.0"
   }
 }

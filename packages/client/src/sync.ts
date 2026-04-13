@@ -1,4 +1,4 @@
-import { $page, $clicks, $timer, setPage, setClicks, setTimer } from './state'
+import { $page, $clicks, $timer, $drawings, setPage, setClicks, setTimer } from './state'
 
 const CHANNEL_NAME = 'slidastro'
 
@@ -9,6 +9,7 @@ export function initSync() {
     page: [$page, setPage],
     clicks: [$clicks, setClicks],
     timer: [$timer, setTimer],
+    drawings: [$drawings, (v: any) => $drawings.set(v)],
   } as const
 
   // 1. BroadcastChannel (same-origin tabs)
@@ -22,9 +23,15 @@ export function initSync() {
       })
     }
 
+    // Generic sync for drawings etc
+    window.addEventListener('slidastro:sync', (e: any) => {
+      if (isReceiving) return
+      channel.postMessage(e.detail)
+    })
+
     // Listen for changes from other tabs
     channel.onmessage = (event) => {
-      const { type, value } = event.data
+      const { type, value, ...rest } = event.data
       if (syncStores[type as keyof typeof syncStores]) {
         isReceiving = true
         try {
@@ -33,6 +40,9 @@ export function initSync() {
         } finally {
           isReceiving = false
         }
+      } else {
+        // Broadcast custom events to components
+        window.dispatchEvent(new CustomEvent('slidastro:sync-received', { detail: event.data }))
       }
     }
   }
@@ -48,8 +58,16 @@ export function initSync() {
       })
     }
 
+    // Generic sync for drawings etc
+    window.addEventListener('slidastro:sync', (e: any) => {
+      if (isReceiving) return
+      // @ts-ignore
+      import.meta.hot.send('slidastro:sync', e.detail)
+    })
+
     // @ts-ignore
-    import.meta.hot.on('slidastro:sync', ({ type, value }) => {
+    import.meta.hot.on('slidastro:sync', (data) => {
+      const { type, value } = data
       if (syncStores[type as keyof typeof syncStores]) {
         isReceiving = true
         try {
@@ -58,6 +76,9 @@ export function initSync() {
         } finally {
           isReceiving = false
         }
+      } else {
+        // Broadcast custom events to components
+        window.dispatchEvent(new CustomEvent('slidastro:sync-received', { detail: data }))
       }
     })
   }

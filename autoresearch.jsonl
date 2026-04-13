@@ -1,0 +1,1 @@
+{"type":"config","name":"Optimizing the hot path (parsing and rendering)","metricName":"parsing_ms","metricUnit":"ms","bestDirection":"lower"}

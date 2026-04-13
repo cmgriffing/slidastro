@@ -1,0 +1,55 @@
+<button id="theme-toggle" class="theme-toggle" title="Toggle Theme (T)">
+  🌙
+</button>
+
+<style>
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  :global(.dark) .theme-toggle {
+    background: #333;
+    border-color: #444;
+  }
+</style>
+
+<script>
+  import { toggleTheme } from './Theme.client';
+
+  const btn = document.getElementById('theme-toggle');
+  
+  const updateIcon = (isDark: boolean) => {
+    if (btn) btn.innerText = isDark ? '☀️' : '🌙';
+  };
+
+  updateIcon(document.documentElement.classList.contains('dark'));
+
+  btn?.addEventListener('click', () => {
+    const isDark = toggleTheme();
+    updateIcon(isDark);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 't' || e.key === 'T') {
+      const isDark = toggleTheme();
+      updateIcon(isDark);
+    }
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    updateIcon(document.documentElement.classList.contains('dark'));
+  });
+</script>

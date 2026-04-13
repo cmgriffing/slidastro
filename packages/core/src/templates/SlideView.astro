@@ -1,7 +1,9 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import slidesData from 'virtual:slidastro/slides';
 import SlideContainer from '../components/SlideContainer.astro';
+import DrawingToolbar from '../components/DrawingToolbar.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import DefaultLayout from '../layouts/default.astro';
 import CoverLayout from '../layouts/cover.astro';
 import TwoColsLayout from '../layouts/two-cols.astro';
@@ -18,6 +20,12 @@ const slide = slidesData.slides[slideNo - 1];
 
 if (!slide) {
   return Astro.redirect('/1');
+}
+
+let SlideContent: any;
+if (slide.virtualId) {
+  const module = await import(/* @vite-ignore */ slide.virtualId);
+  SlideContent = module.default;
 }
 
 const { canvasWidth, canvasHeight } = slidesData.config;
@@ -41,6 +49,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
 
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>{slidesData.config.title} - Slide {slideNo}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
@@ -73,13 +82,13 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       pointer-events: none;
     }
   </style>
-  <ViewTransitions />
+  <ClientRouter />
 </head>
 <body>
   <SlideContainer width={canvasWidth} height={canvasHeight}>
     <div class="content-wrapper" id="slide-content" data-index={slideNo - 1} transition:name="slide-content" transition:animate="fade">
       <Layout frontmatter={slide.frontmatter}>
-        <div set:html={slide.contentHTML} />
+        {SlideContent ? <SlideContent /> : <div set:html={slide.contentHTML} />}
         {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
         {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
         {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
@@ -91,19 +100,37 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     </div>
   </SlideContainer>
 
+  <DrawingToolbar />
+  <ThemeToggle />
+
   <script>
+    import { initTheme } from '../components/Theme.client';
     import { initSlideScale } from '../components/SlideScale.client';
     import { initNavigation } from '../components/Navigation.client';
+    import { initMermaid } from '../components/Mermaid.client';
+    import { initMonaco } from '../components/Monaco.client';
+    import { initDrauu } from '../components/Drauu.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
     
     const { canvasWidth, canvasHeight } = slidesData.config;
+    const slideNo = parseInt(window.location.pathname.split('/').pop() || '1', 10);
+
+    initTheme();
     initSlideScale(canvasWidth, canvasHeight);
     initNavigation(slidesData.slides.length);
+    initMermaid();
+    initMonaco();
+    initDrauu(slideNo - 1);
 
     document.addEventListener('astro:after-swap', () => {
+      const newSlideNo = parseInt(window.location.pathname.split('/').pop() || '1', 10);
+      initTheme();
       initSlideScale(canvasWidth, canvasHeight);
       initNavigation(slidesData.slides.length);
+      initMermaid();
+      initMonaco();
+      initDrauu(newSlideNo - 1);
     });
 
     if (import.meta.hot) {
@@ -123,4 +150,3 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
   </script>
 </body>
 </html>
-

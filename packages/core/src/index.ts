@@ -2,6 +2,7 @@ import type { AstroIntegration } from 'astro';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import UnoCSS from '@unocss/astro';
+import mdx from '@astrojs/mdx';
 import { slidastroVitePlugin } from './virtual';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -16,9 +17,12 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
     hooks: {
       'astro:config:setup': ({ injectRoute, updateConfig }) => {
         updateConfig({
-          integrations: [UnoCSS({
-            injectReset: true,
-          })],
+          integrations: [
+            UnoCSS({
+              injectReset: true,
+            }),
+            mdx(),
+          ],
           vite: {
             plugins: [slidastroVitePlugin(options.entry)],
           },
@@ -37,6 +41,11 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
         injectRoute({
           pattern: '/presenter/[...no]',
           entrypoint: path.resolve(__dirname, 'templates/PresenterView.astro'),
+        });
+
+        injectRoute({
+          pattern: '/',
+          entrypoint: path.resolve(__dirname, 'templates/SlideView.astro'),
         });
 
         injectRoute({

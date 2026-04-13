@@ -98,32 +98,35 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   3. Export handles all async content (Mermaid, images, fonts) correctly.
 **Complexity**: Medium
 **Critical Risks**:
-  - **Pitfall #6**: PDF Export complexity with async content. (Port Slidev's wait-for patterns).
-**Plans**:
-- [ ] 05-01-PLAN.md — Export & Build Implementation
+  - [x] **Phase 6: Ecosystem & Advanced Features** - Diagrams, drawings, and native formats
 
-### Phase 6: Ecosystem & Advanced Features
-**Goal**: Expand features with diagrams, live drawing, and native Astro file support.
-**Depends on**: Phase 5
-**Requirements**: ADV-01, ADV-02, ADV-03, ADV-04, FOUND-03
-**Success Criteria** (what must be TRUE):
-  1. User can render Mermaid diagrams within slides.
-  2. Drawing tools (drauu) allow live annotation over slides.
-  3. Monaco editor integration allows live code editing in-slide.
-  4. Support for native `.mdx` and `.astro` slide files is fully integrated.
-**Complexity**: High (Monaco and Native format support)
-**Critical Risks**:
-  - **Pitfall #15**: Monaco editor integration complexity.
-**Plans**: TBD
-**UI hint**: yes
+  ## Phase Details
+  ...
+  ### Phase 6: Ecosystem & Advanced Features
+  **Goal**: Expand features with diagrams, live drawing, and native Astro file support.
+  **Depends on**: Phase 5
+  **Requirements**: ADV-01, ADV-02, ADV-03, ADV-04, FOUND-03
+  **Success Criteria** (what must be TRUE):
+    1. User can render Mermaid diagrams within slides.
+    2. Drawing tools (drauu) allow live annotation over slides.
+    3. Monaco editor integration allows live code editing in-slide.
+    4. Support for native `.mdx` and `.astro` slide files is fully integrated.
+  **Complexity**: High (Monaco and Native format support)
+  **Critical Risks**:
+    - **Pitfall #15**: Monaco editor integration complexity.
+  **Plans**:
+  - [x] 06-01-PLAN.md — Advanced Rendering
+  - [x] 06-02-PLAN.md — Live Interactivity
+  - [x] 06-03-PLAN.md — Native Formats
 
-## Progress
+  ## Progress
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation | 4/4 | Complete | 2026-04-09 |
-| 2. Visual Foundation | 4/4 | Complete | 2026-04-10 |
-| 3. Client SPA & Interactivity | 1/1 | Complete | 2026-04-10 |
-| 4. Presenter Mode & State Sync | 3/3 | Complete | 2026-04-11 |
-| 5. Export & Build | 0/1 | In Progress | - |
-| 6. Ecosystem & Advanced Features | 0/TBD | Not started | - |
+  | Phase | Plans Complete | Status | Completed |
+  |-------|----------------|--------|-----------|
+  | 1. Foundation | 4/4 | Complete | 2026-04-09 |
+  | 2. Visual Foundation | 4/4 | Complete | 2026-04-10 |
+  | 3. Client SPA & Interactivity | 1/1 | Complete | 2026-04-10 |
+  | 4. Presenter Mode & State Sync | 3/3 | Complete | 2026-04-11 |
+  | 5. Export & Build | 1/1 | Complete | 2026-04-11 |
+  | 6. Ecosystem & Advanced Features | 3/3 | Complete | 2026-04-11 |
+

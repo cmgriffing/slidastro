@@ -12,6 +12,7 @@ const { width, height, id = 'slide-content-wrapper' } = Astro.props;
   <div class="slide-content" id={id}>
     <slot />
   </div>
+  <svg id="drauu-layer" class="drauu-layer"></svg>
 </div>
 
 <style>
@@ -25,5 +26,14 @@ const { width, height, id = 'slide-content-wrapper' } = Astro.props;
     width: 100%;
     height: 100%;
     transform-origin: top left;
+  }
+  .drauu-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
   }
 </style>

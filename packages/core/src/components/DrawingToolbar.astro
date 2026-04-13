@@ -1,0 +1,77 @@
+---
+---
+<div id="drawing-toolbar" class="drawing-toolbar">
+  <button data-tool="draw" title="Pencil (P)">✏️</button>
+  <button data-tool="erase" title="Eraser (E)">🧽</button>
+  <button id="clear-draw" title="Clear (C)">🗑️</button>
+  <button id="toggle-draw" title="Toggle (D)">🚫</button>
+  <button id="start-record" title="Start Recording">🔴</button>
+  <button id="stop-record" title="Stop Recording" style="display:none;">⏹️</button>
+</div>
+
+<style>
+  .drawing-toolbar {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 200;
+  }
+  button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  button:hover {
+    background: #f0f0f0;
+  }
+  button.active {
+    background: #e0e0e0;
+  }
+  :global(.recording-active) #start-record {
+    display: none;
+  }
+  :global(.recording-active) #stop-record {
+    display: block;
+    color: red;
+  }
+</style>
+
+<script>
+  import { setDrauuMode, clearDrauu } from './Drauu.client';
+  import { startRecording, stopRecording } from '@slidastro/client';
+
+  const toolbar = document.getElementById('drawing-toolbar');
+  const toggleBtn = document.getElementById('toggle-draw');
+  const clearBtn = document.getElementById('clear-draw');
+  const startRecordBtn = document.getElementById('start-record');
+  const stopRecordBtn = document.getElementById('stop-record');
+  
+  toolbar?.querySelectorAll('[data-tool]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tool = btn.getAttribute('data-tool') as any;
+      setDrauuMode(tool);
+      toolbar.querySelectorAll('[data-tool]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  clearBtn?.addEventListener('click', clearDrauu);
+
+  toggleBtn?.addEventListener('click', () => {
+    const isActive = document.body.classList.toggle('drauu-active');
+    if (toggleBtn) toggleBtn.innerText = isActive ? '🖋️' : '🚫';
+  });
+
+  startRecordBtn?.addEventListener('click', startRecording);
+  stopRecordBtn?.addEventListener('click', stopRecording);
+</script>

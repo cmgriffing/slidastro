@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import slidesData from 'virtual:slidastro/slides';
 
 interface Props {
@@ -28,7 +28,7 @@ const { title = slidesData.config.title } = Astro.props;
       overflow: hidden;
     }
   </style>
-  <ViewTransitions />
+  <ClientRouter />
 </head>
 <body>
   <slot />

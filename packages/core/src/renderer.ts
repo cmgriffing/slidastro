@@ -14,6 +14,53 @@ async function getRenderer() {
       breaks: true,
     });
 
+    md.use((md) => {
+      md.block.ruler.before('fence', 'mermaid_monaco', (state, startLine, endLine, silent) => {
+        const pos = state.bMarks[startLine] + state.tShift[startLine];
+        const max = state.eMarks[startLine];
+
+        if (pos + 3 > max) return false;
+        const marker = state.src.slice(pos, pos + 3);
+        if (marker !== '```') return false;
+
+        const info = state.src.slice(pos + 3, max).trim();
+        if (info !== 'mermaid' && !info.includes('monaco')) return false;
+
+        if (silent) return true;
+
+        // Find end of block
+        let nextLine = startLine;
+        while (nextLine < endLine) {
+          nextLine++;
+          const nextPos = state.bMarks[nextLine] + state.tShift[nextLine];
+          const nextMax = state.eMarks[nextLine];
+          if (state.src.slice(nextPos, nextMax).trim() === '```') break;
+        }
+
+        const token = state.push(info === 'mermaid' ? 'mermaid_block' : 'monaco_block', 'div', 0);
+        token.info = info;
+        token.content = state.getLines(startLine + 1, nextLine, state.tShift[startLine], true);
+        token.markup = '```';
+        token.map = [startLine, nextLine + 1];
+
+        state.line = nextLine + 1;
+        return true;
+      });
+
+      md.renderer.rules.mermaid_block = (tokens, idx) => {
+        const token = tokens[idx];
+        return `<div class="mermaid">${token.content}</div>`;
+      };
+
+      md.renderer.rules.monaco_block = (tokens, idx) => {
+        const token = tokens[idx];
+        const info = token.info.trim();
+        const lang = info.replace(/\{monaco\}|monaco/g, '').trim() || 'typescript';
+        const content = token.content.replace(/"/g, '&quot;');
+        return `<div class="monaco-container" data-lang="${lang}" data-content="${content}"></div>`;
+      };
+    });
+
     md.use(await Shiki({
       themes: {
         light: 'vitesse-light',

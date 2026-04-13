@@ -24,8 +24,11 @@
   "dependencies": {
     "@slidastro/core": "workspace:*",
     "@slidastro/parser": "workspace:*",
-    "astro": "^4.6.1",
-    "cac": "^6.7.14"
+    "ansis": "^3.1.2",
+    "astro": "^5.18.1",
+    "cac": "^6.7.14",
+    "playwright-core": "^1.42.1",
+    "pptxgenjs": "^4.0.1"
   },
   "devDependencies": {
     "tsdown": "^0.3.0",

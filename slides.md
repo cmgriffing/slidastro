@@ -17,13 +17,14 @@ Astro-powered slide presentations
 </v-click>
 
 ---
-
+---
 layout: cover
 ---
 
 # Built-in Layouts
 This uses the `cover` layout.
 
+---
 ---
 layout: two-cols
 ---
@@ -46,4 +47,26 @@ Math: $E = mc^2$
 function hello() {
   console.log("Hello Slidastro!");
 }
+```
+
+---
+
+# Mermaid Diagram
+
+```mermaid
+graph TD
+    A[Start] --> B{Is it Slidastro?}
+    B -- Yes --> C[Awesome!]
+    B -- No --> D[Still Cool!]
+```
+
+---
+
+# Monaco Editor
+
+```ts {monaco}
+import { atom } from 'nanostores'
+
+const $counter = atom(0)
+console.log($counter.get())
 ```

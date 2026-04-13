@@ -1,14 +1,32 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import slidesData from 'virtual:slidastro/slides';
 import SlideContainer from '../components/SlideContainer.astro';
 
 const { canvasWidth, canvasHeight } = slidesData.config;
 const scale = 0.25; // Scale for overview thumbnails
+
+// Function to resolve slide content components for each slide
+const resolveSlideContent = async (slide: any) => {
+  if (slide.virtualId) {
+    const module = await import(/* @vite-ignore */ slide.virtualId);
+    return module.default;
+  }
+  return null;
+};
+
+// Pre-resolve all content for the slides
+const slidesWithContent = await Promise.all(
+  slidesData.slides.map(async (slide) => ({
+    ...slide,
+    SlideContent: await resolveSlideContent(slide),
+  }))
+);
 ---
 
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>{slidesData.config.title} - Overview</title>
   <style>
     body {
@@ -57,16 +75,16 @@ const scale = 0.25; // Scale for overview thumbnails
       opacity: 0.7;
     }
   </style>
-  <ViewTransitions />
+  <ClientRouter />
 </head>
 <body>
   <h1>Overview</h1>
   <div class="grid" style={`--aspect-ratio: ${slidesData.config.aspectRatio};`}>
-    {slidesData.slides.map((slide, i) => (
+    {slidesWithContent.map((slide, i) => (
       <a href={`/${i + 1}`} class="slide-item">
         <div class="thumbnail-container">
           <div class="thumbnail-content" style={`--scale: ${250 / canvasWidth}; --width: ${canvasWidth}px; --height: ${canvasHeight}px;`}>
-             <div set:html={slide.contentHTML} class="content-wrapper" />
+             {slide.SlideContent ? <slide.SlideContent /> : <div set:html={slide.contentHTML} class="content-wrapper" />}
           </div>
         </div>
         <div class="slide-number">{i + 1}</div>

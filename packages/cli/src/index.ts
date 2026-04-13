@@ -2,6 +2,7 @@ import { cac } from 'cac';
 import { dev } from 'astro';
 import { slidastroIntegration } from '@slidastro/core';
 import { build } from './build';
+import { exportPresentation } from './export';
 
 export async function main() {
   const cli = cac('slidastro');
@@ -37,8 +38,10 @@ export async function main() {
 
   cli
     .command('export <entry>', 'Export presentation')
-    .action(async (entry: string) => {
-      console.log('Export command is not implemented yet.');
+    .option('--format <format>', 'Export format (pdf, png or pptx)', { default: 'pdf' })
+    .option('--out <path>', 'Output path')
+    .action(async (entry: string, options: { format: 'pdf' | 'png' | 'pptx', out: string }) => {
+      await exportPresentation(entry, options);
     });
 
   cli.help();
