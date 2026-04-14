@@ -1,6 +1,7 @@
 import { cac } from 'cac';
 import { dev } from 'astro';
 import { slidastroIntegration } from '@slidastro/core';
+import ansis from 'ansis';
 import { build } from './build';
 import { exportPresentation } from './export';
 
@@ -11,10 +12,10 @@ export async function main() {
     .command('dev <entry>', 'Start dev server')
     .option('--port <port>', 'Port to run dev server on', { default: 4321 })
     .action(async (entry: string, options: { port: number }) => {
-      console.log(`Starting dev server for ${entry} on port ${options.port}...`);
+      console.log(ansis.cyan(`\n  Starting dev server for ${ansis.bold(entry)} on port ${options.port}...`));
       
       try {
-        await dev({
+        const server = await dev({
           root: process.cwd(),
           server: {
             port: options.port,
@@ -23,8 +24,18 @@ export async function main() {
             slidastroIntegration({ entry }),
           ],
         });
+
+        const { address, port } = server.address;
+        const host = address === '::1' || address === '127.0.0.1' ? 'localhost' : address;
+        const url = `http://${host}:${port}/`;
+
+        console.log(`\n  ${ansis.green('➜')}  ${ansis.bold('Main:')}      ${ansis.cyan(url)}`);
+        console.log(`  ${ansis.green('➜')}  ${ansis.bold('Presenter:')} ${ansis.cyan(`${url}presenter/1`)}`);
+        console.log(`  ${ansis.green('➜')}  ${ansis.bold('Overview:')}  ${ansis.cyan(`${url}overview`)}`);
+        console.log(`  ${ansis.green('➜')}  ${ansis.bold('Print:')}     ${ansis.cyan(`${url}print`)}`);
+        console.log();
       } catch (err) {
-        console.error('Failed to start dev server:', err);
+        console.error(ansis.red('\n  Failed to start dev server:'), err);
         process.exit(1);
       }
     });
