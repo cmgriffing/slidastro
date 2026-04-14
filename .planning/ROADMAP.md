@@ -26,7 +26,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Success Criteria** (what must be TRUE):
   1. User can run `slidastro dev slides.md` and see the content of the first slide in a browser.
   2. The parser correctly splits a Slidev-compatible `.md` file into individual slides, respecting `---` separators even inside code blocks.
-  3. Edits to the `.md` file trigger a hot module reload (HMR) update in the browser.
+  3. Edits to the `.md" file trigger a hot module reload (HMR) update in the browser.
 **Complexity**: High (establishing the Astro-Vite-Virtual Module bridge)
 **Critical Risks**:
   - **Pitfall #1**: Choosing MPA routing instead of SPA shell. (Must use SPA shell early).
@@ -154,7 +154,10 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 **Complexity**: Medium
 **Critical Risks**:
   - **Pitfall #25**: Ensuring consistent slot naming and behavior across all ported layouts.
-**Plans**: TBD
+**Plans**:
+- [x] 08-01-PLAN.md — Layout Infrastructure & Refinement
+- [ ] 08-02-PLAN.md — Content Focus Layouts
+- [ ] 08-03-PLAN.md — Media & Embed Layouts
 **UI hint**: yes
 
 ### Phase 9: Presenter Experience Parity
@@ -182,5 +185,5 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 5. Export & Build | 1/1 | Complete | 2026-04-11 |
 | 6. Ecosystem & Advanced Features | 3/3 | Complete | 2026-04-11 |
 | 7. Rendering and Click Interaction Polish | 1/1 | Complete | 2026-04-13 |
-| 8. Layout Parity and Styling | 0/0 | Not started | - |
+| 8. Layout Parity and Styling | 1/3 | Active | - |
 | 9. Presenter Experience Parity | 0/0 | Not started | - |
