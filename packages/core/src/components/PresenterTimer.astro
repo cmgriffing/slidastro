@@ -1,0 +1,71 @@
+---
+---
+<div class="flex gap-4 items-center">
+  <div class="flex flex-col items-center">
+    <span class="text-[10px] uppercase font-bold text-gray-400 -mb-1">Total</span>
+    <span id="timer-total" class="font-mono text-xl font-bold text-green-400">00:00:00</span>
+  </div>
+  <div class="flex flex-col items-center">
+    <span class="text-[10px] uppercase font-bold text-gray-400 -mb-1">Slide</span>
+    <span id="timer-slide" class="font-mono text-xl font-bold text-blue-400">00:00:00</span>
+  </div>
+  <div class="flex gap-1 ml-2">
+    <button id="timer-toggle-comp" class="bg-gray-700 hover:bg-gray-600 px-2 py-0.5 rounded text-xs font-bold uppercase cursor-pointer">Start</button>
+    <button id="timer-reset-comp" class="bg-gray-700 hover:bg-gray-600 px-2 py-0.5 rounded text-xs font-bold uppercase cursor-pointer">Reset</button>
+  </div>
+</div>
+
+<script>
+  import { $timer, startTimer, pauseTimer, resetTimer } from '@slidastro/client';
+
+  function formatTime(ms: number) {
+    const s = Math.floor(ms / 1000) % 60;
+    const m = Math.floor(ms / 60000) % 60;
+    const h = Math.floor(ms / 3600000);
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  function updateTimerUI() {
+    const totalDisplay = document.getElementById('timer-total');
+    const slideDisplay = document.getElementById('timer-slide');
+    const toggle = document.getElementById('timer-toggle-comp');
+    if (!totalDisplay || !slideDisplay || !toggle) return;
+
+    const state = $timer.get();
+    
+    let elapsed = state.elapsed;
+    let slideElapsed = state.slideElapsed;
+
+    if (state.status === 'running') {
+      toggle.textContent = 'Pause';
+      const delta = Date.now() - state.lastStarted;
+      elapsed += delta;
+      slideElapsed += delta;
+    } else {
+      toggle.textContent = state.status === 'paused' ? 'Resume' : 'Start';
+    }
+
+    totalDisplay.textContent = formatTime(elapsed);
+    slideDisplay.textContent = formatTime(slideElapsed);
+  }
+
+  setInterval(updateTimerUI, 100);
+
+  function setupButtons() {
+    document.getElementById('timer-toggle-comp')?.addEventListener('click', () => {
+      const state = $timer.get();
+      if (state.status === 'running') {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    });
+
+    document.getElementById('timer-reset-comp')?.addEventListener('click', () => {
+      resetTimer();
+    });
+  }
+
+  setupButtons();
+  document.addEventListener('astro:after-swap', setupButtons);
+</script>
