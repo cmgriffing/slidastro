@@ -15,27 +15,28 @@ Developers can author presentations with multi-framework component support, usin
 - [x] CLI tool (`slidastro dev`, `slidastro build`, `slidastro export`) published to npm [Phase 1]
 - [x] Markdown slide authoring with `---` separator and frontmatter (Slidev-compatible format) [Phase 1]
 - [x] Dev server with hot module reload [Phase 1]
+- [x] Astro-native format support (`.mdx` and `.astro` slide files) [Phase 6]
+- [x] Multi-framework component support in slides (React, Vue, Svelte, Solid via Astro integrations) [Phase 1]
+- [x] Presenter mode (dual window: audience view + speaker notes + timer) [Phase 4]
+- [x] Speaker notes in slides [Phase 4]
+- [x] Slide transitions and animations [Phase 3]
+- [x] Click-to-advance step animations [Phase 3]
+- [x] Code syntax highlighting (Shiki) [Phase 2]
+- [x] Themes system (installable via npm) [Phase 2]
+- [x] Layouts system (built-in and custom) [Phase 2]
+- [x] Export to PDF, PPTX, and PNG [Phase 5]
+- [x] LaTeX/math support (KaTeX) [Phase 2]
+- [x] Mermaid diagram support [Phase 6]
+- [x] Drawing and annotation tools overlay [Phase 6]
+- [x] Recording mode [Phase 6]
+- [x] Overview/grid mode (slide navigator) [Phase 3]
+- [x] Print mode [Phase 5]
+- [x] Remote presenter control (separate presenter window) [Phase 4]
+- [x] Monaco editor integration (code editing in slides) [Phase 6]
 
 ### Active
 
-- [ ] Astro-native format support (`.mdx` and `.astro` slide files)
-- [ ] Multi-framework component support in slides (React, Vue, Svelte, Solid via Astro integrations)
-- [ ] Presenter mode (dual window: audience view + speaker notes + timer)
-- [ ] Speaker notes in slides
-- [ ] Slide transitions and animations
-- [ ] Click-to-advance step animations
-- [ ] Code syntax highlighting (Shiki)
-- [ ] Themes system (installable via npm)
-- [ ] Layouts system (built-in and custom)
-- [ ] Export to PDF, PPTX, and PNG
-- [ ] LaTeX/math support (KaTeX)
-- [ ] Mermaid diagram support
-- [ ] Drawing and annotation tools overlay
-- [ ] Recording mode
-- [ ] Overview/grid mode (slide navigator)
-- [ ] Print mode
-- [ ] Remote presenter control (separate presenter window)
-- [ ] Monaco editor integration (code editing in slides)
+- [ ] Milestone v2.0: Polishing & Experience (Current Focus)
 
 ### Out of Scope
 
@@ -91,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after Phase 1 completion*
+*Last updated: 2026-05-22 after Milestone v1.0 completion*

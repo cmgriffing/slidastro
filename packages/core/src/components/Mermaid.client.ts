@@ -56,7 +56,7 @@ export async function initMermaid() {
         }
       }, 50)
 
-      // Handle v-click or other dynamic additions
+      // Handle s-click or other dynamic additions
       const contentObserver = new MutationObserver(async (mutations) => {
         for (const mutation of mutations) {
           for (const node of mutation.addedNodes) {

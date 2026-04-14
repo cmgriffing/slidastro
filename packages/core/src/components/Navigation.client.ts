@@ -1,5 +1,6 @@
 import { navigate } from 'astro:transitions/client';
 import { $page, $clicks, $clicksTotal, setPage, setClicks, setClicksTotal, initSync } from '@slidastro/client';
+import { checkVisibility, getMaxClick } from '../utils/clicks';
 
 let initialized = false;
 let currentClick = 0;
@@ -17,13 +18,13 @@ function getCurrentSlide() {
 }
 
 function applyClicks(broadcast = true) {
-  const clickElements = document.querySelectorAll('[data-click]');
+  const clickElements = document.querySelectorAll('.slidastro-click');
   clickElements.forEach(el => {
-    const idx = parseInt(el.getAttribute('data-click') || '0', 10);
-    if (idx > currentClick) {
-      el.classList.add('slidev-vclick-hidden');
+    const range = el.getAttribute('data-step-click') || '0';
+    if (checkVisibility(range, currentClick)) {
+      el.classList.remove('slidastro-click-hidden');
     } else {
-      el.classList.remove('slidev-vclick-hidden');
+      el.classList.add('slidastro-click-hidden');
     }
   });
 
@@ -65,11 +66,12 @@ function prev() {
 }
 
 function updateClicks() {
-  const clickElements = Array.from(document.querySelectorAll('[data-click]'));
+  const clickElements = Array.from(document.querySelectorAll('.slidastro-click'));
   totalClicks = 0;
   clickElements.forEach(el => {
-    const idx = parseInt(el.getAttribute('data-click') || '0', 10);
-    if (idx > totalClicks) totalClicks = idx;
+    const range = el.getAttribute('data-step-click') || '0';
+    const max = getMaxClick(range);
+    if (max > totalClicks) totalClicks = max;
   });
   setClicksTotal(totalClicks);
   

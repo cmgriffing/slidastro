@@ -84,10 +84,42 @@ export async function renderMarkdown(content: string) {
 export async function renderSlide(content: string): Promise<{ html: string, slots: Record<string, string> }> {
   const md = await getRenderer();
 
-  // v-click support
+  // step-click support
   let clickIndex = 0;
-  const processedContent = content.replace(/<v-click>/g, () => `<div class="slidev-vclick" data-click="${++clickIndex}">`)
-    .replace(/<\/v-click>/g, '</div>');
+  
+  // 1. Handle <step-click> tags
+  let processedContent = content.replace(/<step-click([^>]*?)>/g, (match, attrs) => {
+    const valueMatch = attrs.match(/step-click="([^"]+)"/);
+    if (valueMatch) {
+      const val = valueMatch[1];
+      const numericVal = parseInt(val, 10);
+      if (!isNaN(numericVal)) clickIndex = Math.max(clickIndex, numericVal);
+      return `<div class="slidastro-click" data-step-click="${val}">`;
+    }
+    return `<div class="slidastro-click" data-step-click="${++clickIndex}">`;
+  }).replace(/<\/step-click>/g, '</div>');
+
+  // 2. Handle step-click attributes on other tags
+  // This is a bit naive but works for most common cases in markdown
+  processedContent = processedContent.replace(/<([a-zA-Z0-9-]+)([^>]*?)\sstep-click(?:="([^"]+)")?([^>]*?)>/g, (match, tag, before, value, after) => {
+    let clickValue: string;
+    if (value) {
+      clickValue = value;
+      const numericVal = parseInt(value, 10);
+      if (!isNaN(numericVal)) clickIndex = Math.max(clickIndex, numericVal);
+    } else {
+      clickValue = (++clickIndex).toString();
+    }
+    // Check if it already has a class attribute
+    if (before.includes('class="') || after.includes('class="')) {
+      if (before.includes('class="')) {
+        return `<${tag}${before.replace('class="', 'class="slidastro-click ')}${after} data-step-click="${clickValue}">`;
+      } else {
+        return `<${tag}${before}${after.replace('class="', 'class="slidastro-click ')} data-step-click="${clickValue}">`;
+      }
+    }
+    return `<${tag}${before}${after} class="slidastro-click" data-step-click="${clickValue}">`;
+  });
 
   const slots: Record<string, string> = {};
   // Split by ::name:: at the beginning of a line

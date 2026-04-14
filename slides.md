@@ -1,72 +1,19 @@
 ---
-title: Slidastro Demo
-theme: default
+layout: default
+title: Slidastro Step Click Test
 ---
 
-# Slidastro
-Astro-powered slide presentations
+# Step Click Test
 
-<v-click>
-- **Phase 1**: Foundation (Done)
-</v-click>
-<v-click>
-- **Phase 2**: Visual Foundation (Done)
-</v-click>
-<v-click>
-- **Phase 3**: Client SPA & Interactivity (Next)
-</v-click>
+<step-click>Step 1: Using tag</step-click>
+<p step-click>Step 2: Using attribute</p>
+<div step-click="1-3">Visible during 1, 2, 3</div>
+<span step-click="4">Visible from 4 (Directly)</span>
+<div step-click>Step 5 (Auto-incremented)</div>
 
----
 ---
 layout: cover
 ---
 
-# Built-in Layouts
-This uses the `cover` layout.
-
----
----
-layout: two-cols
----
-
-# Two Columns
-This uses the `two-cols` layout.
-
-::right::
-
-### Right Slot
-Content on the right side.
-
----
-
-# Math & Code
-
-Math: $E = mc^2$
-
-```ts
-function hello() {
-  console.log("Hello Slidastro!");
-}
-```
-
----
-
-# Mermaid Diagram
-
-```mermaid
-graph TD
-    A[Start] --> B{Is it Slidastro?}
-    B -- Yes --> C[Awesome!]
-    B -- No --> D[Still Cool!]
-```
-
----
-
-# Monaco Editor
-
-```ts {monaco}
-import { atom } from 'nanostores'
-
-const $counter = atom(0)
-console.log($counter.get())
-```
+# Next Slide
+Testing navigation.
