@@ -1,0 +1,12 @@
+---
+import { handleBackground } from './layoutHelper';
+
+const { frontmatter } = Astro.props;
+const style = handleBackground(frontmatter.background, frontmatter.backgroundDim);
+---
+
+<div class="slidev-layout quote h-full flex flex-col justify-center" style={style}>
+  <div class="my-auto">
+    <slot />
+  </div>
+</div>
