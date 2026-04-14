@@ -1,4 +1,4 @@
-import { atom, map } from 'nanostores'
+import { atom, map, computed } from 'nanostores'
 
 export interface TimerState {
   status: 'stopped' | 'running' | 'paused'
@@ -11,6 +11,12 @@ export const $page = atom<number>(1)
 export const $clicks = atom<number>(0)
 export const $clicksTotal = atom<number>(0)
 export const $drawings = map<Record<number, string>>({})
+
+export const $nav = computed([$page, $clicks, $clicksTotal], (page, click, totalClicks) => ({
+  page,
+  click,
+  totalClicks,
+}))
 
 const defaultTimer: TimerState = {
   status: 'stopped',

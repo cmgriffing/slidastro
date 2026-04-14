@@ -1,9 +1,12 @@
 import { $page, $clicks, $timer, $drawings, setPage, setClicks, setTimer } from './state'
 
 const CHANNEL_NAME = 'slidastro'
+let isReceiving = false
+let initialized = false
 
 export function initSync() {
-  let isReceiving = false
+  if (typeof window === 'undefined' || initialized) return
+  initialized = true
 
   const syncStores = {
     page: [$page, setPage],
@@ -82,4 +85,15 @@ export function initSync() {
       }
     })
   }
+
+  // 3. Periodic resync for timer to prevent long-term drift
+  setInterval(() => {
+    const timer = $timer.get()
+    // Only resync if running and we have focus (to act as master)
+    // or if we are the presenter view (always master if open)
+    const isPresenter = window.location.pathname.includes('/presenter')
+    if (timer.status === 'running' && timer.lastStarted > 0 && !isReceiving && (document.hasFocus() || isPresenter)) {
+      $timer.set({ ...timer })
+    }
+  }, 5000)
 }
