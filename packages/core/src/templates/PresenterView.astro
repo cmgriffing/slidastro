@@ -99,13 +99,17 @@ const nextScale = 0.35;
     import slidesData from 'virtual:slidastro/slides';
     import { $nav } from '@slidastro/client';
     
+    let unsubscribe: () => void;
+
     function setup() {
       initPresenterNavigation(slidesData.slides.length);
       
       const clicksDisplay = document.getElementById('clicks-display');
 
+      if (unsubscribe) unsubscribe();
+
       // Update clicks display
-      $nav.subscribe((state) => {
+      unsubscribe = $nav.subscribe((state) => {
         if (clicksDisplay) {
           clicksDisplay.textContent = `${state.click} / ${state.totalClicks}`;
         }
