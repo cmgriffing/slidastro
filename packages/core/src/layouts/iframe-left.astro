@@ -1,0 +1,21 @@
+---
+const { frontmatter } = Astro.props;
+const scale = frontmatter.scale || 1;
+const scaleInvertPercent = `${(1 / scale) * 100}%`;
+const iframeStyle = scale !== 1 ? { transform: `scale(${scale})`, transformOrigin: 'top left' } : {};
+const containerStyle = { width: scaleInvertPercent, height: scaleInvertPercent };
+---
+
+<div class="grid grid-cols-2 w-full h-full">
+  <div class="relative" style={containerStyle}>
+    <iframe
+      id="frame"
+      class="w-full h-full"
+      src={frontmatter.url}
+      style={iframeStyle}
+    />
+  </div>
+  <div class:list={["slidev-layout default", frontmatter.class]}>
+    <slot />
+  </div>
+</div>
