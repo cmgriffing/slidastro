@@ -12,31 +12,51 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [x] **Phase 5: Export & Build** - Static build and PDF/PNG/PPTX export
 - [x] **Phase 6: Ecosystem & Advanced Features** - Diagrams, drawings, and native formats
 
-### Milestone v2.0: Polishing & Experience (Active)
+### Milestone v2.0: Polishing & Experience (Complete)
 - [x] **Phase 7: Rendering and Click Interaction Polish** - Framework-neutral naming and refined animations (completed 2026-04-13)
 - [x] **Phase 8: Layout Parity and Styling** - Missing Slidev layouts and UnoCSS refinements (completed 2026-04-14)
-- [ ] **Phase 9: Presenter Experience Parity** - Refined presenter UI and improved synchronization
+- [x] **Phase 9: Presenter Experience Parity** - Refined presenter UI and improved synchronization (completed 2026-04-14)
+
+### Milestone v3.0: Root View & Layout Refinement (Active)
+- [ ] **Phase 10: Analysis & Normal Mode Layout** - Refine slide centering and professional presentation stage
+- [ ] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller
+- [ ] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling
 
 ## Phase Details
 
-### Phase 1: Foundation
-... (unchanged)
-
-### Phase 9: Presenter Experience Parity
-**Goal**: Refine the presenter experience to match Slidev's rich feature set and helpful dev feedback.
-**Depends on**: Phase 8
-**Requirements**: PRES-06, PRES-07, PRES-08
+### Phase 10: Analysis & Normal Mode Layout
+**Goal**: Refine the visual presentation of slides in the "normal" audience view.
+**Depends on**: Phase 9
+**Requirements**: LAYOUT-01, LAYOUT-06
 **Success Criteria** (what must be TRUE):
-  1. The CLI output on dev server start displays all relevant URLs (Main, Presenter, Overview, Print).
-  2. The Presenter Mode UI includes speaker notes, a functional timer, and a "next slide" preview.
-  3. State synchronization between the presenter window and the audience window is robust and instantaneous.
-**Complexity**: Medium
-**Critical Risks**:
-  - **Pitfall #26**: Complexity of rendering a "next slide" preview without causing performance issues or recursion. (Mitigated: use SlidePreview.astro for static rendering).
-**Plans**:
-- [ ] 09-01-PLAN.md — CLI & URL Discovery
-- [ ] 09-02-PLAN.md — Presenter Console Layout
-- [ ] 09-03-PLAN.md — Synchronization Robustness
+  1. Slides are perfectly centered and scaled to the viewport with a professional "stage" background.
+  2. The `SlideContainer` handles aspect ratio correctly across different browser sizes without layout shifts.
+  3. All 15+ built-in layouts render correctly and use the full available space as expected.
+**Plans**: 2 plans
+- [ ] 10-01-PLAN.md — Scaling & Stage Foundation
+- [ ] 10-02-PLAN.md — Layout Verification & Full-Space Utilization
+**UI hint**: yes
+
+### Phase 11: UI Separation & Master Controller
+**Goal**: Remove presenter-focused clutter from the default audience view and implement a clean UI layer.
+**Depends on**: Phase 10
+**Requirements**: LAYOUT-02, LAYOUT-03, LAYOUT-05
+**Success Criteria** (what must be TRUE):
+  1. Navigating to a slide route (e.g., `/1`) shows only the slide content, with no visible toolbars by default.
+  2. A "Master UI" controller manages the state and visibility of different UI layers (Audience, Presenter, Dev).
+  3. Presenter-specific elements like `DrawingToolbar` and `ThemeToggle` are conditionally loaded/rendered.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 12: Keyboard Shortcuts & Interaction Polish
+**Goal**: Provide professional-level tool access via shortcuts and refined interactions.
+**Depends on**: Phase 11
+**Requirements**: LAYOUT-04
+**Success Criteria** (what must be TRUE):
+  1. Standard Slidev-compatible shortcuts (e.g., 'D' for drawing, 'T' for theme) toggle their respective UI elements.
+  2. UI transitions for appearing/disappearing toolbars are smooth and non-disruptive.
+  3. The "Master Overlay" can be summoned with a specific shortcut to show all available tools.
+**Plans**: TBD
 **UI hint**: yes
 
 ## Progress
@@ -50,5 +70,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 5. Export & Build | 1/1 | Complete | 2026-04-11 |
 | 6. Ecosystem & Advanced Features | 3/3 | Complete | 2026-04-11 |
 | 7. Rendering and Click Interaction Polish | 1/1 | Complete | 2026-04-13 |
-| 8. Layout Parity and Styling | 3/3 | Complete   | 2026-04-14 |
-| 9. Presenter Experience Parity | 0/3 | Active | - |
+| 8. Layout Parity and Styling | 3/3 | Complete | 2026-04-14 |
+| 9. Presenter Experience Parity | 3/3 | Complete | 2026-04-14 |
+| 10. Analysis & Normal Mode Layout | 0/2 | Active | - |
+| 11. UI Separation & Master Controller | 0/1 | Not started | - |
+| 12. Keyboard Shortcuts & Interaction Polish | 0/1 | Not started | - |
