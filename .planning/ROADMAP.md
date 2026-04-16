@@ -19,7 +19,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 
 ### Milestone v3.0: Root View & Layout Refinement (Active)
 - [x] **Phase 10: Analysis & Normal Mode Layout** - Refine slide centering and professional presentation stage (completed 2024-05-22)
-- [ ] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller
+- [x] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller (completed 2025-04-16)
 - [ ] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling
 
 ## Phase Details
@@ -46,7 +46,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   2. A "Master UI" controller manages the state and visibility of different UI layers (Audience, Presenter, Dev).
   3. Presenter-specific elements like `DrawingToolbar` and `ThemeToggle` are conditionally loaded/rendered.
 **Plans**: 1 plan
-- [ ] 11-01-PLAN.md — UI State & Master Controller implementation
+- [x] 11-01-PLAN.md — UI State & Master Controller implementation
 **UI hint**: yes
 
 ### Phase 12: Keyboard Shortcuts & Interaction Polish
@@ -57,7 +57,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   1. Standard Slidev-compatible shortcuts (e.g., 'D' for drawing, 'T' for theme) toggle their respective UI elements.
   2. UI transitions for appearing/disappearing toolbars are smooth and non-disruptive.
   3. The "Master Overlay" can be summoned with a specific shortcut to show all available tools.
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 12-01-PLAN.md — Shortcut Engine & Interaction Polish
 **UI hint**: yes
 
 ## Progress
@@ -74,5 +75,5 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 8. Layout Parity and Styling | 3/3 | Complete | 2026-04-14 |
 | 9. Presenter Experience Parity | 3/3 | Complete | 2026-04-14 |
 | 10. Analysis & Normal Mode Layout | 2/2 | Complete | 2024-05-22 |
-| 11. UI Separation & Master Controller | 0/1 | Active | - |
-| 12. Keyboard Shortcuts & Interaction Polish | 0/1 | Not started | - |
+| 11. UI Separation & Master Controller | 1/1 | Complete | 2025-04-16 |
+| 12. Keyboard Shortcuts & Interaction Polish | 0/1 | Active | - |
