@@ -7,6 +7,19 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 import DefaultLayout from '../layouts/default.astro';
 import CoverLayout from '../layouts/cover.astro';
 import TwoColsLayout from '../layouts/two-cols.astro';
+import CenterLayout from '../layouts/center.astro';
+import FactLayout from '../layouts/fact.astro';
+import QuoteLayout from '../layouts/quote.astro';
+import StatementLayout from '../layouts/statement.astro';
+import SectionLayout from '../layouts/section.astro';
+import EndLayout from '../layouts/end.astro';
+import ImageLayout from '../layouts/image.astro';
+import ImageLeftLayout from '../layouts/image-left.astro';
+import ImageRightLayout from '../layouts/image-right.astro';
+import IframeLayout from '../layouts/iframe.astro';
+import IframeLeftLayout from '../layouts/iframe-left.astro';
+import IframeRightLayout from '../layouts/iframe-right.astro';
+import '../styles/layouts-base.css';
 
 export async function getStaticPaths() {
   return Array.from({ length: slidesData.slides.length }, (_, i) => ({
@@ -34,6 +47,18 @@ const builtinLayouts: Record<string, any> = {
   default: DefaultLayout,
   cover: CoverLayout,
   'two-cols': TwoColsLayout,
+  center: CenterLayout,
+  fact: FactLayout,
+  quote: QuoteLayout,
+  statement: StatementLayout,
+  section: SectionLayout,
+  end: EndLayout,
+  image: ImageLayout,
+  'image-left': ImageLeftLayout,
+  'image-right': ImageRightLayout,
+  iframe: IframeLayout,
+  'iframe-left': IframeLeftLayout,
+  'iframe-right': IframeRightLayout,
 };
 
 const layoutName = slide.frontmatter.layout || 'default';
@@ -57,13 +82,24 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     body {
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    .stage {
+      background: radial-gradient(circle, #222 0%, #050505 100%);
+      flex: 1;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .content-wrapper {
-      padding: 40px;
-      font-size: 1.5rem;
-      line-height: 1.6;
       height: 100%;
       box-sizing: border-box;
     }
@@ -85,20 +121,22 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
   <ClientRouter />
 </head>
 <body>
-  <SlideContainer width={canvasWidth} height={canvasHeight}>
-    <div class="content-wrapper" id="slide-content" data-index={slideNo - 1} transition:name="slide-content" transition:animate="fade">
-      <Layout frontmatter={slide.frontmatter}>
-        {SlideContent ? <SlideContent /> : <div set:html={slide.contentHTML} />}
-        {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
-        {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
-        {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
-        {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
-      </Layout>
-    </div>
-    <div class="page-number">
-      {slideNo} / {slidesData.slides.length}
-    </div>
-  </SlideContainer>
+  <div class="stage">
+    <SlideContainer width={canvasWidth} height={canvasHeight}>
+      <div class="content-wrapper" id="slide-content" data-index={slideNo - 1} transition:name="slide-content" transition:animate="fade">
+        <Layout frontmatter={slide.frontmatter}>
+          {SlideContent ? <SlideContent /> : <div set:html={slide.contentHTML} />}
+          {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}
+          {slide.slots?.left && <div slot="left" set:html={slide.slots.left} />}
+          {slide.slots?.top && <div slot="top" set:html={slide.slots.top} />}
+          {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
+        </Layout>
+      </div>
+      <div class="page-number">
+        {slideNo} / {slidesData.slides.length}
+      </div>
+    </SlideContainer>
+  </div>
 
   <DrawingToolbar />
   <ThemeToggle />
