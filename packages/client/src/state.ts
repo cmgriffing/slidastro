@@ -7,10 +7,25 @@ export interface TimerState {
   lastStarted: number
 }
 
+export interface UIState {
+  layer: 'audience' | 'presenter' | 'dev'
+  showDrawing: boolean
+  showTheme: boolean
+  showNavigation: boolean
+  showHelp: boolean
+}
+
 export const $page = atom<number>(1)
 export const $clicks = atom<number>(0)
 export const $clicksTotal = atom<number>(0)
 export const $drawings = map<Record<number, string>>({})
+export const $ui = map<UIState>({
+  layer: 'audience',
+  showDrawing: false,
+  showTheme: false,
+  showNavigation: false,
+  showHelp: false,
+})
 
 export const $nav = computed([$page, $clicks, $clicksTotal], (page, click, totalClicks) => ({
   page,
@@ -23,6 +38,16 @@ const defaultTimer: TimerState = {
   elapsed: 0,
   slideElapsed: 0,
   lastStarted: 0,
+}
+
+// UI actions
+export function toggleUI(key: keyof Omit<UIState, 'layer'>) {
+  const current = $ui.get()
+  $ui.setKey(key, !current[key])
+}
+
+export function setLayer(layer: UIState['layer']) {
+  $ui.setKey('layer', layer)
 }
 
 // Load from localStorage if available
