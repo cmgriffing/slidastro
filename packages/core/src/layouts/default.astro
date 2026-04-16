@@ -1,7 +1,10 @@
 ---
+import { handleBackground } from './layoutHelper';
+
 const { frontmatter } = Astro.props;
+const style = handleBackground(frontmatter.background, frontmatter.backgroundDim);
 ---
 
-<div class="slide-layout default">
+<div class="slidev-layout default h-full" style={style}>
   <slot />
 </div>
