@@ -18,7 +18,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [x] **Phase 9: Presenter Experience Parity** - Refined presenter UI and improved synchronization (completed 2026-04-14)
 
 ### Milestone v3.0: Root View & Layout Refinement (Active)
-- [ ] **Phase 10: Analysis & Normal Mode Layout** - Refine slide centering and professional presentation stage
+- [x] **Phase 10: Analysis & Normal Mode Layout** - Refine slide centering and professional presentation stage (completed 2024-05-22)
 - [ ] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller
 - [ ] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling
 
@@ -33,8 +33,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   2. The `SlideContainer` handles aspect ratio correctly across different browser sizes without layout shifts.
   3. All 15+ built-in layouts render correctly and use the full available space as expected.
 **Plans**: 2 plans
-- [ ] 10-01-PLAN.md — Scaling & Stage Foundation
-- [ ] 10-02-PLAN.md — Layout Verification & Full-Space Utilization
+- [x] 10-01-PLAN.md — Scaling & Stage Foundation
+- [x] 10-02-PLAN.md — Layout Verification & Full-Space Utilization
 **UI hint**: yes
 
 ### Phase 11: UI Separation & Master Controller
@@ -45,7 +45,8 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   1. Navigating to a slide route (e.g., `/1`) shows only the slide content, with no visible toolbars by default.
   2. A "Master UI" controller manages the state and visibility of different UI layers (Audience, Presenter, Dev).
   3. Presenter-specific elements like `DrawingToolbar` and `ThemeToggle` are conditionally loaded/rendered.
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 11-01-PLAN.md — UI State & Master Controller implementation
 **UI hint**: yes
 
 ### Phase 12: Keyboard Shortcuts & Interaction Polish
@@ -72,6 +73,6 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 7. Rendering and Click Interaction Polish | 1/1 | Complete | 2026-04-13 |
 | 8. Layout Parity and Styling | 3/3 | Complete | 2026-04-14 |
 | 9. Presenter Experience Parity | 3/3 | Complete | 2026-04-14 |
-| 10. Analysis & Normal Mode Layout | 0/2 | Active | - |
-| 11. UI Separation & Master Controller | 0/1 | Not started | - |
+| 10. Analysis & Normal Mode Layout | 2/2 | Complete | 2024-05-22 |
+| 11. UI Separation & Master Controller | 0/1 | Active | - |
 | 12. Keyboard Shortcuts & Interaction Polish | 0/1 | Not started | - |
