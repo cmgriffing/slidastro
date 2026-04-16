@@ -5,7 +5,7 @@ import { checkVisibility, getMaxClick } from '../utils/clicks';
 let initialized = false;
 let currentClick = 0;
 let totalClicks = 0;
-let totalPages = 0;
+export let totalPages = 0;
 
 // Initialize sync bridge once
 if (typeof window !== 'undefined') {
@@ -33,7 +33,7 @@ function applyClicks(broadcast = true) {
   }
 }
 
-function goToSlide(no: number) {
+export function goToSlide(no: number) {
   if (no < 1 || no > totalPages) return;
   currentClick = 0;
   setPage(no);
@@ -41,7 +41,7 @@ function goToSlide(no: number) {
   navigate(`/${no}`);
 }
 
-function next() {
+export function next() {
   if (currentClick < totalClicks) {
     currentClick++;
     applyClicks();
@@ -53,7 +53,7 @@ function next() {
   }
 }
 
-function prev() {
+export function prev() {
   if (currentClick > 0) {
     currentClick--;
     applyClicks();
@@ -101,22 +101,6 @@ export function initNavigation(total: number) {
       if (clicks !== currentClick) {
         currentClick = clicks;
         applyClicks(false); // don't broadcast back
-      }
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if ((e.target as HTMLElement).closest('input, textarea, [contenteditable]')) return;
-
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
-        next();
-      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-        prev();
-      } else if (e.key === 'Home') {
-        goToSlide(1);
-      } else if (e.key === 'End') {
-        goToSlide(totalPages);
-      } else if (e.key === 'o' || e.key === 'O') {
-        navigate('/overview');
       }
     });
 

@@ -27,8 +27,14 @@ const { slideNo } = Astro.props;
   }
 
   .ui-layer {
-    pointer-events: auto;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .ui-layer :global(*) {
+    pointer-events: auto;
   }
 
   .ui-layer[data-show="false"] {
@@ -46,6 +52,8 @@ const { slideNo } = Astro.props;
 
 <script>
   import { $ui, toggleUI, setLayer } from '@slidastro/client';
+  import { next, prev, goToSlide, totalPages } from './Navigation.client';
+  import { navigate } from 'astro:transitions/client';
 
   // 1. Detect layer from URL
   const isPresenter = window.location.pathname.startsWith('/presenter');
@@ -67,21 +75,53 @@ const { slideNo } = Astro.props;
   // 3. Centralized keyboard shortcuts
   window.addEventListener('keydown', (e) => {
     // Ignore if typing in an input/textarea
-    if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+    if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName) || (e.target as HTMLElement).closest('[contenteditable]')) return;
 
-    switch (e.key.toLowerCase()) {
-      case 'd':
-        toggleUI('showDrawing');
-        break;
-      case 't':
-        toggleUI('showTheme');
-        break;
-      case 'n':
-        toggleUI('showNavigation');
-        break;
-      case 'h':
-        toggleUI('showHelp');
-        break;
+    const key = e.key.toLowerCase();
+
+    // Tools
+    if (key === 'd') {
+      toggleUI('showDrawing');
+      return;
+    }
+    if (key === 't') {
+      toggleUI('showTheme');
+      return;
+    }
+    if (key === 'n') {
+      toggleUI('showNavigation');
+      return;
+    }
+    if (key === 'h' || e.key === '?') {
+      toggleUI('showHelp');
+      return;
+    }
+    if (key === 'f') {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+      return;
+    }
+    if (key === 'o' || key === 'g') {
+      navigate('/overview');
+      return;
+    }
+
+    // Navigation
+    if (['arrowright', 'arrowdown', ' ', 'pagedown', 'enter'].includes(key)) {
+      e.preventDefault();
+      next();
+    } else if (['arrowleft', 'arrowup', 'backspace', 'pageup'].includes(key)) {
+      e.preventDefault();
+      prev();
+    } else if (key === 'home') {
+      e.preventDefault();
+      goToSlide(1);
+    } else if (key === 'end') {
+      e.preventDefault();
+      goToSlide(totalPages);
     }
   });
 </script>
