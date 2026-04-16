@@ -1,0 +1,162 @@
+---
+---
+<div class="master-dashboard">
+  <div class="dashboard-content">
+    <header>
+      <h2>Slidastro Dashboard</h2>
+      <button class="close-btn" onclick="document.dispatchEvent(new KeyboardEvent('keydown', {key: 'h'}))">&times;</button>
+    </header>
+
+    <div class="sections">
+      <section>
+        <h3>Navigation</h3>
+        <ul>
+          <li><span>Next</span> <kbd>Space</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> <kbd>PgDn</kbd></li>
+          <li><span>Prev</span> <kbd>Backspace</kbd> <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>PgUp</kbd></li>
+          <li><span>First</span> <kbd>Home</kbd></li>
+          <li><span>Last</span> <kbd>End</kbd></li>
+          <li><span>Overview</span> <kbd>O</kbd> <kbd>G</kbd></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Tools</h3>
+        <ul>
+          <li><span>Drawing</span> <kbd>D</kbd></li>
+          <li><span>Theme</span> <kbd>T</kbd></li>
+          <li><span>Navigation UI</span> <kbd>N</kbd></li>
+          <li><span>Help</span> <kbd>H</kbd> <kbd>?</kbd></li>
+          <li><span>Fullscreen</span> <kbd>F</kbd></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>About</h3>
+        <p>Slidastro: Cloudflare-Native Presentation Engine.</p>
+        <p class="links">
+          <a href="https://github.com/cmgriffing/slidastro" target="_blank">Documentation</a>
+        </p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<style>
+  .master-dashboard {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    pointer-events: none;
+  }
+
+  .dashboard-content {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    pointer-events: auto;
+  }
+
+  :global(.dark) .dashboard-content {
+    background: rgba(30, 30, 30, 0.85);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    color: currentColor;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .close-btn:hover {
+    opacity: 1;
+  }
+
+  .sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  section h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  kbd {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+  }
+
+  :global(.dark) kbd {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .about p {
+    font-size: 0.875rem;
+    opacity: 0.8;
+  }
+
+  .links {
+    margin-top: 1rem;
+  }
+
+  .links a {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+  }
+</style>
