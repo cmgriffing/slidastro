@@ -48,7 +48,7 @@
 
 <script>
   import { setDrauuMode, clearDrauu } from './Drauu.client';
-  import { startRecording, stopRecording } from '@slidastro/client';
+  import { startRecording, stopRecording, \$ui, toggleUI } from '@slidastro/client';
 
   const toolbar = document.getElementById('drawing-toolbar');
   const toggleBtn = document.getElementById('toggle-draw');
@@ -68,8 +68,13 @@
   clearBtn?.addEventListener('click', clearDrauu);
 
   toggleBtn?.addEventListener('click', () => {
-    const isActive = document.body.classList.toggle('drauu-active');
-    if (toggleBtn) toggleBtn.innerText = isActive ? '🖋️' : '🚫';
+    toggleUI('showDrawing');
+  });
+
+  \$ui.subscribe((state) => {
+    if (toggleBtn) {
+      toggleBtn.innerText = state.showDrawing ? '🖋️' : '🚫';
+    }
   });
 
   startRecordBtn?.addEventListener('click', startRecording);

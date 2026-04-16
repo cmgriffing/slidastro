@@ -1,5 +1,5 @@
 import { createDrauu } from 'drauu'
-import { $drawings } from '@slidastro/client'
+import { \$drawings, \$ui } from '@slidastro/client'
 
 let drauu: any
 let currentSlideIndex = -1
@@ -21,28 +21,30 @@ export function initDrauu(slideIndex: number) {
 
     drauu.on('end', () => {
       const svgContent = drauu.dump()
-      $drawings.setKey(currentSlideIndex, svgContent)
-      localStorage.setItem(`slidastro-drauu-${currentSlideIndex}`, svgContent)
+      \$drawings.setKey(currentSlideIndex, svgContent)
+      localStorage.setItem(`slidastro-drauu-\${currentSlideIndex}`, svgContent)
     })
 
     // Keyboard shortcuts for tools
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'd') {
-        toggleDrauu()
-      }
       if (drauu && document.body.classList.contains('drauu-active')) {
         if (e.key === 'e') drauu.mode = 'erase'
         if (e.key === 'p') drauu.mode = 'draw'
         if (e.key === 'c') {
           drauu.clear()
-          $drawings.setKey(currentSlideIndex, '')
-          localStorage.removeItem(`slidastro-drauu-${currentSlideIndex}`)
+          \$drawings.setKey(currentSlideIndex, '')
+          localStorage.removeItem(`slidastro-drauu-\${currentSlideIndex}`)
         }
       }
     })
 
+    // Subscribe to UI state to toggle Drauu active state
+    \$ui.subscribe((state) => {
+      setDrauuActive(state.showDrawing)
+    })
+
     // Listen for changes from Nano Store (sync)
-    $drawings.listen((value) => {
+    \$drawings.listen((value) => {
       if (value[currentSlideIndex] !== undefined && value[currentSlideIndex] !== drauu.dump()) {
         drauu.load(value[currentSlideIndex])
       }
@@ -52,8 +54,13 @@ export function initDrauu(slideIndex: number) {
   loadDrauu()
 }
 
-function toggleDrauu() {
-  const active = document.body.classList.toggle('drauu-active')
+function setDrauuActive(active: boolean) {
+  if (active) {
+    document.body.classList.add('drauu-active')
+  } else {
+    document.body.classList.remove('drauu-active')
+  }
+  
   if (drauu) {
     // @ts-ignore
     drauu.options.el.style.pointerEvents = active ? 'auto' : 'none'

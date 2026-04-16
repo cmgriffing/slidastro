@@ -1,0 +1,52 @@
+---
+import slidesData from 'virtual:slidastro/slides';
+
+const { slideNo } = Astro.props;
+const total = slidesData.slides.length;
+---
+
+<div class="navigation-overlay" data-show="false">
+  <div class="page-number">
+    {slideNo} / {total}
+  </div>
+</div>
+
+<style>
+  .navigation-overlay {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    pointer-events: none;
+    z-index: 50;
+    transition: opacity 0.3s ease;
+  }
+
+  .navigation-overlay[data-show="false"] {
+    opacity: 0;
+  }
+
+  .navigation-overlay[data-show="true"] {
+    opacity: 1;
+  }
+
+  .page-number {
+    font-size: 0.8rem;
+    color: #888;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+</style>
+
+<script>
+  import { $ui } from '@slidastro/client';
+
+  const overlay = document.querySelector('.navigation-overlay');
+  if (overlay) {
+    $ui.subscribe((state) => {
+      const shouldShow = state.layer === 'presenter' || state.layer === 'dev' || state.showNavigation;
+      overlay.setAttribute('data-show', shouldShow ? 'true' : 'false');
+    });
+  }
+</script>

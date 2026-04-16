@@ -42,13 +42,6 @@
     updateIcon(isDark);
   });
 
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 't' || e.key === 'T') {
-      const isDark = toggleTheme();
-      updateIcon(isDark);
-    }
-  });
-
   document.addEventListener('astro:after-swap', () => {
     updateIcon(document.documentElement.classList.contains('dark'));
   });

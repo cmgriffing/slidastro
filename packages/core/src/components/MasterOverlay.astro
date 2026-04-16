@@ -1,0 +1,87 @@
+---
+import DrawingToolbar from './DrawingToolbar.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import NavigationOverlay from './NavigationOverlay.astro';
+
+const { slideNo } = Astro.props;
+---
+
+<div id="master-overlay" class="master-overlay">
+  <div class="ui-layer" id="layer-drawing" data-show="false">
+    <DrawingToolbar />
+  </div>
+  
+  <div class="ui-layer" id="layer-theme" data-show="false">
+    <ThemeToggle />
+  </div>
+
+  <NavigationOverlay slideNo={slideNo} />
+</div>
+
+<style>
+  .master-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .ui-layer {
+    pointer-events: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .ui-layer[data-show="false"] {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95);
+  }
+
+  .ui-layer[data-show="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  import { $ui, toggleUI, setLayer } from '@slidastro/client';
+
+  // 1. Detect layer from URL
+  const isPresenter = window.location.pathname.startsWith('/presenter');
+  setLayer(isPresenter ? 'presenter' : 'audience');
+
+  // 2. Subscribe to UI state
+  const drawingLayer = document.getElementById('layer-drawing');
+  const themeLayer = document.getElementById('layer-theme');
+
+  $ui.subscribe((state) => {
+    if (drawingLayer) {
+      drawingLayer.setAttribute('data-show', state.showDrawing ? 'true' : 'false');
+    }
+    if (themeLayer) {
+      themeLayer.setAttribute('data-show', state.showTheme ? 'true' : 'false');
+    }
+  });
+
+  // 3. Centralized keyboard shortcuts
+  window.addEventListener('keydown', (e) => {
+    // Ignore if typing in an input/textarea
+    if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+
+    switch (e.key.toLowerCase()) {
+      case 'd':
+        toggleUI('showDrawing');
+        break;
+      case 't':
+        toggleUI('showTheme');
+        break;
+      case 'n':
+        toggleUI('showNavigation');
+        break;
+      case 'h':
+        toggleUI('showHelp');
+        break;
+    }
+  });
+</script>
