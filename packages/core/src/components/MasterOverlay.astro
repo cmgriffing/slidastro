@@ -35,20 +35,44 @@ const { slideNo } = Astro.props;
     position: fixed;
     inset: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .ui-layer :global(*) {
     pointer-events: auto;
   }
 
-  .ui-layer[data-show="false"] {
+  /* Drawing: Slide up from bottom */
+  #layer-drawing[data-show="false"] {
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.95);
+    transform: translateY(20px);
+  }
+  #layer-drawing[data-show="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
   }
 
-  .ui-layer[data-show="true"] {
+  /* Theme: Slide in from top-right */
+  #layer-theme[data-show="false"] {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(20px, -20px);
+  }
+  #layer-theme[data-show="true"] {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, 0);
+  }
+
+  /* Help: Scale in from center */
+  #layer-help[data-show="false"] {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+  }
+  #layer-help[data-show="true"] {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
