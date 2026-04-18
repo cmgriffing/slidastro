@@ -48,7 +48,7 @@
 
 <script>
   import { setDrauuMode, clearDrauu } from './Drauu.client';
-  import { startRecording, stopRecording, \$ui, toggleUI } from '@slidastro/client';
+  import { startRecording, stopRecording, $ui, toggleUI } from '@slidastro/client';
 
   const toolbar = document.getElementById('drawing-toolbar');
   const toggleBtn = document.getElementById('toggle-draw');
@@ -71,7 +71,7 @@
     toggleUI('showDrawing');
   });
 
-  \$ui.subscribe((state) => {
+  $ui.subscribe((state) => {
     if (toggleBtn) {
       toggleBtn.innerText = state.showDrawing ? '🖋️' : '🚫';
     }

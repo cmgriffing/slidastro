@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts && cp -r src/components src/layouts src/templates dist/",
+    "build": "tsdown src/index.ts && cp -r src/components src/layouts src/templates src/styles src/utils dist/",
     "dev": "tsdown src/index.ts --watch",
     "test": "vitest run"
   },
