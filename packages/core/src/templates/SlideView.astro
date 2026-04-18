@@ -2,8 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import slidesData from 'virtual:slidastro/slides';
 import SlideContainer from '../components/SlideContainer.astro';
-import DrawingToolbar from '../components/DrawingToolbar.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import MasterOverlay from '../components/MasterOverlay.astro';
 import DefaultLayout from '../layouts/default.astro';
 import CoverLayout from '../layouts/cover.astro';
 import TwoColsLayout from '../layouts/two-cols.astro';
@@ -103,13 +102,6 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       height: 100%;
       box-sizing: border-box;
     }
-    .page-number {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      font-size: 0.8rem;
-      color: #888;
-    }
     .slidastro-click {
       transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -132,14 +124,10 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
           {slide.slots?.bottom && <div slot="bottom" set:html={slide.slots.bottom} />}
         </Layout>
       </div>
-      <div class="page-number">
-        {slideNo} / {slidesData.slides.length}
-      </div>
     </SlideContainer>
   </div>
 
-  <DrawingToolbar />
-  <ThemeToggle />
+  <MasterOverlay slideNo={slideNo} />
 
   <script>
     import { initTheme } from '../components/Theme.client';

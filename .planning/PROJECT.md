@@ -33,10 +33,18 @@ Developers can author presentations with multi-framework component support, usin
 - [x] Print mode [Phase 5]
 - [x] Remote presenter control (separate presenter window) [Phase 4]
 - [x] Monaco editor integration (code editing in slides) [Phase 6]
+- [x] Rendering and click interaction polish [Phase 7]
+- [x] Layout parity and styling [Phase 8]
+- [x] Presenter experience parity [Phase 9]
+- [x] Analysis and Normal Mode layout refinement [Phase 10]
+- [x] Decoupled audience view and UI separation [Phase 11]
+- [x] Master UI Controller and state management [Phase 11]
+- [x] Standard Slidev keyboard shortcuts engine [Phase 12]
+- [x] Master Dashboard / Help Overlay [Phase 12]
 
 ### Active
 
-- [ ] Milestone v2.0: Polishing & Experience (Current Focus)
+- [ ] Future Milestones (Post-v3.0)
 
 ### Out of Scope
 
@@ -73,6 +81,7 @@ Developers can author presentations with multi-framework component support, usin
 | Port Slidev's parsing logic directly | Ensures 100% compatibility with existing .md files and edge cases. | [2026-04-10] |
 | Adopt Astro's programmatic dev API | Gives Slidastro full control over the presentation environment. | [2026-04-10] |
 | Use Vite virtual modules for data bridge | Bridging file-system markdown to browser JS environment efficiently. | [2026-04-10] |
+| Implement MasterOverlay as UI controller | Provides centralized shortcut engine and clean audience view. | [2026-04-16] |
 
 ## Evolution
 
@@ -92,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-22 after Milestone v1.0 completion*
+*Last updated: 2026-04-16 after Milestone v3.0 completion*

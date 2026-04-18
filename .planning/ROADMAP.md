@@ -17,10 +17,10 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [x] **Phase 8: Layout Parity and Styling** - Missing Slidev layouts and UnoCSS refinements (completed 2026-04-14)
 - [x] **Phase 9: Presenter Experience Parity** - Refined presenter UI and improved synchronization (completed 2026-04-14)
 
-### Milestone v3.0: Root View & Layout Refinement (Active)
+### Milestone v3.0: Root View & Layout Refinement (Complete)
 - [x] **Phase 10: Analysis & Normal Mode Layout** - Refine slide centering and professional presentation stage (completed 2024-05-22)
 - [x] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller (completed 2025-04-16)
-- [ ] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling
+- [x] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling (completed 2026-04-16)
 
 ## Phase Details
 
@@ -58,7 +58,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   2. UI transitions for appearing/disappearing toolbars are smooth and non-disruptive.
   3. The "Master Overlay" can be summoned with a specific shortcut to show all available tools.
 **Plans**: 1 plan
-- [ ] 12-01-PLAN.md — Shortcut Engine & Interaction Polish
+- [x] 12-01-PLAN.md — Shortcut Engine & Interaction Polish
 **UI hint**: yes
 
 ## Progress
@@ -76,4 +76,4 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 9. Presenter Experience Parity | 3/3 | Complete | 2026-04-14 |
 | 10. Analysis & Normal Mode Layout | 2/2 | Complete | 2024-05-22 |
 | 11. UI Separation & Master Controller | 1/1 | Complete | 2025-04-16 |
-| 12. Keyboard Shortcuts & Interaction Polish | 0/1 | Active | - |
+| 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete   | 2026-04-16 |

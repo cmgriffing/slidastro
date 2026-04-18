@@ -4,7 +4,7 @@ import { katex } from '@mdit/plugin-katex';
 
 let rendererPromise: Promise<MarkdownIt> | undefined;
 
-async function getRenderer() {
+async function getRenderer(): Promise<MarkdownIt> {
   if (rendererPromise) return rendererPromise;
 
   rendererPromise = (async () => {
@@ -76,7 +76,7 @@ async function getRenderer() {
   return rendererPromise;
 }
 
-export async function renderMarkdown(content: string) {
+export async function renderMarkdown(content: string): Promise<string> {
   const md = await getRenderer();
   return md.render(content);
 }

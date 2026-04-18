@@ -4,6 +4,7 @@ import path from 'node:path';
 import UnoCSS from '@unocss/astro';
 import mdx from '@astrojs/mdx';
 import { slidastroVitePlugin } from './virtual';
+import unoConfig from '../uno.config';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,6 +20,7 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
         updateConfig({
           integrations: [
             UnoCSS({
+              ...unoConfig,
               injectReset: true,
             }),
             mdx(),

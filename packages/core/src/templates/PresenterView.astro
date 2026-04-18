@@ -4,6 +4,7 @@ import PresenterLayout from '../components/PresenterLayout.astro';
 import SlidePreview from '../components/SlidePreview.astro';
 import PresenterTimer from '../components/PresenterTimer.astro';
 import PresenterClock from '../components/PresenterClock.astro';
+import MasterOverlay from '../components/MasterOverlay.astro';
 
 export async function getStaticPaths() {
   return Array.from({ length: slidesData.slides.length }, (_, i) => ({
@@ -92,6 +93,8 @@ const nextScale = 0.35;
       </aside>
     </main>
   </div>
+
+  <MasterOverlay slideNo={slideNo} />
 
   <script>
     import { initPresenterNavigation } from '../components/PresenterNavigation.client';
