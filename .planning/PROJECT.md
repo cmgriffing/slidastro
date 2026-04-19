@@ -83,6 +83,17 @@ Developers can author presentations with multi-framework component support, usin
 | Use Vite virtual modules for data bridge | Bridging file-system markdown to browser JS environment efficiently. | [2026-04-10] |
 | Implement MasterOverlay as UI controller | Provides centralized shortcut engine and clean audience view. | [2026-04-16] |
 
+## Current Milestone: v4.0 Full Feature Parity
+
+**Goal:** Bridge the remaining gap between Slidastro and Slidev by implementing advanced built-in components and interactive logic, using framework-neutral `s-` prefixes.
+
+**Target features:**
+- Advanced Click Logic: Support for `s-after`, `s-clicks`, `s-switch`, and `s-click-gap`
+- Interactive Components: Implementation of `s-drag` (draggable elements) and `s-mark` (highlighter)
+- Content Built-ins: `Toc` (Table of Contents), `Tweet`, `Youtube`, `Video`, and `Link` components
+- Visual Enhancements: `ShikiMagicMove` for code transitions and `AutoFitText`
+- Global Context: `$page` and `$total` variables available in Markdown and components
+
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
@@ -101,4 +112,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-16 after Milestone v3.0 completion*
+*Last updated: 2026-04-18 after Milestone v4.0 start*
