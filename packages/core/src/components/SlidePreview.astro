@@ -65,10 +65,10 @@ if (slidesData.layoutsMap[layoutName]) {
     box-sizing: border-box;
   }
   /* Same as SlideView.astro to ensure visual parity */
-  .slidastro-click {
+  :global(.slidastro-click) {
     transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .slidastro-click-hidden {
+  :global(.slidastro-click-hidden) {
     opacity: 0;
     visibility: hidden;
   }

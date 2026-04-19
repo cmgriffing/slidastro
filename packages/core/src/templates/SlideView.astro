@@ -102,10 +102,10 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       height: 100%;
       box-sizing: border-box;
     }
-    .slidastro-click {
+    :global(.slidastro-click) {
       transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .slidastro-click-hidden {
+    :global(.slidastro-click-hidden) {
       opacity: 0;
       visibility: hidden;
     }
