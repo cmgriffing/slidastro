@@ -1,65 +1,67 @@
-# Feature Landscape: Slidastro (v2.0)
+# Feature Landscape: Slidastro v4.0
 
-**Domain:** Astro-powered developer presentation ecosystem
-**Researched:** 2026-04-22
+**Domain:** Presentation Tool / Slide Engine
+**Researched:** 2026-04-18
+**Overall confidence:** HIGH (Directly derived from Slidev source code)
 
-## Table Stakes (Already Built)
+## Table Stakes
 
-Features users expect in any developer-focused slide tool. Missing these = product feels incomplete.
+Features users expect in a Slidev-compatible ecosystem. Missing these makes the product feel incomplete for power users.
 
-| Feature | Why Expected | Status | Complexity |
-|---------|--------------|--------|------------|
-| Markdown Splitter | Essential for slide authoring with `---` | Done | High |
-| Slidev Compatibility | Must render existing Slidev .md files | Done | High |
-| Shiki Highlighting | Standard for code-heavy presentations | Done | Low |
-| Mermaid Diagrams | Table-stakes for architectural slides | Done | Medium |
-| KaTeX Math | Necessary for academic/scientific slides | Done | Low |
-| Presenter Mode | Dual-window with notes and timer | Done | High |
-| PDF/PPTX Export | Essential for offline distribution | Done | High |
-| Recording Mode | Important for asynchronous sharing | Done | Medium |
+| Feature | Why Expected | Complexity | Behavior & Configuration |
+|---------|--------------|------------|--------------------------|
+| `s-clicks` | reveal list items/steps. | Medium | Wraps children. Props: `depth`, `every`, `at` (default `+1`), `hide`, `fade`. |
+| `s-after` | elements appearing after current click. | Low | Simple wrapper. Behavior: `at: +0`. |
+| `Toc` | structural navigation. | Medium | Props: `columns`, `maxDepth`, `minDepth`, `mode` (`all`, `onlyCurrentTree`, `onlySiblings`). |
+| `Youtube` | media embedding. | Low | Props: `id`, `width`, `height`. |
+| `Video` | HTML5 video. | Medium | Props: `autoplay` (bool \| `once`), `autoreset` (`slide` \| `click`), `controls`, `poster`. |
+| `Link` | internal navigation. | Low | Props: `to` (slide no), `title` (optional). |
+| `$page` / `$total` | slide status. | Low | Global variables available in Markdown expressions. |
 
 ## Differentiators
 
-Features that set Slidastro apart from Slidev and other slide tools.
+Advanced features that set Slidastro apart by providing high-fidelity parity with Slidev's most interactive capabilities.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Multi-Framework Islands | Use React, Svelte, Vue, Solid in one deck | High | Unique to Slidastro/Astro |
-| Shiki Magic Move | Keynote-quality code morphing animations | Medium-High | Now an ecosystem standard |
-| Cloudflare Native | Built-in edge hosting and D1/KV support | Medium | Superior performance and live features |
-| Server Islands (Live) | Real-time interactive components (polls) | High | Uses Astro's latest architecture |
-| AI-Native Authoring | Generate slides/notes with Cloudflare AI | High | Significant productivity boost |
+| Feature | Value Proposition | Complexity | Behavior & Configuration |
+|---------|-------------------|------------|--------------------------|
+| `ShikiMagicMove` | High-end code transitions. | High | Props: `at`, `stepsLz` (lz-compressed JSON), `stepRanges`, `lines`, `duration`. |
+| `s-mark` | Dynamic annotations. | Medium | Directive/Component. Modifiers: `box`, `circle`, `underline`, `highlight`, `strike`, etc. Props: `at`, `color`, `opacity`. |
+| `s-drag` | Draggable elements. | High | Props: `pos` (x,y coordinates), `markdownSource` (for persistence). Updates source via First-POST. |
+| `s-switch` | Complex content toggling. | Medium | Uses named slots matching click ranges (e.g., `<template #1>`, `<template #2-4>`). Props: `at`, `unmount`, `transition`. |
+| `AutoFitText` | Responsive text sizing. | Medium | Props: `max`, `min` (font sizes). Uses ResizeObserver to scale text to fit container. |
+| `s-click-gap` | timing/pacing control. | Low | Props: `size` (number of "empty" clicks to add). |
 
 ## Anti-Features
 
-Features to explicitly NOT build to maintain focus.
+Features to explicitly NOT build to maintain focus and performance.
 
 | Anti-Feature | Why Avoid | What to Do Instead |
 |--------------|-----------|-------------------|
-| Native Mobile Apps | Too much overhead, web-first is sufficient | Focus on PWA and mobile touch UX |
-| WYSIWYG Editor | Compromises the "Markdown-first" DX | Improve VS Code extension support |
-| Version Control | Git already does this perfectly | Integrate with Git-based workflows |
+| Native Video Editor | Too complex, out of scope for a slide tool. | Use `s-video` and handle editing externally. |
+| WYSIWYG Slide Builder | Violates the "Developer-First / Markdown-First" ethos. | Use `s-drag` for positioning and stick to Markdown for content. |
+| Per-element animation timelines | Too much complexity (PowerPoint-style). | Rely on the discrete click-based state model. |
 
 ## Feature Dependencies
 
 ```
-Astro Core → Multi-Framework Islands
-Cloudflare D1 → Live Audience Interaction
-Shiki → Shiki Magic Move
-Workers AI → AI-Native Authoring
+Click State Management (existing) → s-clicks, s-after, s-switch, s-click-gap, s-mark, ShikiMagicMove
+Global Slide Metadata (existing) → Toc, $page, $total, Link
+Shiki Integration (existing) → ShikiMagicMove
+Astro Island Architecture (existing) → Multi-framework support for all components
 ```
 
-## MVP Recommendation (v2.0)
+## MVP Recommendation (v4.0 Focus)
 
 Prioritize:
-1. **Shiki Magic Move Integration**: The most requested visual feature for developer slides.
-2. **Astro Server Islands for Live Polls**: Demonstrates the power of Astro's live-refresh architecture.
-3. **AI Slide Generation**: Leverages the current AI trend to increase authoring speed.
+1. **Advanced Click Logic (`s-clicks`, `s-after`, `s-switch`)**: These are fundamental to the "Slidev feel" and have the highest utility for content creators.
+2. **Standard Content (`Toc`, `Link`, `$page`, `$total`)**: Low effort, high value for presentation structure.
+3. **`ShikiMagicMove`**: This is a major "wow" factor for technical presentations and demonstrates the power of the stack.
 
-Defer: **Custom Addon System** (already complex enough with the current theme system).
+Defer:
+- **`s-drag`**: High complexity due to state persistence. While powerful, it's often used for "fine-tuning" which can be done via CSS/props initially.
 
 ## Sources
 
-- [Slidev Features List](https://sli.dev/)
-- [Shiki Magic Move Documentation](https://shiki-magic-move.netlify.app/)
-- [Astro Server Islands Guide](https://docs.astro.build/en/guides/server-islands/)
+- `_slidev/packages/client/builtin/`: Primary reference for component implementation.
+- `_slidev/packages/client/modules/`: Reference for `v-click` and `v-mark` directive logic.
+- `_slidev/packages/client/context.ts`: Reference for `$page` and `$total` context.
