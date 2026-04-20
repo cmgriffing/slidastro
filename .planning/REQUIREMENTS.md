@@ -35,4 +35,19 @@ Bridge the remaining gap between Slidastro and Slidev by implementing advanced b
 - [ ] Native mobile applications.
 
 ## Traceability
-*To be filled by the roadmapper.*
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| CLICK-01 | Phase 13 | Pending |
+| CLICK-02 | Phase 13 | Pending |
+| CLICK-03 | Phase 13 | Pending |
+| CLICK-04 | Phase 13 | Pending |
+| CLICK-05 | Phase 13 | Pending |
+| INT-01 | Phase 15 | Pending |
+| INT-02 | Phase 17 | Pending |
+| CONT-01 | Phase 14 | Pending |
+| CONT-02 | Phase 14 | Pending |
+| CONT-03 | Phase 14 | Pending |
+| CONT-04 | Phase 14 | Pending |
+| VIS-01 | Phase 16 | Pending |
+| VIS-02 | Phase 15 | Pending |

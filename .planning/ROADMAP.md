@@ -22,6 +22,13 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [x] **Phase 11: UI Separation & Master Controller** - Decouple presenter-focused UI from root view with a master controller (completed 2025-04-16)
 - [x] **Phase 12: Keyboard Shortcuts & Interaction Polish** - Refine accessibility and tool toggling (completed 2026-04-16)
 
+### Milestone v4.0: Full Feature Parity
+- [ ] **Phase 13: Core Click Logic & State** - Cross-island click synchronization and advanced reveal logic
+- [ ] **Phase 14: Content Built-in Components** - Essential structural and media components (Toc, Tweet, Youtube, Video, Link)
+- [ ] **Phase 15: Visual Polish & Annotations** - Auto-fitting text and hand-drawn annotations (s-mark)
+- [ ] **Phase 16: Advanced Code Transitions** - Smooth code morphing with ShikiMagicMove
+- [ ] **Phase 17: Interactive Persistence** - Draggable elements with dev-mode persistence back to source
+
 ## Phase Details
 
 ### Phase 10: Analysis & Normal Mode Layout
@@ -61,6 +68,59 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [x] 12-01-PLAN.md — Shortcut Engine & Interaction Polish
 **UI hint**: yes
 
+### Phase 13: Core Click Logic & State
+**Goal**: Establish a unified, cross-framework click state and advanced reveal logic.
+**Depends on**: Phase 12
+**Requirements**: CLICK-01, CLICK-02, CLICK-03, CLICK-04, CLICK-05
+**Success Criteria** (what must be TRUE):
+  1. User can use `s-after` to show content immediately following a previous click without an additional user action.
+  2. User can wrap multiple elements in `<s-clicks>` to reveal them one-by-one sequentially.
+  3. User can use `<s-switch>` to display different content blocks specifically for designated click ranges.
+  4. Global variables `$page` and `$total` are accurately available for use in Markdown and component templates.
+  5. Multiple independent Astro islands (React, Vue, Svelte) correctly synchronize their local state to the global Master Click Controller (NanoStore).
+**Plans**: TBD
+
+### Phase 14: Content Built-in Components
+**Goal**: Implement essential structural and media components for presentation utility.
+**Depends on**: Phase 13
+**Requirements**: CONT-01, CONT-02, CONT-03, CONT-04
+**Success Criteria** (what must be TRUE):
+  1. User can add `<Toc />` to a slide to automatically generate a functional Table of Contents from slide headers.
+  2. User can embed social posts using `<Tweet id="..." />` with appropriate placeholder shells.
+  3. User can include `<Youtube id="..." />` and `<Video src="..." />` with functional synchronized autoplay and reset logic.
+  4. User can use `<Link to="..." />` to create stylized internal navigation and external links.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 15: Visual Polish & Annotations
+**Goal**: Add "wow factor" through dynamic text scaling and hand-drawn style annotations.
+**Depends on**: Phase 13
+**Requirements**: VIS-02, INT-01
+**Success Criteria** (what must be TRUE):
+  1. Text wrapped in `<AutoFitText>` automatically scales to optimally fill its container without overflow.
+  2. User can highlight text or elements with dynamic, hand-drawn styles using `<s-mark>` (powered by rough-notation).
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 16: Advanced Code Transitions
+**Goal**: Enable smooth, morphing transitions between code states for better technical storytelling.
+**Depends on**: Phase 13
+**Requirements**: VIS-01
+**Success Criteria** (what must be TRUE):
+  1. User can use `<ShikiMagicMove>` to animate code transitions between different snippets or states smoothly.
+  2. Transitions between code states remain performant even with larger snippets through optimized tokenization.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 17: Interactive Persistence
+**Goal**: Implement draggable elements that persist their position back to the source Markdown.
+**Depends on**: Phase 13
+**Requirements**: INT-02
+**Success Criteria** (what must be TRUE):
+  1. User can mark elements as draggable using `<s-drag>`.
+  2. In dev mode, moving a draggable element triggers a persistent update back to the presentation's `.md` file.
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -76,4 +136,9 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 9. Presenter Experience Parity | 3/3 | Complete | 2026-04-14 |
 | 10. Analysis & Normal Mode Layout | 2/2 | Complete | 2024-05-22 |
 | 11. UI Separation & Master Controller | 1/1 | Complete | 2025-04-16 |
-| 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete   | 2026-04-16 |
+| 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete | 2026-04-16 |
+| 13. Core Click Logic & State | 0/0 | Not started | - |
+| 14. Content Built-in Components | 0/0 | Not started | - |
+| 15. Visual Polish & Annotations | 0/0 | Not started | - |
+| 16. Advanced Code Transitions | 0/0 | Not started | - |
+| 17. Interactive Persistence | 0/0 | Not started | - |
