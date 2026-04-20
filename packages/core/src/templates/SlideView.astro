@@ -76,6 +76,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
   <meta charset="UTF-8">
   <title>{slidesData.config.title} - Slide {slideNo}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shiki-magic-move@1.3.0/dist/style.css">
   {slidesData.config.themeCSS && <link rel="stylesheet" href={`/@fs${slidesData.config.themeCSS}`}>}
   <style>
     body {
@@ -138,6 +139,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     import { initDrauu } from '../components/Drauu.client';
     import { initAutoFitText } from '../components/SAutoFitText.client';
     import { initSMark } from '../components/SMark.client';
+    import { initMagicMove } from '../components/SMagicMove.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
     
@@ -152,6 +154,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     initDrauu(slideNo - 1);
     initAutoFitText();
     initSMark();
+    initMagicMove();
 
     document.addEventListener('astro:after-swap', () => {
       const newSlideNo = parseInt(window.location.pathname.split('/').pop() || '1', 10);
@@ -163,6 +166,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       initDrauu(newSlideNo - 1);
       initAutoFitText();
       initSMark();
+      initMagicMove();
     });
 
     if (import.meta.hot) {
