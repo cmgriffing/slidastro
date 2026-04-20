@@ -1,0 +1,32 @@
+---
+interface Props {
+  type?: 'underline' | 'box' | 'circle' | 'highlight' | 'strike-through' | 'crossed-off' | 'bracket';
+  color?: string;
+  strokeWidth?: number | string;
+  duration?: number | string;
+  at?: number | string;
+  click?: number | string;
+}
+
+const { 
+  type = 'highlight', 
+  color, 
+  strokeWidth, 
+  duration, 
+  at, 
+  click 
+} = Astro.props;
+
+const targetClick = at || click;
+---
+
+<span 
+  class:list={["slidastro-mark", targetClick !== undefined && "slidastro-click"]} 
+  data-type={type} 
+  data-color={color} 
+  data-stroke-width={strokeWidth} 
+  data-duration={duration} 
+  data-at={targetClick}
+>
+  <slot />
+</span>
