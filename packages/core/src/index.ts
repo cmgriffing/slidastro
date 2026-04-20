@@ -5,6 +5,7 @@ import UnoCSS from '@unocss/astro';
 import mdx from '@astrojs/mdx';
 import { slidastroVitePlugin } from './virtual';
 import unoConfig from '../uno.config';
+import { rehypeClicks } from './plugins/rehype-clicks';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,7 +24,9 @@ export function slidastroIntegration(options: SlidastroOptions): AstroIntegratio
               ...unoConfig,
               injectReset: true,
             }),
-            mdx(),
+            mdx({
+              rehypePlugins: [rehypeClicks],
+            }),
           ],
           vite: {
             plugins: [slidastroVitePlugin(options.entry)],
