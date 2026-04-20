@@ -1,0 +1,14 @@
+---
+interface Props {
+  max?: number | string;
+  min?: number | string;
+}
+
+const { max = 100, min = 30 } = Astro.props;
+---
+
+<div class="slidastro-autofit" data-max={max} data-min={min}>
+  <div class="slidastro-autofit-content">
+    <slot />
+  </div>
+</div>

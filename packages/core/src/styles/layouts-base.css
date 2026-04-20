@@ -78,6 +78,12 @@
 
   a {
     @apply border-current border-b border-dashed hover:text-primary hover:border-solid;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .slidastro-link {
+    @apply cursor-pointer;
   }
 
   td,
@@ -93,6 +99,17 @@
     @apply border border-main border-b-2 rounded;
     @apply bg-gray-400 bg-opacity-5 py-0.5 px-1 text-xs font-mono;
   }
+}
+
+.slidastro-autofit {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slidastro-autofit-content {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .slidev-layout,
