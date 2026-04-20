@@ -25,7 +25,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 ### Milestone v4.0: Full Feature Parity
 - [x] **Phase 13: Core Click Logic & State** - Cross-island click synchronization and advanced reveal logic (completed 2025-04-16)
 - [ ] **Phase 14: Content Built-in Components** - Essential structural and media components (Toc, Tweet, Youtube, Video, Link)
-- [ ] **Phase 15: Visual Polish & Annotations** - Auto-fitting text and hand-drawn annotations (s-mark)
+- [x] **Phase 15: Visual Polish & Annotations** - Auto-fitting text and hand-drawn annotations (s-mark) (completed 2026-04-18)
 - [ ] **Phase 16: Advanced Code Transitions** - Smooth code morphing with ShikiMagicMove
 - [ ] **Phase 17: Interactive Persistence** - Draggable elements with dev-mode persistence back to source
 
@@ -61,7 +61,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 - [ ] 14-03-PLAN.md — Media Sync & Verification
 **UI hint**: yes
 
-### Phase 15: Visual Polish & Annotations
+### Phase 15: Visual Polish & Annotations (Complete)
 **Goal**: Add "wow factor" through dynamic text scaling and hand-drawn style annotations.
 **Depends on**: Phase 13
 **Requirements**: VIS-02, INT-01
@@ -69,9 +69,9 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   1. Text wrapped in `<AutoFitText>` automatically scales to optimally fill its container without overflow.
   2. User can highlight text or elements with dynamic, hand-drawn styles using `<s-mark>` (powered by rough-notation).
 **Plans**: 3 plans
-- [ ] 15-01-PLAN.md — AutoFitText Implementation
+- [x] 15-01-PLAN.md — AutoFitText Implementation
 - [x] 15-02-PLAN.md — S-Mark Annotation Implementation
-- [ ] 15-03-PLAN.md — Integration & Multi-Format Verification
+- [x] 15-03-PLAN.md — Integration & Multi-Format Verification
 **UI hint**: yes
 
 ### Phase 16: Advanced Code Transitions
@@ -111,6 +111,6 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete | 2026-04-16 |
 | 13. Core Click Logic & State | 3/3 | Complete | 2025-04-16 |
 | 14. Content Built-in Components | 1/3 | In Progress|  |
-| 15. Visual Polish & Annotations | 1/3 | In Progress|  |
-| 16. Advanced Code Transitions | 0/0 | Not started | - |
-| 17. Interactive Persistence | 0/0 | Not started | - |
+| 15. Visual Polish & Annotations | 3/3 | Complete | 2026-04-18 |
+| 16. Advanced Code Transitions | 1/3 | In Progress|  |
+| 17. Interactive Persistence | 1/3 | In Progress|  |
