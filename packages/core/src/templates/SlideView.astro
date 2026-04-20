@@ -141,6 +141,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     import { initAutoFitText } from '../components/SAutoFitText.client';
     import { initSMark } from '../components/SMark.client';
     import { initMagicMove } from '../components/SMagicMove.client';
+    import { initSDrag } from '../components/SDrag.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
     
@@ -156,6 +157,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     initAutoFitText();
     initSMark();
     initMagicMove();
+    initSDrag();
 
     document.addEventListener('astro:after-swap', () => {
       const newSlideNo = parseInt(window.location.pathname.split('/').pop() || '1', 10);
@@ -168,6 +170,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       initAutoFitText();
       initSMark();
       initMagicMove();
+      initSDrag();
     });
 
     if (import.meta.hot) {
