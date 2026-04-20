@@ -56,7 +56,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   3. User can include `<s-youtube id="..." />` and `<s-video src="..." />` with functional synchronized autoplay and reset logic.
   4. User can use `<s-link href="..." />` to create stylized internal navigation and external links.
 **Plans**: 3 plans
-- [ ] 14-01-PLAN.md — Foundation & Navigation
+- [x] 14-01-PLAN.md — Foundation & Navigation
 - [ ] 14-02-PLAN.md — Embeds & Media
 - [ ] 14-03-PLAN.md — Media Sync & Verification
 **UI hint**: yes
@@ -70,7 +70,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   2. User can highlight text or elements with dynamic, hand-drawn styles using `<s-mark>` (powered by rough-notation).
 **Plans**: 3 plans
 - [ ] 15-01-PLAN.md — AutoFitText Implementation
-- [ ] 15-02-PLAN.md — S-Mark Annotation Implementation
+- [x] 15-02-PLAN.md — S-Mark Annotation Implementation
 - [ ] 15-03-PLAN.md — Integration & Multi-Format Verification
 **UI hint**: yes
 
@@ -110,7 +110,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 11. UI Separation & Master Controller | 1/1 | Complete | 2025-04-16 |
 | 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete | 2026-04-16 |
 | 13. Core Click Logic & State | 3/3 | Complete | 2025-04-16 |
-| 14. Content Built-in Components | 0/3 | Not started | - |
-| 15. Visual Polish & Annotations | 0/3 | Not started | - |
+| 14. Content Built-in Components | 1/3 | In Progress|  |
+| 15. Visual Polish & Annotations | 1/3 | In Progress|  |
 | 16. Advanced Code Transitions | 0/0 | Not started | - |
 | 17. Interactive Persistence | 0/0 | Not started | - |

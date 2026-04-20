@@ -13,7 +13,7 @@ Bridge the remaining gap between Slidastro and Slidev by implementing advanced b
 - [ ] **CLICK-05**: Implement a centralized "Master Click Controller" (NanoStore) to synchronize independent Astro islands.
 
 ### Interactive Components
-- [ ] **INT-01**: Implement `s-mark` component/directive for hand-drawn style annotations using `rough-notation`.
+- [x] **INT-01**: Implement `s-mark` component/directive for hand-drawn style annotations using `rough-notation`.
 - [ ] **INT-02**: Implement `s-drag` component for draggable elements with dev-mode persistence (WebSocket bridge to .md).
 
 ### Content Built-ins
@@ -43,7 +43,7 @@ Bridge the remaining gap between Slidastro and Slidev by implementing advanced b
 | CLICK-03 | Phase 13 | Pending |
 | CLICK-04 | Phase 13 | Pending |
 | CLICK-05 | Phase 13 | Pending |
-| INT-01 | Phase 15 | Pending |
+| INT-01 | Phase 15 | Complete |
 | INT-02 | Phase 17 | Pending |
 | CONT-01 | Phase 14 | Pending |
 | CONT-02 | Phase 14 | Pending |

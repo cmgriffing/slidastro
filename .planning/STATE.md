@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: Full Feature Parity
-status: Planned
-last_updated: "2026-04-18T10:15:00.000Z"
+status: In Progress
+last_updated: "2026-04-18T11:00:00.000Z"
 progress:
   total_phases: 5
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 1
+  percent: 16
 ---
 
 # Project State: Slidastro
@@ -21,16 +21,16 @@ progress:
 
 ## Current Position
 
-**Phase**: Phase 13: Core Click Logic & State
-**Plan**: —
-**Status**: Not started
-**Last activity**: 2026-04-18 — Roadmap for Milestone v4.0 created.
+**Phase**: Phase 15: Visual Polish & Annotations
+**Plan**: 15-02-PLAN.md
+**Status**: In Progress
+**Last activity**: 2026-04-18 — Phase 15-02 completed: S-Mark implementation for hand-drawn annotations.
 
 ## Performance Metrics
 
 - **Total Requirements**: 55
-- **Completed Requirements**: 42
-- **Active Requirements**: 13
+- **Completed Requirements**: 53
+- **Active Requirements**: 2
 - **Milestones Reached**: 3 / 4
 
 ## Accumulated Context
@@ -45,6 +45,12 @@ progress:
 - [D-12-02] Use `MasterDashboard.astro` as the help/master overlay requested by Success Criteria 3.
 - [Phase 12-keyboard-shortcuts-interaction-polish]: Consolidated all keyboard shortcuts into MasterOverlay for better maintainability and to avoid clashing listeners
 - [Phase 12-keyboard-shortcuts-interaction-polish]: Used CSS IDs for unique tool transitions while keeping common UI layer properties
+- [D-13-01] Use `s-` prefix for all Slidastro specific directives and components to maintain brand identity and avoid collisions.
+- [D-13-02] Pre-render container inner content as Markdown in `renderer.ts` to support Markdown lists inside `<s-clicks>`.
+- [D-14-01] Use universal tag transformation in `renderer.ts` to support built-in components in standard Markdown slides without needing full compilation.
+- [D-14-02] Extract slide titles in `virtual.ts` for all slide formats to enable accurate TOC generation.
+- [Phase 15]: Use rough-notation for hand-drawn annotation effects.
+- [Phase 15]: Integrate SMark with $clicks store for sequential reveals.
 
 ### Todos
 
@@ -55,10 +61,11 @@ progress:
 - [x] Map Slidev keyboard shortcuts for UI toggling (Phase 12 planning)
 - [x] Implement consolidated shortcut engine (Phase 12)
 - [x] Create Master Dashboard / Help Overlay (Phase 12)
-- [ ] Implement `s-after`, `s-clicks`, `s-switch` logic (Phase 13)
-- [ ] Create Master Click Controller with NanoStore (Phase 13)
-- [ ] Implement `Toc`, `Tweet`, `Youtube`, `Video`, `Link` components (Phase 14)
-- [ ] Implement `AutoFitText` and `s-mark` (Phase 15)
+- [x] Implement `s-after`, `s-clicks`, `s-switch` logic (Phase 13)
+- [x] Create Master Click Controller with NanoStore (Phase 13)
+- [x] Implement `Toc`, `Tweet`, `Youtube`, `Video`, `Link` components (Phase 14)
+- [ ] Implement `AutoFitText` (Phase 15-01)
+- [x] Implement `s-mark` (Phase 15-02)
 - [ ] Implement `ShikiMagicMove` (Phase 16)
 - [ ] Implement `s-drag` with dev-mode persistence (Phase 17)
 
@@ -70,4 +77,4 @@ progress:
 
 **Next Steps**:
 
-1. Start planning Phase 13.
+1. Execute Phase 15 Plan 01 or 03.
