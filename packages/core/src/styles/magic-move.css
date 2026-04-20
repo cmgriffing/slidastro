@@ -1,0 +1,29 @@
+.shiki-magic-move-container {
+  font-family: var(--slidastro-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  line-height: 1.5;
+  font-size: 0.85em;
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  border-radius: 4px;
+}
+
+.shiki-magic-move-item {
+  transition: all 0.8s var(--slidastro-ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+/* Theme integration */
+:root {
+  --slidastro-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .shiki-magic-move-container {
+  color: #d4d4d4;
+}
+
+.light .shiki-magic-move-container {
+  color: #393a34;
+}

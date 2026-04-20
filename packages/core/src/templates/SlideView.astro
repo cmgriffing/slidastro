@@ -19,6 +19,7 @@ import IframeLayout from '../layouts/iframe.astro';
 import IframeLeftLayout from '../layouts/iframe-left.astro';
 import IframeRightLayout from '../layouts/iframe-right.astro';
 import '../styles/layouts-base.css';
+import '../styles/magic-move.css';
 
 export async function getStaticPaths() {
   return Array.from({ length: slidesData.slides.length }, (_, i) => ({
