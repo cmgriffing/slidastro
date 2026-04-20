@@ -1,5 +1,8 @@
 import MarkdownIt from 'markdown-it';
 import Shiki from '@shikijs/markdown-it';
+import { createHighlighter } from 'shiki';
+import { codeToKeyedTokens, syncTokenKeys } from 'shiki-magic-move/core';
+import LZString from 'lz-string';
 import { katex } from '@mdit/plugin-katex';
 import { ClickIndexer } from './utils/indexing';
 
@@ -9,6 +12,11 @@ async function getRenderer(): Promise<MarkdownIt> {
   if (rendererPromise) return rendererPromise;
 
   rendererPromise = (async () => {
+    const highlighter = await createHighlighter({
+      themes: ['vitesse-light', 'vitesse-dark'],
+      langs: ['typescript', 'javascript', 'html', 'css', 'vue', 'markdown', 'json', 'bash', 'ts', 'js']
+    });
+
     const md = new MarkdownIt({
       html: true,
       linkify: true,
@@ -48,6 +56,44 @@ async function getRenderer(): Promise<MarkdownIt> {
         return true;
       });
 
+      md.block.ruler.before('fence', 'magic_move', (state, startLine, endLine, silent) => {
+        const pos = state.bMarks[startLine] + state.tShift[startLine];
+        const max = state.eMarks[startLine];
+
+        if (pos + 4 > max) return false;
+        const marker = state.src.slice(pos, pos + 4);
+        if (marker !== '````') return false;
+
+        const info = state.src.slice(pos + 4, max).trim();
+        if (!info.startsWith('md magic-move') && !info.startsWith('magic-move')) return false;
+
+        if (silent) return true;
+
+        // Find end of block
+        let nextLine = startLine;
+        let found = false;
+        while (nextLine < endLine) {
+          nextLine++;
+          const nextPos = state.bMarks[nextLine] + state.tShift[nextLine];
+          const nextMax = state.eMarks[nextLine];
+          if (state.src.slice(nextPos, nextMax).trim() === '````') {
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) return false;
+
+        const token = state.push('magic_move_block', 'div', 0);
+        token.info = info;
+        token.content = state.getLines(startLine + 1, nextLine, state.tShift[startLine], true);
+        token.markup = '````';
+        token.map = [startLine, nextLine + 1];
+
+        state.line = nextLine + 1;
+        return true;
+      });
+
       md.renderer.rules.mermaid_block = (tokens, idx) => {
         const token = tokens[idx];
         return `<div class="mermaid">${token.content}</div>`;
@@ -59,6 +105,65 @@ async function getRenderer(): Promise<MarkdownIt> {
         const lang = info.replace(/\{monaco\}|monaco/g, '').trim() || 'typescript';
         const content = token.content.replace(/"/g, '&quot;');
         return `<div class="monaco-container" data-lang="${lang}" data-content="${content}"></div>`;
+      };
+
+      md.renderer.rules.magic_move_block = (tokens, idx, options, env) => {
+        const token = tokens[idx];
+        const info = token.info.trim();
+        console.log(`[MagicMove] Rule info: "${info}"`);
+        
+        // Extract options
+        const optionsMatch = info.match(/\{.*\}/);
+        let optionsStr = optionsMatch ? optionsMatch[0] : '{}';
+        console.log(`[MagicMove] Extracted options: "${optionsStr}"`);
+        
+        // Transform unquoted keys to quoted keys for valid JSON
+        if (optionsStr !== '{}') {
+          optionsStr = optionsStr.replace(/([{,]\s*)(\w+):/g, '$1"$2":');
+        }
+        console.log(`[MagicMove] Transformed options: "${optionsStr}"`);
+        
+        // Extract steps
+        const stepRegex = /```(\w+).*\n([\s\S]*?)\n```/g;
+        const steps: { lang: string, code: string }[] = [];
+        let m;
+        while ((m = stepRegex.exec(token.content)) !== null) {
+          steps.push({ lang: m[1], code: m[2] });
+        }
+
+        if (steps.length === 0) return '';
+
+        let previous: any;
+        const stepsTokens = steps.map(step => {
+          const current = codeToKeyedTokens(highlighter, step.code, {
+            lang: step.lang,
+            themes: {
+              light: 'vitesse-light',
+              dark: 'vitesse-dark',
+            }
+          });
+          if (previous) {
+            syncTokenKeys(previous, current);
+          }
+          previous = current;
+          return current;
+        });
+
+        const compressed = LZString.compressToBase64(JSON.stringify(stepsTokens));
+        
+        let clickAttr = '';
+        if (env && env.indexer) {
+          const indexer = env.indexer as ClickIndexer;
+          const startClick = indexer.resolve('magic-move');
+          // Reserve one click for each subsequent step
+          for (let i = 1; i < steps.length; i++) {
+            indexer.resolve('magic-move-step');
+          }
+          const lastClick = startClick + steps.length - 1;
+          clickAttr = ` data-click-start="${startClick}" data-step-click="${startClick}-${lastClick}"`;
+        }
+
+        return `<div class="shiki-magic-move-container slidastro-click slidastro-click-hidden" data-tokens="${compressed}" data-options='${optionsStr}'${clickAttr}></div>`;
       };
     });
 
@@ -200,12 +305,25 @@ export async function renderSlide(
     return `<span class="slidastro-mark${extraClass}" data-type="${type}" data-color="${color}" data-stroke-width="${strokeWidth}" data-duration="${duration}"${dataAt}>${inner}</span>`;
   });
 
+  // Handle s-drag tags
+  let dragIndex = 0;
+  processedContent = processedContent.replace(/<s-drag([^>]*?)>([\s\S]*?)<\/s-drag>/g, (match, attrs, inner) => {
+    const xMatch = attrs.match(/x="([^"]+)"/);
+    const yMatch = attrs.match(/y="([^"]+)"/);
+    
+    const x = xMatch ? xMatch[1] : '0';
+    const y = yMatch ? yMatch[1] : '0';
+    const id = dragIndex++;
+    
+    return `<div class="slidastro-drag" style="position: absolute; left: ${x}px; top: ${y}px;" data-drag-id="${id}" data-x="${x}" data-y="${y}">${inner}</div>`;
+  });
+
   // 0. Handle <s-clicks> and <s-switch> containers
   processedContent = processedContent.replace(/<(s-clicks|s-switch|SClicks|SSwitch)>([\s\S]*?)<\/\1>/g, (match, tag, inner) => {
     const isSequential = tag.toLowerCase().includes('clicks');
 
     // Render inner content to HTML first to ensure we have tags to target (e.g. for markdown lists)
-    const renderedInner = md.render(inner);
+    const renderedInner = md.render(inner, { indexer });
 
     // Target tags in the rendered HTML
     return renderedInner.replace(/<([a-zA-Z0-9-]+)([^>]*?)>/g, (tagMatch, tagName, attrs) => {
@@ -289,7 +407,7 @@ export async function renderSlide(
     const slotContent = parts[i + 1] || '';
 
     if (currentContent.trim()) {
-      slots[currentSlot] = md.render(currentContent);
+      slots[currentSlot] = md.render(currentContent, { indexer });
     }
 
     currentSlot = slotName;
@@ -297,12 +415,12 @@ export async function renderSlide(
   }
 
   if (currentContent.trim()) {
-    slots[currentSlot] = md.render(currentContent);
+    slots[currentSlot] = md.render(currentContent, { indexer });
   }
 
   // Final cleanup: remove <p> wrapping around custom components if they are the only thing in the <p>
   // This ensures they are treated as block-level elements in the final output
-  const componentRegex = /<p>(<(s-link|s-toc|s-tweet|s-youtube|s-video|div class="slidastro-autofit")[^>]*?>.*?<\/(s-link|s-toc|s-tweet|s-youtube|s-video|div)>|<(s-toc|s-tweet|s-youtube|s-video)[^>]*?\/>)<\/p>/g;
+  const componentRegex = /<p>(<(s-link|s-toc|s-tweet|s-youtube|s-video|div class="(slidastro-autofit|slidastro-drag)")[^>]*?>.*?<\/(s-link|s-toc|s-tweet|s-youtube|s-video|div)>|<(s-toc|s-tweet|s-youtube|s-video)[^>]*?\/>)<\/p>/g;
   
   Object.keys(slots).forEach(key => {
     slots[key] = slots[key].replace(componentRegex, '$1');
