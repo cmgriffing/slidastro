@@ -100,17 +100,13 @@ const slidesWithContent = await Promise.all(
 
   <script>
     import { initSlideScale } from '../components/SlideScale.client';
+    import { initAutoFitText } from '../components/SAutoFitText.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
     
     const { canvasWidth, canvasHeight } = slidesData.config;
-    
-    // In print view, we might not want auto-scaling, but if we do, 
-    // it should probably be handled differently than the main view.
-    // For now, let's at least initialize it for each slide container.
-    // Actually, SlideContainer already handles some of this if used correctly.
-    // But since we want 1:1 for PDF export, maybe we don't scale?
-    // Playwright's page.pdf() with preferCSSPageSize: true will use the element size.
+
+    initAutoFitText();
   </script>
 </body>
 </html>
