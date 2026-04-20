@@ -1,0 +1,23 @@
+---
+import { Tweet } from '@astro-community/astro-embed-twitter';
+
+interface Props {
+  id: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<div class:list={["slidastro-tweet-wrapper", className]}>
+  <Tweet id={id} />
+</div>
+
+<style>
+  .slidastro-tweet-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 1rem 0;
+  }
+</style>
