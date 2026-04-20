@@ -5,47 +5,10 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import type { SlidastroData, SlideInfo } from '@slidastro/types';
 import { renderMarkdown, renderSlide } from './renderer';
+import { splitSlides } from './utils/markdown';
 
 const require = createRequire(import.meta.url);
 let cachedData: SlidastroData | undefined;
-
-function splitSlides(content: string, isAstro: boolean, isMdx: boolean) {
-  const lines = content.split('\n');
-  const slides: string[] = [];
-  let current: string[] = [];
-  let firstLogicBlock = '';
-  let inFrontmatter = false;
-  let frontmatterCount = 0;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const trimmed = line.trim();
-    
-    if (trimmed === '---') {
-      if (frontmatterCount < 2) {
-        frontmatterCount++;
-        current.push(line);
-        if (frontmatterCount === 2) {
-          firstLogicBlock = current.join('\n');
-        }
-        continue;
-      }
-      
-      // This is a separator
-      slides.push(current.join('\n'));
-      current = [];
-      if ((isAstro || isMdx) && firstLogicBlock) {
-        current.push(firstLogicBlock);
-      }
-    } else {
-      current.push(line);
-    }
-  }
-  if (current.length > 0) {
-    slides.push(current.join('\n'));
-  }
-  return slides;
-}
 
 export function slidastroVitePlugin(entry: string): Plugin {
   const virtualModuleId = 'virtual:slidastro/slides';
@@ -79,30 +42,51 @@ export function slidastroVitePlugin(entry: string): Plugin {
           parsedMarkdown = {
             filepath: entryPath,
             raw: content,
-            slides: rawSlides.map((s, i) => ({
-              filepath: entryPath,
-              index: i,
-              start: 0,
-              contentStart: 0,
-              end: s.split('\n').length,
-              raw: s,
-              contentRaw: s,
-              content: s.trim(),
-              frontmatter: {},
-              frontmatterRaw: '',
-              note: undefined
-            }))
+            slides: rawSlides.map((s, i) => {
+              let title = '';
+              const frontmatterMatch = s.match(/^---\n([\s\S]*?)\n---/);
+              if (frontmatterMatch) {
+                const titleMatch = frontmatterMatch[1].match(/^title:\s*(.*)$/m);
+                if (titleMatch) title = titleMatch[1].trim();
+              }
+              if (!title) {
+                const headingMatch = s.replace(/^---\n[\s\S]*?\n---/, '').match(/^#+\s+(.*)$/m);
+                if (headingMatch) title = headingMatch[1].trim();
+              }
+              return {
+                filepath: entryPath,
+                index: i,
+                start: 0,
+                contentStart: 0,
+                end: s.split('\n').length,
+                raw: s,
+                contentRaw: s,
+                content: s.trim(),
+                frontmatter: {},
+                frontmatterRaw: '',
+                note: undefined,
+                title
+              };
+            })
           };
         } else {
           parsedMarkdown = parse(content, entryPath);
         }
         
+        const slideMetadata = parsedMarkdown.slides.map((s, i) => ({
+          title: (s as any).title,
+          index: i
+        }));
+
         const slides: SlideInfo[] = await Promise.all(parsedMarkdown.slides.map(async (s, index) => {
           let html = '';
           let slots = {};
+          let totalClicks = 0;
           
+          const rendered = await renderSlide(s.content, index + 1, parsedMarkdown.slides.length, slideMetadata);
+          totalClicks = rendered.totalClicks;
+
           if (!isAstro && !isMdx) {
-            const rendered = await renderSlide(s.content);
             html = rendered.html;
             slots = rendered.slots;
           }
@@ -116,7 +100,8 @@ export function slidastroVitePlugin(entry: string): Plugin {
             source: s,
             contentHTML: html,
             slots,
-            noteHTML: s.note ? await renderMarkdown(s.note) : undefined,
+            totalClicks,
+            noteHTML: s.note ? await renderMarkdown(s.note, index + 1, parsedMarkdown.slides.length) : undefined,
             isNative: isAstro || isMdx,
             virtualId,
           };
@@ -183,11 +168,28 @@ export function slidastroVitePlugin(entry: string): Plugin {
 
       if (id.startsWith('\0' + slideVirtualIdPrefix)) {
         const baseId = id.slice(1);
+        const isAstro = baseId.endsWith('.astro');
+        const isMdx = baseId.endsWith('.mdx');
         const match = baseId.match(/(\d+)(\.astro|\.mdx)$/);
         if (match) {
           const slideNo = parseInt(match[1], 10);
           if (cachedData && cachedData.slides[slideNo]) {
-            return cachedData.slides[slideNo].content;
+            let content = cachedData.slides[slideNo].content;
+            const $page = slideNo + 1;
+            const $total = cachedData.slides.length;
+
+            if (isAstro) {
+              if (content.startsWith('---')) {
+                const parts = content.split('---');
+                parts[1] = `\nconst $page = ${$page};\nconst $total = ${$total};\n${parts[1]}`;
+                content = parts.join('---');
+              } else {
+                content = `---\nconst $page = ${$page};\nconst $total = ${$total};\n---\n${content}`;
+              }
+            } else if (isMdx) {
+              content = `export const $page = ${$page};\nexport const $total = ${$total};\n${content}`;
+            }
+            return content;
           }
         }
       }
