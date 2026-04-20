@@ -113,4 +113,4 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 14. Content Built-in Components | 1/3 | In Progress|  |
 | 15. Visual Polish & Annotations | 3/3 | Complete | 2026-04-18 |
 | 16. Advanced Code Transitions | 1/3 | In Progress|  |
-| 17. Interactive Persistence | 1/3 | In Progress|  |
+| 17. Interactive Persistence | 2/3 | In Progress|  |
