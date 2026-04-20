@@ -1,0 +1,85 @@
+---
+interface Props {
+  src: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  controls?: boolean;
+  muted?: boolean;
+  class?: string;
+  poster?: string;
+}
+
+const { 
+  src, 
+  autoplay = false, 
+  loop = false, 
+  controls = true, 
+  muted = false, 
+  class: className,
+  poster
+} = Astro.props;
+---
+
+<div class:list={["slidastro-video-wrapper", className]}>
+  <video 
+    src={src} 
+    loop={loop} 
+    controls={controls} 
+    muted={muted || autoplay} 
+    poster={poster}
+    playsinline
+    data-autoplay={autoplay ? "true" : "false"}
+  ></video>
+</div>
+
+<script>
+  import { $page } from '@slidastro/client';
+
+  function initVideoSync() {
+    const wrappers = document.querySelectorAll('.slidastro-video-wrapper');
+
+    wrappers.forEach(wrapper => {
+      const slide = wrapper.closest('.content-wrapper');
+      if (!slide) return;
+
+      const slideIndex = parseInt((slide as HTMLElement).dataset.index || '0', 10);
+      const targetPage = slideIndex + 1;
+      const video = wrapper.querySelector('video');
+
+      if (video) {
+        $page.subscribe(currentPage => {
+          if (currentPage === targetPage) {
+            if (video.dataset.autoplay === 'true') {
+              video.play().catch(() => {
+                // Autoplay might be blocked by browser if not muted
+                console.warn('Slidastro: Video autoplay blocked. Videos must be muted for reliable autoplay.');
+              });
+            }
+          } else {
+            video.pause();
+          }
+        });
+      }
+    });
+  }
+
+  // Initialize
+  initVideoSync();
+  
+  // Support Astro View Transitions if enabled
+  document.addEventListener('astro:page-load', initVideoSync);
+</script>
+
+<style>
+  .slidastro-video-wrapper {
+    width: 100%;
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  video {
+    max-width: 100%;
+    max-height: 100%;
+  }
+</style>
