@@ -1,0 +1,71 @@
+---
+import { YouTube } from '@astro-community/astro-embed-youtube';
+
+interface Props {
+  id: string;
+  autoplay?: boolean;
+  class?: string;
+}
+
+const { id, autoplay, class: className } = Astro.props;
+
+// Ensure enablejsapi=1 is present so we can control it via postMessage
+const params = autoplay ? 'autoplay=1&enablejsapi=1' : 'enablejsapi=1';
+---
+
+<div class:list={["slidastro-youtube-wrapper", className]}>
+  <YouTube id={id} params={params} />
+</div>
+
+<script>
+  import { $page } from '@slidastro/client';
+
+  function initYoutubeSync() {
+    const embeds = document.querySelectorAll('.slidastro-youtube-wrapper');
+
+    embeds.forEach(wrapper => {
+      const slide = wrapper.closest('.content-wrapper');
+      if (!slide) return;
+
+      const slideIndex = parseInt((slide as HTMLElement).dataset.index || '0', 10);
+      const targetPage = slideIndex + 1;
+      
+      $page.subscribe(currentPage => {
+        if (currentPage !== targetPage) {
+          const liteYoutube = wrapper.querySelector('lite-youtube');
+          if (liteYoutube) {
+            const iframe = liteYoutube.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+              try {
+                iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+              } catch (e) {
+                // Ignore errors if iframe is from different origin and not allowing postMessage
+              }
+            }
+          }
+        }
+      });
+    });
+  }
+
+  // Initialize
+  initYoutubeSync();
+  
+  // Support Astro View Transitions if enabled
+  document.addEventListener('astro:page-load', initYoutubeSync);
+</script>
+
+<style>
+  .slidastro-youtube-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 1rem auto;
+    aspect-ratio: 16 / 9;
+  }
+  
+  /* Ensure lite-youtube takes full width of wrapper */
+  .slidastro-youtube-wrapper :global(lite-youtube) {
+    width: 100%;
+    max-width: 100%;
+  }
+</style>
