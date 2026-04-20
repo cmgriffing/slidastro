@@ -149,6 +149,9 @@ importers:
       shiki:
         specifier: ^4.0.2
         version: 4.0.2
+      unist-util-visit:
+        specifier: ^5.1.0
+        version: 5.1.0
     devDependencies:
       '@types/katex':
         specifier: ^0.16.8
