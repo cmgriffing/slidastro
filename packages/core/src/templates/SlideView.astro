@@ -137,6 +137,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     import { initMonaco } from '../components/Monaco.client';
     import { initDrauu } from '../components/Drauu.client';
     import { initAutoFitText } from '../components/SAutoFitText.client';
+    import { initSMark } from '../components/SMark.client';
     // @ts-ignore
     import slidesData from 'virtual:slidastro/slides';
     
@@ -150,6 +151,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
     initMonaco();
     initDrauu(slideNo - 1);
     initAutoFitText();
+    initSMark();
 
     document.addEventListener('astro:after-swap', () => {
       const newSlideNo = parseInt(window.location.pathname.split('/').pop() || '1', 10);
@@ -160,6 +162,7 @@ const slotEntries = Object.entries(slide.slots || {}).filter(([name]) => name !=
       initMonaco();
       initDrauu(newSlideNo - 1);
       initAutoFitText();
+      initSMark();
     });
 
     if (import.meta.hot) {
