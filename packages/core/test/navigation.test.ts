@@ -6,7 +6,13 @@ describe('navigation logic', () => {
     it('handles single number', () => {
       expect(checkVisibility('1', 0)).toBe(false);
       expect(checkVisibility('1', 1)).toBe(true);
-      expect(checkVisibility('1', 2)).toBe(true);
+      expect(checkVisibility('1', 2)).toBe(false);
+    });
+
+    it('handles single number with +', () => {
+      expect(checkVisibility('1+', 0)).toBe(false);
+      expect(checkVisibility('1+', 1)).toBe(true);
+      expect(checkVisibility('1+', 2)).toBe(true);
     });
 
     it('handles ranges', () => {

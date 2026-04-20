@@ -8,7 +8,7 @@ export function checkVisibility(range: string, currentClick: number): boolean {
     return currentClick >= start;
   }
   const start = parseInt(range, 10);
-  return currentClick >= start;
+  return currentClick === start;
 }
 
 export function getMaxClick(range: string): number {
