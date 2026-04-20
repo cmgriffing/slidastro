@@ -78,7 +78,10 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
   3. User can use `<s-switch>` to display different content blocks specifically for designated click ranges.
   4. Global variables `$page` and `$total` are accurately available for use in Markdown and component templates.
   5. Multiple independent Astro islands (React, Vue, Svelte) correctly synchronize their local state to the global Master Click Controller (NanoStore).
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 13-01-PLAN.md — Core Indexing & Directives
+- [ ] 13-02-PLAN.md — Advanced Reveal Components
+- [ ] 13-03-PLAN.md — Global Variables & Store Sync
 
 ### Phase 14: Content Built-in Components
 **Goal**: Implement essential structural and media components for presentation utility.
@@ -137,7 +140,7 @@ Slidastro is an Astro-powered slide presentation CLI tool that brings Slidev's d
 | 10. Analysis & Normal Mode Layout | 2/2 | Complete | 2024-05-22 |
 | 11. UI Separation & Master Controller | 1/1 | Complete | 2025-04-16 |
 | 12. Keyboard Shortcuts & Interaction Polish | 1/1 | Complete | 2026-04-16 |
-| 13. Core Click Logic & State | 0/0 | Not started | - |
+| 13. Core Click Logic & State | 0/3 | In progress | - |
 | 14. Content Built-in Components | 0/0 | Not started | - |
 | 15. Visual Polish & Annotations | 0/0 | Not started | - |
 | 16. Advanced Code Transitions | 0/0 | Not started | - |
