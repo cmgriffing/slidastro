@@ -1,0 +1,19 @@
+---
+interface Props {
+  x?: number | string;
+  y?: number | string;
+  id?: string;
+}
+
+const { x = 0, y = 0, id } = Astro.props;
+---
+
+<div 
+  class="slidastro-drag" 
+  style={`position: absolute; left: ${x}px; top: ${y}px;`} 
+  data-drag-id={id} 
+  data-x={x} 
+  data-y={y}
+>
+  <slot />
+</div>
