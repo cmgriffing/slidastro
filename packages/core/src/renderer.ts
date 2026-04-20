@@ -174,6 +174,32 @@ export async function renderSlide(
     return `<div class="slidastro-autofit" data-max="${max}" data-min="${min}"><div class="slidastro-autofit-content">${inner}</div></div>`;
   });
 
+  // Handle s-mark tags
+  processedContent = processedContent.replace(/<s-mark([^>]*?)>([\s\S]*?)<\/s-mark>/g, (match, attrs, inner) => {
+    const typeMatch = attrs.match(/type="([^"]+)"/);
+    const colorMatch = attrs.match(/color="([^"]+)"/);
+    const strokeWidthMatch = attrs.match(/strokeWidth="([^"]+)"/);
+    const durationMatch = attrs.match(/duration="([^"]+)"/);
+    const atMatch = attrs.match(/at="([^"]+)"/);
+    const clickMatch = attrs.match(/click="([^"]+)"/);
+    
+    const type = typeMatch ? typeMatch[1] : 'highlight';
+    const color = colorMatch ? colorMatch[1] : '';
+    const strokeWidth = strokeWidthMatch ? strokeWidthMatch[1] : '';
+    const duration = durationMatch ? durationMatch[1] : '';
+    const at = atMatch ? atMatch[1] : (clickMatch ? clickMatch[1] : '');
+    
+    let extraClass = '';
+    let dataAt = '';
+    if (at) {
+      const index = indexer.resolve('at', at);
+      extraClass = ' slidastro-click';
+      dataAt = ` data-at="${index}"`;
+    }
+    
+    return `<span class="slidastro-mark${extraClass}" data-type="${type}" data-color="${color}" data-stroke-width="${strokeWidth}" data-duration="${duration}"${dataAt}>${inner}</span>`;
+  });
+
   // 0. Handle <s-clicks> and <s-switch> containers
   processedContent = processedContent.replace(/<(s-clicks|s-switch|SClicks|SSwitch)>([\s\S]*?)<\/\1>/g, (match, tag, inner) => {
     const isSequential = tag.toLowerCase().includes('clicks');
