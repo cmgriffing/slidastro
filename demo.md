@@ -43,3 +43,34 @@ pie title Pets adopted by volunteers
 ```
 
 </step-click>
+
+---
+
+# Table of Contents
+
+<s-toc />
+
+---
+
+# Links
+
+- <s-link to="1">Back to Start</s-link>
+- <s-link href="https://google.com">Google</s-link>
+
+---
+
+# Tweet
+
+<s-tweet id="1381223403328225281" />
+
+---
+
+# YouTube
+
+<s-youtube id="dQw4w9WgXcQ" />
+
+---
+
+# Video
+
+<s-video src="https://www.w3schools.com/html/mov_bbb.mp4" />
