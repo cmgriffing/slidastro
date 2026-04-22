@@ -193,6 +193,28 @@ export function slidastroVitePlugin(entry: string): Plugin {
           }
         }
       }
+    },
+    handleHotUpdate({ file, server }) {
+      if (file === entryPath) {
+        // Invalidate the main virtual module
+        const mod = server.moduleGraph.getModuleById(resolvedVirtualModuleId);
+        if (mod) {
+          server.moduleGraph.invalidateModule(mod);
+        }
+        
+        // Invalidate all slide virtual modules
+        for (const [id, mod] of server.moduleGraph.idToModuleMap) {
+          if (id.startsWith('\0' + slideVirtualIdPrefix)) {
+            server.moduleGraph.invalidateModule(mod);
+          }
+        }
+
+        // Notify client to reload content
+        // This triggers the reload logic in SlideView.astro
+        server.ws.send('slidastro:update-content', {
+          updates: [{ index: -1 }] // Special value to indicate full refresh of data
+        });
+      }
     }
   };
 }

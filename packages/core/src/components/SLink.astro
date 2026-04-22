@@ -1,0 +1,24 @@
+---
+interface Props {
+  to?: string | number;
+  href?: string;
+  class?: string;
+}
+
+const { to, href, class: className } = Astro.props;
+
+let targetHref = href;
+if (to) {
+  if (typeof to === 'number') {
+    targetHref = `/${to}`;
+  } else if (to === 'next' || to === 'prev') {
+    targetHref = '#';
+  } else if (!href) {
+    targetHref = typeof to === 'string' && (to.startsWith('http') || to.startsWith('/') || to.startsWith('#')) ? to : undefined;
+  }
+}
+---
+
+<a href={targetHref} class:list={["slidastro-link", className]} data-to={to}>
+  <slot />
+</a>

@@ -4,6 +4,7 @@
  */
 export class ClickIndexer {
   private lastResolvedIndex = 0;
+  private maxIndex = 0;
 
   /**
    * Resolves a directive and optional value into a click index.
@@ -16,6 +17,7 @@ export class ClickIndexer {
     // Absolute indexing: s-click="3"
     if (value && !isNaN(parseInt(value))) {
       this.lastResolvedIndex = parseInt(value);
+      this.maxIndex = Math.max(this.maxIndex, this.lastResolvedIndex);
       return this.lastResolvedIndex;
     }
 
@@ -25,13 +27,23 @@ export class ClickIndexer {
     }
 
     // Relative Default: s-click (increments last index)
-    return ++this.lastResolvedIndex;
+    this.lastResolvedIndex++;
+    this.maxIndex = Math.max(this.maxIndex, this.lastResolvedIndex);
+    return this.lastResolvedIndex;
+  }
+
+  /**
+   * Returns the maximum click index encountered.
+   */
+  getMax(): number {
+    return this.maxIndex;
   }
 
   /**
    * Resets the indexer for a new slide.
    */
-  reset() {
+  reset(): void {
     this.lastResolvedIndex = 0;
+    this.maxIndex = 0;
   }
 }

@@ -1,19 +1,22 @@
 ---
 layout: default
-title: Slidastro Step Click Test
+title: Slidastro Click Test
 ---
 
-# Step Click Test
+# Click Test
 
-<step-click>Step 1: Using tag</step-click>
-<p step-click>Step 2: Using attribute</p>
-<div step-click="1-3">Visible during 1, 2, 3</div>
-<span step-click="4">Visible from 4 (Directly)</span>
-<div step-click>Step 5 (Auto-incremented)</div>
+<s-click>Step 1: Using tag</s-click>
+<p s-click>Step 2: Using attribute</p>
+<p s-after>Also Step 2 (s-after)</p>
 
 ---
-layout: cover
+layout: default
 ---
 
-# Next Slide
-Testing navigation.
+# Sequential Test
+
+<s-clicks>
+- Item 1
+- Item 2
+- Item 3
+</s-clicks>

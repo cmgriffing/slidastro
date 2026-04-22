@@ -1,0 +1,41 @@
+---
+import slidesData from 'virtual:slidastro/slides';
+import SLink from './SLink.astro';
+
+interface Props {
+  columns?: number | string;
+  listStyle?: string;
+  class?: string;
+}
+
+const { columns = 1, listStyle = 'none', class: className } = Astro.props;
+
+const tocEntries = slidesData.slides
+  .filter(slide => slide.title)
+  .map(slide => ({
+    title: slide.title,
+    index: slide.index + 1
+  }));
+---
+
+<div class:list={["slidastro-toc", className]} style={`column-count: ${columns};`}>
+  <ul style={`list-style: ${listStyle}; padding: 0; margin: 0;`}>
+    {tocEntries.map(entry => (
+      <li>
+        <SLink to={entry.index}>{entry.title}</SLink>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .slidastro-toc {
+    width: 100%;
+  }
+  .slidastro-toc ul {
+    margin: 0;
+  }
+  .slidastro-toc li {
+    margin-bottom: 0.5em;
+  }
+</style>

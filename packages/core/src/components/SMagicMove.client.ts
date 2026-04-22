@@ -1,8 +1,9 @@
-import { MagicMoveRenderer } from 'shiki-magic-move/core';
+import { MagicMoveRenderer } from 'shiki-magic-move/renderer';
 import LZString from 'lz-string';
 import { $clicks } from '@slidastro/client';
 
 export function initMagicMove() {
+  console.log('initMagicMove called');
   const containers = document.querySelectorAll<HTMLElement>('.shiki-magic-move-container');
 
   containers.forEach((container) => {
@@ -13,11 +14,23 @@ export function initMagicMove() {
     const compressed = container.dataset.tokens;
     if (!compressed) return;
 
+    let tokens, options, clickStart;
     try {
-      const tokens = JSON.parse(LZString.decompressFromBase64(compressed));
-      const options = JSON.parse(container.dataset.options || '{}');
-      const clickStart = parseInt(container.dataset.clickStart || '0', 10);
+      tokens = JSON.parse(LZString.decompressFromBase64(compressed));
+    } catch (e) {
+      console.error('Failed to parse tokens:', e);
+      return;
+    }
 
+    try {
+      options = JSON.parse(container.dataset.options || '{}');
+    } catch (e) {
+      console.error('Failed to parse options:', e, 'Raw options:', container.dataset.options);
+      return;
+    }
+
+    try {
+      clickStart = parseInt(container.dataset.clickStart || '0', 10);
       const renderer = new MagicMoveRenderer(container);
       let currentStep = -1;
 
@@ -25,32 +38,14 @@ export function initMagicMove() {
         let stepIndex = Math.max(0, clickCount - clickStart);
         stepIndex = Math.min(stepIndex, tokens.length - 1);
 
-        // If clickCount is less than clickStart, we shouldn't show anything or show the first step?
-        // Actually, if it's a magic-move block, it usually occupies space and shows the first step by default
-        // unless it's wrapped in an s-click.
-        // But the renderer should handle showing the correct state.
-        
-        // If clickCount < clickStart, we might want to hide it or show the first step but "hidden".
-        // However, the ClickIndexer in renderer.ts resolves 'magic-move' which usually means it appears AT that click.
-        
-        if (clickCount < clickStart) {
-          // Before the magic move starts, we might want to hide it.
-          // But usually the container itself might have 'slidastro-click-hidden' if it's meant to be hidden.
-          // For now, let's just render the first step if we are before it, or maybe don't render.
-          container.style.opacity = '0';
-          container.style.pointerEvents = 'none';
-          return;
-        } else {
-          container.style.opacity = '1';
-          container.style.pointerEvents = 'auto';
-        }
-
         if (stepIndex !== currentStep) {
+          const isFirst = currentStep === -1;
           currentStep = stepIndex;
-          renderer.render({
-            tokens: tokens[stepIndex],
-            ...options,
-          });
+          if (isFirst) {
+            renderer.replace(tokens[stepIndex]);
+          } else {
+            renderer.render(tokens[stepIndex]);
+          }
         }
       };
 

@@ -1,0 +1,739 @@
+<!DOCTYPE html><html data-astro-cid-6klhtl7d> <head><meta charset="UTF-8"><title>Slidastro Ecosystem Demo - Slide 1</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shiki-magic-move@1.3.0/dist/style.css"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/components/ClientRouter.astro?v=7d473040&astro&type=script&index=0&lang.ts"></script><style data-vite-dev-id="/Volumes/T7/repos/slidastro/node_modules/.pnpm/@unocss+reset@66.6.8/node_modules/@unocss/reset/tailwind.css">/*
+1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+2. [UnoCSS]: allow to override the default border color with css var `--un-default-border-color`
+*/
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: var(--un-default-border-color, #e5e7eb); /* 2 */
+}
+
+::before,
+::after {
+  --un-content: '';
+}
+
+/*
+1. Use a consistent sensible line-height in all browsers.
+2. Prevent adjustments of font size after orientation changes in iOS.
+3. Use a more readable tab size.
+4. Use the user's configured `sans` font-family by default.
+5. Use the user's configured `sans` font-feature-settings by default.
+6. Use the user's configured `sans` font-variation-settings by default.
+7. Disable tap highlights on iOS.
+*/
+
+html,
+:host {
+  line-height: 1.5; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -moz-tab-size: 4; /* 3 */
+  tab-size: 4; /* 3 */
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-feature-settings: normal; /* 5 */
+  font-variation-settings: normal; /* 6 */
+  -webkit-tap-highlight-color: transparent; /* 7 */
+}
+
+/*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+body {
+  margin: 0; /* 1 */
+  line-height: inherit; /* 2 */
+}
+
+/*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+  border-top-width: 1px; /* 3 */
+}
+
+/*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+abbr:where([title]) {
+  text-decoration: underline dotted;
+}
+
+/*
+Remove the default font size and weight for headings.
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/*
+Add the correct font weight in Edge and Safari.
+*/
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/*
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
+*/
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
+}
+
+/*
+Add the correct font size in all browsers.
+*/
+
+small {
+  font-size: 80%;
+}
+
+/*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+table {
+  text-indent: 0; /* 1 */
+  border-color: inherit; /* 2 */
+  border-collapse: collapse; /* 3 */
+}
+
+/*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-feature-settings: inherit; /* 1 */
+  font-variation-settings: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  font-weight: inherit; /* 1 */
+  line-height: inherit; /* 1 */
+  color: inherit; /* 1 */
+  margin: 0; /* 2 */
+  padding: 0; /* 3 */
+}
+
+/*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+button,
+select {
+  text-transform: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button; /* 1 */
+  background-color: transparent; /* 2 */
+  background-image: none; /* 2 */
+}
+
+/*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+:-moz-focusring {
+  outline: auto;
+}
+
+/*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+progress {
+  vertical-align: baseline;
+}
+
+/*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+[type='search'] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/*
+Add the correct display in Chrome and Safari.
+*/
+
+summary {
+  display: list-item;
+}
+
+/*
+Removes the default spacing for appropriate elements.
+*/
+
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+  margin: 0;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+dialog {
+  padding: 0;
+}
+
+/*
+Prevent resizing textareas horizontally by default.
+*/
+
+textarea {
+  resize: vertical;
+}
+
+/*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 1; /* 1 */
+  color: #9ca3af; /* 2 */
+}
+
+/*
+Set the default cursor for buttons.
+*/
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+
+:disabled {
+  cursor: default;
+}
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+Make elements with the HTML hidden attribute stay hidden by default.
+*/
+
+[hidden]:where(:not([hidden="until-found"])) {
+  display: none;
+}
+</style>
+<style data-vite-dev-id="/__uno.css">/* layer: preflights */
+*,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgb(0 0 0 / 0);--un-ring-shadow:0 0 rgb(0 0 0 / 0);--un-shadow-inset: ;--un-shadow:0 0 rgb(0 0 0 / 0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgb(147 197 253 / 0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgb(0 0 0 / 0);--un-ring-shadow:0 0 rgb(0 0 0 / 0);--un-shadow-inset: ;--un-shadow:0 0 rgb(0 0 0 / 0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgb(147 197 253 / 0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}
+/* layer: default */
+.relative{position:relative;}
+.grid{display:grid;}
+.auto-rows-fr{grid-auto-rows:minmax(0,1fr);}
+.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.my-auto{margin-top:auto;margin-bottom:auto;}
+.h-full{height:100%;}
+.w-full,
+[w-full=""]{width:100%;}
+.flex{display:flex;}
+.flex-col{flex-direction:column;}
+.transform{transform:translateX(var(--un-translate-x)) translateY(var(--un-translate-y)) translateZ(var(--un-translate-z)) rotate(var(--un-rotate)) rotateX(var(--un-rotate-x)) rotateY(var(--un-rotate-y)) rotateZ(var(--un-rotate-z)) skewX(var(--un-skew-x)) skewY(var(--un-skew-y)) scaleX(var(--un-scale-x)) scaleY(var(--un-scale-y)) scaleZ(var(--un-scale-z));}
+.select-none{-webkit-user-select:none;user-select:none;}
+.place-content-center{place-content:center;}
+.items-center{align-items:center;}
+.justify-center{justify-content:center;}
+.gap-8{gap:2rem;}
+.bg-black{--un-bg-opacity:1;background-color:rgb(0 0 0 / var(--un-bg-opacity)) /* #000 */;}
+.px,
+[px=""]{padding-left:1rem;padding-right:1rem;}
+.text-center{text-align:center;}
+.text-2xl{font-size:1.5rem;line-height:2rem;}
+.text-3xl{font-size:1.875rem;line-height:2.25rem;}
+.text-xl{font-size:1.25rem;line-height:1.75rem;}
+.text-white{--un-text-opacity:1;color:rgb(255 255 255 / var(--un-text-opacity)) /* #fff */;}
+.font-bold{font-weight:700;}
+.tracking-widest{letter-spacing:0.1em;}
+.tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
+.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
+@keyframes __un_qm{0%{box-shadow:inset 4px 4px #ff1e90, inset -4px -4px #ff1e90}100%{box-shadow:inset 8px 8px #3399ff, inset -8px -8px #3399ff}} .\?{animation:__un_qm 0.5s ease-in-out alternate infinite;}__uno_hash_9dad07{--:'';}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/components/ClientRouter.astro?astro&#38;type=style&#38;index=0&#38;lang.css">/* Route announcer */
+	.astro-route-announcer {
+		position: absolute;
+		left: 0;
+		top: 0;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		overflow: hidden;
+		white-space: nowrap;
+		width: 1px;
+		height: 1px;
+	}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/SlideContainer.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.slide-container[data-astro-cid-tc2k6k6y]{position:relative;overflow:hidden;background:white;box-shadow:0 10px 25px rgba(0,0,0,0.1);transform-origin:center center}.slide-content[data-astro-cid-tc2k6k6y]{width:100%;height:100%;transform-origin:top left}.drauu-layer[data-astro-cid-tc2k6k6y]{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.drawing-toolbar[data-astro-cid-jn4wpic3]{position:fixed;bottom:80px;left:20px;display:flex;flex-direction:column;gap:8px;background:white;padding:8px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:200}button[data-astro-cid-jn4wpic3]{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px;border-radius:4px}button[data-astro-cid-jn4wpic3]:hover{background:#f0f0f0}button[data-astro-cid-jn4wpic3].active{background:#e0e0e0}.recording-active #start-record[data-astro-cid-jn4wpic3]{display:none}.recording-active #stop-record[data-astro-cid-jn4wpic3]{display:block;color:red}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/ThemeToggle.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.theme-toggle[data-astro-cid-nlohbp6i]{position:fixed;top:20px;right:20px;background:white;border:1px solid #ddd;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;font-size:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.1)}.dark .theme-toggle[data-astro-cid-nlohbp6i]{background:#333;border-color:#444}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/NavigationOverlay.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.navigation-overlay[data-astro-cid-3u32qolo]{position:absolute;bottom:20px;right:20px;pointer-events:none;z-index:50;transition:opacity 0.3s ease}.navigation-overlay[data-astro-cid-3u32qolo][data-show=false]{opacity:0}.navigation-overlay[data-astro-cid-3u32qolo][data-show=true]{opacity:1}.page-number[data-astro-cid-3u32qolo]{font-size:0.8rem;color:#888;background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px;backdrop-filter:blur(4px)}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.master-dashboard[data-astro-cid-3jcentsm]{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;pointer-events:none}.dashboard-content[data-astro-cid-3jcentsm]{background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,0.1);border-radius:1rem;padding:2rem;max-width:600px;width:100%;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);pointer-events:auto}.dark .dashboard-content[data-astro-cid-3jcentsm]{background:rgba(30,30,30,0.85);border-color:rgba(255,255,255,0.1);color:white}header[data-astro-cid-3jcentsm]{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}h2[data-astro-cid-3jcentsm]{margin:0;font-size:1.5rem;font-weight:700}.close-btn[data-astro-cid-3jcentsm]{background:none;border:none;font-size:2rem;cursor:pointer;line-height:1;color:currentColor;opacity:0.5;transition:opacity 0.2s}.close-btn[data-astro-cid-3jcentsm]:hover{opacity:1}.sections[data-astro-cid-3jcentsm]{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem}section[data-astro-cid-3jcentsm] h3[data-astro-cid-3jcentsm]{margin-top:0;margin-bottom:1rem;font-size:0.875rem;text-transform:uppercase;letter-spacing:0.05em;opacity:0.6}ul[data-astro-cid-3jcentsm]{list-style:none;padding:0;margin:0}li[data-astro-cid-3jcentsm]{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;font-size:0.9375rem}kbd[data-astro-cid-3jcentsm]{background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.1);border-radius:4px;padding:0.1rem 0.4rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:0.75rem;margin-left:0.25rem}.dark kbd[data-astro-cid-3jcentsm]{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}.about[data-astro-cid-3jcentsm] p[data-astro-cid-3jcentsm]{font-size:0.875rem;opacity:0.8}.links[data-astro-cid-3jcentsm]{margin-top:1rem}.links[data-astro-cid-3jcentsm] a[data-astro-cid-3jcentsm]{color:#3b82f6;text-decoration:none}.links[data-astro-cid-3jcentsm] a[data-astro-cid-3jcentsm]:hover{text-decoration:underline}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterOverlay.astro?astro&#38;type=style&#38;index=0&#38;lang.css">.master-overlay[data-astro-cid-w6zwecq7]{position:fixed;inset:0;pointer-events:none;z-index:1000}.ui-layer[data-astro-cid-w6zwecq7]{position:fixed;inset:0;pointer-events:none;transition:opacity 0.3s cubic-bezier(0.4,0,0.2,1),transform 0.3s cubic-bezier(0.4,0,0.2,1)}.ui-layer[data-astro-cid-w6zwecq7] *{pointer-events:auto}#layer-drawing[data-astro-cid-w6zwecq7][data-show=false]{opacity:0;visibility:hidden;transform:translateY(20px)}#layer-drawing[data-astro-cid-w6zwecq7][data-show=true]{opacity:1;visibility:visible;transform:translateY(0)}#layer-theme[data-astro-cid-w6zwecq7][data-show=false]{opacity:0;visibility:hidden;transform:translate(20px,-20px)}#layer-theme[data-astro-cid-w6zwecq7][data-show=true]{opacity:1;visibility:visible;transform:translate(0,0)}#layer-help[data-astro-cid-w6zwecq7][data-show=false]{opacity:0;visibility:hidden;transform:scale(0.9)}#layer-help[data-astro-cid-w6zwecq7][data-show=true]{opacity:1;visibility:visible;transform:scale(1)}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/styles/layouts-base.css">.slidev-layout {
+  height:100%;--un-bg-opacity:1;background-color:rgb(255 255 255 / var(--un-bg-opacity)) /* #fff */;padding-left:3.5rem;padding-right:3.5rem;padding-top:2.5rem;padding-bottom:2.5rem;font-size:1.1rem;--un-text-opacity:1;color:rgb(24 24 24 / var(--un-text-opacity)) /* #181818 */;
+
+  pre,
+  code {
+    -webkit-user-select:text;user-select:text;
+  }
+
+  code {
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  }
+
+  h1 {
+    margin-bottom:1rem;font-size:2.25rem;line-height:2.5rem;
+  }
+
+  h2 {
+    font-size:1.875rem;line-height:2.25rem;
+  }
+
+  h3 {
+    font-size:1.5rem;line-height:2rem;
+  }
+
+  h4 {
+    font-size:1.25rem;line-height:1.75rem;
+  }
+
+  h5 {
+    font-size:1rem;line-height:1.5rem;
+  }
+
+  h6 {
+    padding-top:0.25rem;font-size:0.875rem;line-height:1.25rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  }
+
+  h6:not(.opacity-100) {
+    opacity:0.4;
+  }
+
+  p {
+    margin-top:1rem;margin-bottom:1rem;line-height:1.5rem;
+  }
+
+  ul {
+    list-style: square;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    line-height:1.8em;
+  }
+
+  blockquote {
+    background: var(--slidev-code-background);
+    color: var(--slidev-code-foreground);
+    border-left-width:1px;border-color:var(--slidev-theme-primary);border-radius:0.25rem;padding-left:0.5rem;padding-right:0.5rem;padding-top:0.25rem;padding-bottom:0.25rem;font-size:0.875rem;line-height:1.25rem;
+  }
+
+  blockquote > * {
+    margin-top:0;margin-bottom:0;
+  }
+
+  table {
+    width:100%;
+  }
+
+  tr {
+    border-bottom-width:1px;border-color:rgb(156 163 175 / 0.2);
+  }
+
+  th {
+    text-align:left;font-weight:400;
+  }
+
+  a {
+    border-bottom-width:1px;border-color:currentColor;border-style:dashed;
+    text-decoration: none;
+    transition: all 0.2s;
+  }a:hover{border-style:solid;color:var(--slidev-theme-primary) /* var(--slidev-theme-primary) */;}
+
+  .slidastro-link {
+    cursor:pointer;
+  }
+
+  td,
+  th {
+    padding:0.5rem;padding-top:0.75rem;padding-bottom:0.75rem;
+  }
+
+  b, strong {
+    font-weight:600;
+  }
+
+  kbd {
+    border-width:1px;border-bottom-width:2px;border-color:rgb(156 163 175 / 0.2);border-radius:0.25rem;
+    --un-bg-opacity:1;background-color:rgb(156 163 175 / var(--un-bg-opacity)) /* #9ca3af */;--un-bg-opacity:0.05;padding-top:0.125rem;padding-bottom:0.125rem;padding-left:0.25rem;padding-right:0.25rem;font-size:0.75rem;line-height:1rem;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  }
+}.dark .slidev-layout{--un-bg-opacity:1;background-color:rgb(18 18 18 / var(--un-bg-opacity)) /* #121212 */;--un-text-opacity:1;color:rgb(221 221 221 / var(--un-text-opacity)) /* #ddd */;}
+
+.slidastro-autofit {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slidastro-autofit-content {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.slidev-layout,
+[dir='ltr'],
+.slidev-layout [dir='ltr'] {
+  h1 {
+    margin-left:-0.05em;margin-right:0;
+  }
+
+  h6 {
+    margin-left:-0.05em;margin-right:0;
+  }
+
+  li {
+    margin-left:1.1em;margin-right:0;padding-left:0.2em;padding-right:0;
+  }
+}
+
+[dir='rtl'],
+.slidev-layout [dir='rtl'] {
+  h1 {
+    margin-right:-0.05em;margin-left:0;
+  }
+
+  h6 {
+    margin-right:-0.05em;margin-left:0;
+  }
+
+  li {
+    margin-right:1.1em;margin-left:0;padding-right:0.2em;padding-left:0;
+  }
+}
+</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/styles/magic-move.css">.shiki-magic-move-container {
+  font-family: var(--slidastro-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+  line-height: 1.5;
+  font-size: 0.85em;
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  border-radius: 4px;
+}
+
+.shiki-magic-move-item {
+  transition: all 0.8s var(--slidastro-ease, cubic-bezier(0.4, 0, 0.2, 1));
+}
+
+/* Theme integration */
+:root {
+  --slidastro-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .shiki-magic-move-container {
+  color: #d4d4d4;
+}
+
+.light .shiki-magic-move-container {
+  color: #393a34;
+}
+</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/packages/core/dist/templates/SlideView.astro?astro&#38;type=style&#38;index=0&#38;lang.css">body{margin:0;padding:0;background:#050505;display:flex;align-items:center;justify-content:center;overflow:hidden;height:100vh;width:100vw}.stage[data-astro-cid-6klhtl7d]{background:radial-gradient(circle,#222 0%,#050505 100%);flex:1;height:100%;width:100%;display:flex;align-items:center;justify-content:center}.content-wrapper[data-astro-cid-6klhtl7d]{height:100%;box-sizing:border-box}.slidastro-click{transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1)}.slidastro-click-hidden{opacity:0;visibility:hidden}</style>
+<style data-vite-dev-id="/Volumes/T7/repos/slidastro/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/components/viewtransitions.css">@keyframes astroFadeInOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes astroFadeIn {
+	from {
+		opacity: 0;
+		mix-blend-mode: plus-lighter;
+	}
+	to {
+		opacity: 1;
+		mix-blend-mode: plus-lighter;
+	}
+}
+
+@keyframes astroFadeOut {
+	from {
+		opacity: 1;
+		mix-blend-mode: plus-lighter;
+	}
+	to {
+		opacity: 0;
+		mix-blend-mode: plus-lighter;
+	}
+}
+
+@keyframes astroSlideFromRight {
+	from {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes astroSlideFromLeft {
+	from {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes astroSlideToRight {
+	to {
+		transform: translateX(100%);
+	}
+}
+
+@keyframes astroSlideToLeft {
+	to {
+		transform: translateX(-100%);
+	}
+}
+
+@media (prefers-reduced-motion) {
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
+	}
+
+	[data-astro-transition-scope] {
+		animation: none !important;
+	}
+}
+</style><script type="module" src="/@vite/client"></script>
+<script type="module" src="/@fs/Volumes/T7/repos/slidastro/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/dist/runtime/client/dev-toolbar/entrypoint.js?v=7d473040"></script>
+<script>window.__astro_dev_toolbar__ = {"root":"/Volumes/T7/repos/slidastro/","version":"5.18.1","debugInfo":"Astro                    v5.18.1\nNode                     v24.14.0\nSystem                   macOS (arm64)\nPackage Manager          unknown\nOutput                   static\nAdapter                  none\nIntegrations             @slidastro/core\n                         unocss\n                         @astrojs/mdx"}</script>
+<script type="module" src="/node_modules/.pnpm/@unocss+reset@66.6.8/node_modules/@unocss/reset/tailwind.css"></script>
+<script type="module" src="/__uno.css"></script>
+<script type="module" src="/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/components/ClientRouter.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/SlideContainer.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/DrawingToolbar.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/ThemeToggle.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/NavigationOverlay.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/MasterDashboard.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/components/MasterOverlay.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/packages/core/dist/styles/layouts-base.css"></script>
+<script type="module" src="/packages/core/dist/styles/magic-move.css"></script>
+<script type="module" src="/packages/core/dist/templates/SlideView.astro?astro&type=style&index=0&lang.css"></script>
+<script type="module" src="/node_modules/.pnpm/astro@5.18.1_@types+node@25.6.0_jiti@2.6.1_rollup@4.60.1_tsx@4.21.0_typescript@5.9.3_yaml@2.8.3/node_modules/astro/components/viewtransitions.css"></script><style>[data-astro-transition-scope="astro-apcuma6p-1"] { view-transition-name: slide-content; }@layer astro { ::view-transition-old(slide-content) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(slide-content) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(slide-content) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(slide-content) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-apcuma6p-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-apcuma6p-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-apcuma6p-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-apcuma6p-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-apcuma6p-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-apcuma6p-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-apcuma6p-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-apcuma6p-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body data-astro-cid-6klhtl7d data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/templates/SlideView.astro" data-astro-source-loc="117:7"> <div class="stage" data-astro-cid-6klhtl7d data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/templates/SlideView.astro" data-astro-source-loc="118:22"> <div class="slide-container" style="width: 980px; height: 551px;" data-astro-cid-tc2k6k6y data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/SlideContainer.astro" data-astro-source-loc="11:80"> <div class="slide-content" id="slide-content-wrapper" data-astro-cid-tc2k6k6y data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/SlideContainer.astro" data-astro-source-loc="12:38">  <div class="content-wrapper" id="slide-content" data-index="0" data-astro-cid-6klhtl7d data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/templates/SlideView.astro" data-astro-source-loc="120:138" data-astro-transition-scope="astro-apcuma6p-1"> <div class="slidev-layout default h-full" style="background-repeat:no-repeat;background-position:center;background-size:cover" data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/layouts/default.astro" data-astro-source-loc="8:57"> <div data-astro-cid-6klhtl7d data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/templates/SlideView.astro" data-astro-source-loc="122:47"><h1>Mermaid Diagram</h1>
+<div class="mermaid">graph TD
+    A[Start] --> B{Is it working?}
+    B -- Yes --> C[Great!]
+    B -- No --> D[Check Logs]
+</div></div> </div> </div>  </div> <svg id="drauu-layer" class="drauu-layer" data-astro-cid-tc2k6k6y data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/SlideContainer.astro" data-astro-source-loc="15:4"></svg> </div>  </div> <div id="master-overlay" class="master-overlay" data-astro-cid-w6zwecq7 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterOverlay.astro" data-astro-source-loc="10:49"> <div class="ui-layer" id="layer-drawing" data-show="false" data-astro-cid-w6zwecq7 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterOverlay.astro" data-astro-source-loc="11:62"> <div id="drawing-toolbar" class="drawing-toolbar" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="3:51"> <button data-tool="draw" title="Pencil (P)" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="4:47">✏️</button> <button data-tool="erase" title="Eraser (E)" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="5:48">🧽</button> <button id="clear-draw" title="Clear (C)" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="6:45">🗑️</button> <button id="toggle-draw" title="Toggle (D)" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="7:47">🚫</button> <button id="start-record" title="Start Recording" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="8:53">🔴</button> <button id="stop-record" title="Stop Recording" style="display:none;" data-astro-cid-jn4wpic3 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/DrawingToolbar.astro" data-astro-source-loc="9:73">⏹️</button> </div>  <script type="module" src="/packages/core/dist/components/DrawingToolbar.astro?astro&type=script&index=0&lang.ts"></script> </div> <div class="ui-layer" id="layer-theme" data-show="false" data-astro-cid-w6zwecq7 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterOverlay.astro" data-astro-source-loc="15:60"> <button id="theme-toggle" class="theme-toggle" title="Toggle Theme (T)" data-astro-cid-nlohbp6i data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/ThemeToggle.astro" data-astro-source-loc="1:73">
+🌙
+</button>  <script type="module" src="/packages/core/dist/components/ThemeToggle.astro?astro&type=script&index=0&lang.ts"></script> </div> <div class="ui-layer" id="layer-help" data-show="false" data-astro-cid-w6zwecq7 data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterOverlay.astro" data-astro-source-loc="19:59"> <div class="master-dashboard" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="3:31"> <div class="dashboard-content" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="4:34"> <header data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="5:13"> <h2 data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="6:11">Slidastro Dashboard</h2> <button class="close-btn" onclick="document.dispatchEvent(new KeyboardEvent('keydown', {key: 'h'}))" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="7:108">&times;</button> </header> <div class="sections" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="10:27"> <section data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="11:16"> <h3 data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="12:13">Navigation</h3> <ul data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="13:13"> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:21">Next</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:38">Space</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:55">&rarr;</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:73">&darr;</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:91">PgDn</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="14:107">Enter</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:21">Prev</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:38">Backspace</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:59">&larr;</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:77">&uarr;</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="15:95">PgUp</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="16:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="16:21">First</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="16:39">Home</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="17:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="17:21">Last</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="17:38">End</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="18:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="18:21">Overview</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="18:42">O</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="18:55">G</kbd></li> </ul> </section> <section data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="22:16"> <h3 data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="23:13">Tools</h3> <ul data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="24:13"> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="25:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="25:21">Drawing</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="25:41">D</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="26:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="26:21">Theme</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="26:39">T</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="27:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="27:21">Navigation UI</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="27:47">N</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="28:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="28:21">Help</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="28:38">H</kbd> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="28:51">?</kbd></li> <li data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="29:16"><span data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="29:21">Fullscreen</span> <kbd data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="29:44">F</kbd></li> </ul> </section> <section data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="33:16"> <h3 data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="34:13">About</h3> <p data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="35:12">Slidastro: Cloudflare-Native Presentation Engine.</p> <p class="links" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="36:26"> <a href="https://github.com/cmgriffing/slidastro" target="_blank" data-astro-cid-3jcentsm data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/MasterDashboard.astro" data-astro-source-loc="37:77">Documentation</a> </p> </section> </div> </div> </div>  </div> <div class="navigation-overlay" data-show="false" data-astro-cid-3u32qolo data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/NavigationOverlay.astro" data-astro-source-loc="8:51"> <div class="page-number" data-astro-cid-3u32qolo data-astro-source-file="/Volumes/T7/repos/slidastro/packages/core/dist/components/NavigationOverlay.astro" data-astro-source-loc="9:28"> 1 / 5 </div> </div>  <script type="module" src="/packages/core/dist/components/NavigationOverlay.astro?astro&type=script&index=0&lang.ts"></script> </div>  <script type="module" src="/packages/core/dist/components/MasterOverlay.astro?astro&type=script&index=0&lang.ts"></script> <script type="module" src="/packages/core/dist/templates/SlideView.astro?astro&type=script&index=0&lang.ts"></script> </body> </html>

@@ -115,6 +115,25 @@ export function initNavigation(total: number) {
         prev();
       }
     });
+
+    // Handle s-link and other links with data-to
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[data-to]') as HTMLElement;
+      if (link) {
+        const to = link.getAttribute('data-to');
+        if (to === 'next') {
+          e.preventDefault();
+          next();
+        } else if (to === 'prev') {
+          e.preventDefault();
+          prev();
+        } else if (to && !isNaN(Number(to))) {
+          e.preventDefault();
+          goToSlide(Number(to));
+        }
+      }
+    });
   }
 
   // Always update clicks for the current page

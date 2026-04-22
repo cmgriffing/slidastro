@@ -3,7 +3,7 @@ import MagicString from 'magic-string';
 /**
  * Splits a markdown-like file (standard MD, Astro, or MDX) into individual slides.
  */
-export function splitSlides(content: string, isAstro: boolean, isMdx: boolean) {
+export function splitSlides(content: string, isAstro: boolean, isMdx: boolean): string[] {
   const lines = content.split('\n');
   const slides: string[] = [];
   let current: string[] = [];
@@ -43,7 +43,7 @@ export function splitSlides(content: string, isAstro: boolean, isMdx: boolean) {
 /**
  * Returns the line index where each slide starts.
  */
-export function getSlideStartIndices(content: string) {
+export function getSlideStartIndices(content: string): number[] {
   const lines = content.split('\n');
   const indices: number[] = [0];
   let frontmatterCount = 0;

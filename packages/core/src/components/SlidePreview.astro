@@ -37,7 +37,7 @@ if (slidesData.layoutsMap[layoutName]) {
 <div class="slide-preview-wrapper" style={`width: ${canvasWidth * scale}px; height: ${canvasHeight * scale}px;`}>
   <div class="slide-preview-content" style={`transform: scale(${scale}); transform-origin: top left; pointer-events: none;`}>
     <SlideContainer width={canvasWidth} height={canvasHeight} id="preview-content">
-      <div class="content-wrapper">
+      <div class="content-wrapper" data-index={index}>
         <Layout frontmatter={slide.frontmatter}>
           <div set:html={slide.contentHTML} />
           {slide.slots?.right && <div slot="right" set:html={slide.slots.right} />}

@@ -33,7 +33,7 @@ console.log('Current value:', counter.get())
 
 # Mermaid in step-click
 
-<step-click>
+<s-click>
 
 ```mermaid
 pie title Pets adopted by volunteers
@@ -42,7 +42,7 @@ pie title Pets adopted by volunteers
     "Rats" : 15
 ```
 
-</step-click>
+</s-click>
 
 ---
 

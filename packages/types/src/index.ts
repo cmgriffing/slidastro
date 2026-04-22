@@ -61,6 +61,9 @@ export interface SlideInfo extends SlideInfoBase {
   noteHTML?: string
   contentHTML?: string
   slots?: Record<string, string>
+  totalClicks?: number
+  virtualId?: string
+  isNative?: boolean
 }
 
 export interface SlidastroThemeMeta {
