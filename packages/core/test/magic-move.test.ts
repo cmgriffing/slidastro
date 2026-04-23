@@ -16,7 +16,7 @@ const a = 2;
 `;
     const html = await renderMarkdown(markdown);
     
-    expect(html).toContain('class="shiki-magic-move-container"');
+    expect(html).toContain('class="shiki-magic-move-container slidastro-click slidastro-click-hidden"');
     expect(html).toContain('data-tokens="');
     
     // Extract tokens and decompress

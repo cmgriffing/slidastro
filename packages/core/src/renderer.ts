@@ -4,6 +4,8 @@ import { createHighlighter } from 'shiki';
 import { codeToKeyedTokens, syncTokenKeys } from 'shiki-magic-move/core';
 import LZString from 'lz-string';
 import { katex } from '@mdit/plugin-katex';
+import { rehype } from 'rehype';
+import { rehypeClicks } from './plugins/rehype-clicks';
 import { ClickIndexer } from './utils/indexing';
 
 let rendererPromise: Promise<MarkdownIt> | undefined;
@@ -318,43 +320,8 @@ export async function renderSlide(
     return `<div class="slidastro-drag" style="position: absolute; left: ${x}px; top: ${y}px;" data-drag-id="${id}" data-x="${x}" data-y="${y}">${inner}</div>`;
   });
 
-  // 0. Handle <s-clicks> and <s-switch> containers
-  processedContent = processedContent.replace(/<(s-clicks|s-switch|SClicks|SSwitch)>([\s\S]*?)<\/\1>/g, (match, tag, inner) => {
-    const isSequential = tag.toLowerCase().includes('clicks');
-
-    // Render inner content to HTML first to ensure we have tags to target (e.g. for markdown lists)
-    const renderedInner = md.render(inner, { indexer });
-
-    // Target tags in the rendered HTML
-    return renderedInner.replace(/<([a-zA-Z0-9-]+)([^>]*?)>/g, (tagMatch, tagName, attrs) => {
-      if (tagName.startsWith('/') || tagName === 's-click' || tagName === 's-after') return tagMatch;
-
-      const sClickMatch = attrs.match(/s-click(?:="([^"]+)")?/);
-      const sAfterMatch = attrs.match(/s-after/);
-
-      let index: number;
-      if (sClickMatch) {
-        index = indexer.resolve('s-click', sClickMatch[1]);
-      } else if (sAfterMatch) {
-        index = indexer.resolve('s-after');
-      } else {
-        index = indexer.resolve('s-click');
-      }
-
-      const range = isSequential ? `${index}+` : `${index}`;
-
-      let resultAttrs = attrs.replace(/\s(s-click|s-after)(?:="[^"]+")?/g, '');
-      if (resultAttrs.includes('class="')) {
-        resultAttrs = resultAttrs.replace('class="', 'class="slidastro-click slidastro-click-hidden ');
-      } else {
-        resultAttrs += ' class="slidastro-click slidastro-click-hidden"';
-      }
-      return `<${tagName}${resultAttrs} data-step-click="${range}">`;
-    });
-  });
-
-  // 1. Handle <s-click> and <s-after> tags
-  processedContent = processedContent.replace(/<(s-click|s-after)([^>]*?)>/g, (match, tag, attrs) => {
+  // 1. Handle <s-click>
+  processedContent = processedContent.replace(/<(s-click|s-after)\b([^>]*?)>/g, (match, tag, attrs) => {
     const valueMatch = attrs.match(/(?:s-click|s-after|at|click)="([^"]+)"/) || attrs.match(/="([^"]+)"/);
     const value = valueMatch ? valueMatch[1] : undefined;
     const index = indexer.resolve(tag, value);
@@ -371,30 +338,6 @@ export async function renderSlide(
     return `<div class="slidastro-click slidastro-click-hidden" data-step-click="${range}">`;
   }).replace(/<\/(s-click|s-after)>/g, '</div>');
 
-  // 2. Handle s-click and s-after attributes on other tags
-  // This is a bit naive but works for most common cases in markdown
-  processedContent = processedContent.replace(/<([a-zA-Z0-9-]+)([^>]*?)\s(s-click|s-after)(?:="([^"]+)")?([^>]*?)>/g, (match, tag, before, directive, value, after) => {
-    const index = indexer.resolve(directive, value);
-
-    let range = index.toString();
-    if (directive === 's-click' && !value) {
-      range = `${index}+`;
-    } else if (directive === 's-after') {
-      range = `${index}+`;
-    } else if (value && !value.includes('-') && !value.includes('+')) {
-      range = `${index}+`;
-    }
-
-    let resultAttrs = `${before}${after}`;
-    if (resultAttrs.includes('class="')) {
-      resultAttrs = resultAttrs.replace('class="', 'class="slidastro-click slidastro-click-hidden ');
-    } else {
-      resultAttrs += ' class="slidastro-click slidastro-click-hidden"';
-    }
-
-    return `<${tag}${resultAttrs} data-step-click="${range}">`;
-  });
-
   const slots: Record<string, string> = {};
   // Split by ::name:: at the beginning of a line
   const parts = processedContent.split(/^::\s*(\w+)\s*::/m);
@@ -402,12 +345,21 @@ export async function renderSlide(
   let currentSlot = 'default';
   let currentContent = parts[0] || '';
 
+  const processHtml = async (html: string) => {
+    const file = await rehype()
+      .data('settings', { fragment: true })
+      .use(() => rehypeClicks(indexer))
+      .process(html);
+    const str = file.toString();
+    return str.replace(/^<html><head><\/head><body>([\s\S]*)<\/body><\/html>$/, '$1');
+  };
+
   for (let i = 1; i < parts.length; i += 2) {
     const slotName = parts[i];
     const slotContent = parts[i + 1] || '';
 
     if (currentContent.trim()) {
-      slots[currentSlot] = md.render(currentContent, { indexer });
+      slots[currentSlot] = await processHtml(md.render(currentContent, { indexer }));
     }
 
     currentSlot = slotName;
@@ -415,12 +367,12 @@ export async function renderSlide(
   }
 
   if (currentContent.trim()) {
-    slots[currentSlot] = md.render(currentContent, { indexer });
+    slots[currentSlot] = await processHtml(md.render(currentContent, { indexer }));
   }
 
   // Final cleanup: remove <p> wrapping around custom components if they are the only thing in the <p>
   // This ensures they are treated as block-level elements in the final output
-  const componentRegex = /<p>(<(s-link|s-toc|s-tweet|s-youtube|s-video|div class="(slidastro-autofit|slidastro-drag)")[^>]*?>.*?<\/(s-link|s-toc|s-tweet|s-youtube|s-video|div)>|<(s-toc|s-tweet|s-youtube|s-video)[^>]*?\/>)<\/p>/g;
+  const componentRegex = /<p>\s*(<(a[^>]*class="slidastro-link"|div[^>]*class="slidastro-toc"|div[^>]*class="slidastro-tweet-wrapper"|div[^>]*class="slidastro-youtube-wrapper"|div[^>]*class="slidastro-video-wrapper"|div[^>]*class="(?:slidastro-autofit|slidastro-drag)")[^>]*?>.*?<\/(a|div)>|<(div[^>]*class="slidastro-toc"|div[^>]*class="slidastro-tweet-wrapper"|div[^>]*class="slidastro-youtube-wrapper"|div[^>]*class="slidastro-video-wrapper")[^>]*?\/>)\s*<\/p>/g;
   
   Object.keys(slots).forEach(key => {
     slots[key] = slots[key].replace(componentRegex, '$1');

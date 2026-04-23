@@ -7,11 +7,13 @@ import { ClickIndexer } from '../utils/indexing';
  * Supports both MDX (camelCase properties) and standard HTML (kebab-case).
  * Also handles <s-clicks> and <s-switch> containers for automatic child indexing.
  */
-export function rehypeClicks(): (tree: Root) => void {
-  const indexer = new ClickIndexer();
+export function rehypeClicks(customIndexer?: ClickIndexer): (tree: Root) => void {
+  const indexer = customIndexer || new ClickIndexer();
 
   return (tree: Root) => {
-    indexer.reset();
+    if (!customIndexer) {
+      indexer.reset();
+    }
 
     function applyClick(node: Element, range: string) {
       const props = node.properties || {};
@@ -33,10 +35,14 @@ export function rehypeClicks(): (tree: Root) => void {
       props.className = classNames;
     }
 
-    function process(node: Node, mode: 'normal' | 'sequential' | 'switch' = 'normal') {
+    function process(
+      node: Node,
+      mode: 'normal' | 'sequential' | 'switch' = 'normal',
+      autoAssignState: 'none' | 'children' | 'list-children' = 'none'
+    ) {
       if (node.type !== 'element') {
         if ('children' in node) {
-          (node as any).children.forEach((child: Node) => process(child, mode));
+          (node as any).children.forEach((child: Node) => process(child, mode, autoAssignState));
         }
         return;
       }
@@ -46,23 +52,44 @@ export function rehypeClicks(): (tree: Root) => void {
       const props = element.properties || {};
 
       let currentMode = mode;
-      if (tagName === 's-clicks' || tagName === 'sclicks' || tagName === 'SClicks') {
+      let nextAutoAssignState: 'none' | 'children' | 'list-children' = 'none';
+
+      const isContainer = tagName === 's-clicks' || tagName === 'sclicks' || tagName === 's-switch' || tagName === 'sswitch' || tagName === 's-clicks' || tagName === 's-switch';
+      if (tagName === 's-clicks' || tagName === 'sclicks') {
         currentMode = 'sequential';
-      } else if (tagName === 's-switch' || tagName === 'sswitch' || tagName === 'SSwitch') {
+        nextAutoAssignState = 'children';
+      } else if (tagName === 's-switch' || tagName === 'sswitch') {
         currentMode = 'switch';
+        nextAutoAssignState = 'children';
       }
 
       const sClick = props.sClick ?? props['s-click'];
       const sAfter = props.sAfter ?? props['s-after'];
+      const hasExistingClick = props['data-step-click'] !== undefined;
 
-      // If inside a container and not the container itself, and no explicit click
-      const isContainer = currentMode !== mode;
-      if (mode !== 'normal' && !isContainer) {
-        if (sClick === undefined && sAfter === undefined) {
-          const index = indexer.resolve('s-click');
-          const range = mode === 'sequential' ? `${index}+` : `${index}`;
-          applyClick(element, range);
+      let shouldAutoAssign = false;
+      if (!isContainer && sClick === undefined && sAfter === undefined && !hasExistingClick) {
+        if (autoAssignState === 'children') {
+          if (tagName === 'ul' || tagName === 'ol') {
+            nextAutoAssignState = 'list-children';
+          } else {
+            shouldAutoAssign = true;
+          }
+        } else if (autoAssignState === 'list-children') {
+          if (tagName === 'li') {
+            shouldAutoAssign = true;
+          }
         }
+      } else if (!isContainer) {
+        if (autoAssignState === 'children' && (tagName === 'ul' || tagName === 'ol')) {
+          nextAutoAssignState = 'list-children';
+        }
+      }
+
+      if (shouldAutoAssign) {
+        const index = indexer.resolve('s-click');
+        const range = mode === 'sequential' ? `${index}+` : `${index}`;
+        applyClick(element, range);
       }
 
       if (sClick !== undefined || sAfter !== undefined) {
@@ -91,7 +118,7 @@ export function rehypeClicks(): (tree: Root) => void {
       }
 
       if (element.children) {
-        element.children.forEach((child) => process(child, currentMode));
+        element.children.forEach((child) => process(child, currentMode, nextAutoAssignState));
       }
     }
 

@@ -6,12 +6,12 @@ describe('custom components preservation', () => {
     const content = '<s-link to="next">Next</s-link>';
     const { html } = await renderSlide(content);
     // If it's wrapped in <p>, it would be <p><s-link ...>...</s-link></p>
-    expect(html.trim()).toBe('<s-link to="next">Next</s-link>');
+    expect(html.trim()).toBe('<a href="#" class="slidastro-link" data-to="next">Next</a>');
   });
 
   it('preserves <s-toc> without wrapping in <p>', async () => {
     const content = '<s-toc />';
     const { html } = await renderSlide(content);
-    expect(html.trim()).toBe('<s-toc />');
+    expect(html.trim()).toBe('<div class="slidastro-toc"></div>');
   });
 });
